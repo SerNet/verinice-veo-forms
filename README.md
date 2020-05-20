@@ -32,6 +32,10 @@ You can customize connection settings in `application.properties` > `spring.data
 (default port: 8080)
 
 
+## API docs
+Launch and visit <http://localhost:8080/swagger-ui.html>
+
+
 ## Code format
 Spotless is used for linting and license-gradle-plugin is used to apply license headers. License headers include the
 author name, so you must create a text file containing your name at `templates/authorName.txt.local`. The following task

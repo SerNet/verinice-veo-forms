@@ -16,6 +16,7 @@
  */
 package org.veo.forms
 
+import io.swagger.v3.oas.annotations.Operation
 import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -38,6 +39,7 @@ class FormController(
     private val mapper: FormMapper
 ) {
 
+    @Operation(description = "Get all forms (metadata only).")
     @GetMapping
     fun getForms(): List<FormGistDto> {
         return repo.findAll().map {
@@ -45,11 +47,13 @@ class FormController(
         }
     }
 
+    @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
     fun getForm(@PathVariable("id") id: UUID): FormDto {
         return mapper.toDto(findForm(id))
     }
 
+    @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createForm(@RequestBody dto: FormDto): UUID {
@@ -58,6 +62,7 @@ class FormController(
         }
     }
 
+    @Operation(description = "Update a form.")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateForm(@PathVariable("id") id: UUID, @RequestBody dto: FormDto) {
@@ -67,6 +72,7 @@ class FormController(
         }
     }
 
+    @Operation(description = "Delete a form.")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteForm(@PathVariable("id") id: UUID) {

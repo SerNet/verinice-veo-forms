@@ -24,6 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
+    implementation("org.springdoc:springdoc-openapi-ui:1.3.9")
 
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
     testImplementation("org.spockframework:spock-spring:1.3-groovy-2.5")
