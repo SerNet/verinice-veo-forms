@@ -4,6 +4,7 @@ Spring boot micro service for veo forms.
 
 ## Runtime dependencies
 * PostgreSQL DB
+* OAuth server
 
 
 ## Build
@@ -24,6 +25,9 @@ Install postgres and create veo-forms database:
     exit
 
 You can customize connection settings in `application.properties` > `spring.datasource.[...]`.
+
+### Configure OAuth
+Setup OAuth server URLs (`application.properties` > `spring.security.oauth2.resourceserver.jwt.[...]`).
 
 ### Run
 

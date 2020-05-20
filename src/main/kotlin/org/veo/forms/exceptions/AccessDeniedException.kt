@@ -14,21 +14,10 @@
  * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.exceptions
 
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Lob
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 
-@Entity
-open class Form(
-    var clientId: UUID,
-    var name: String,
-    var modelType: ModelType,
-    @Lob var content: String,
-    @Id var id: UUID = UUID.randomUUID()
-) {
-    // ORM constructor
-    private constructor() : this(UUID.randomUUID(), "", ModelType.Asset, "")
-}
+@ResponseStatus(HttpStatus.FORBIDDEN)
+class AccessDeniedException : Exception("Resource forbidden")

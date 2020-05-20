@@ -17,8 +17,10 @@
 package org.veo.forms
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.util.UUID
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,34 +32,37 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormGistDto
+import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 
 @RestController
 @RequestMapping("/")
+@SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
 class FormController(
     private val repo: FormRepository,
-    private val mapper: FormMapper
+    private val mapper: FormMapper,
+    private val authService: AuthService
 ) {
 
     @Operation(description = "Get all forms (metadata only).")
     @GetMapping
-    fun getForms(): List<FormGistDto> {
-        return repo.findAll().map {
+    fun getForms(auth: Authentication): List<FormGistDto> {
+        return repo.findAllByClient(authService.getClientId(auth)).map {
             mapper.toGistDto(it)
         }
     }
 
     @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
-    fun getForm(@PathVariable("id") id: UUID): FormDto {
-        return mapper.toDto(findForm(id))
+    fun getForm(auth: Authentication, @PathVariable("id") id: UUID): FormDto {
+        return mapper.toDto(findClientForm(auth, id))
     }
 
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createForm(@RequestBody dto: FormDto): UUID {
-        mapper.toEntity(dto).let {
+    fun createForm(auth: Authentication, @RequestBody dto: FormDto): UUID {
+        mapper.toEntity(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
     }
@@ -65,8 +70,8 @@ class FormController(
     @Operation(description = "Update a form.")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateForm(@PathVariable("id") id: UUID, @RequestBody dto: FormDto) {
-        findForm(id).let {
+    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDto) {
+        findClientForm(auth, id).let {
             mapper.updateEntity(it, dto)
             repo.save(it)
         }
@@ -75,12 +80,17 @@ class FormController(
     @Operation(description = "Delete a form.")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteForm(@PathVariable("id") id: UUID) {
-        repo.delete(findForm(id))
+    fun deleteForm(auth: Authentication, @PathVariable("id") id: UUID) {
+        repo.delete(findClientForm(auth, id))
     }
 
-    private fun findForm(id: UUID): Form {
+    private fun findClientForm(auth: Authentication, id: UUID): Form {
         return repo.findById(id)
                 .orElseThrow { ResourceNotFoundException() }
+                .also {
+                    if (it.clientId != authService.getClientId(auth)) {
+                        throw AccessDeniedException()
+                    }
+                }
     }
 }

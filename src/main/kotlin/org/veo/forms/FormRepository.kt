@@ -18,7 +18,11 @@ package org.veo.forms
 
 import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface FormRepository : JpaRepository<Form, UUID>
+interface FormRepository : JpaRepository<Form, UUID> {
+    @Query("SELECT f FROM Form f WHERE f.clientId = :clientId")
+    fun findAllByClient(clientId: UUID): List<Form>
+}

@@ -16,7 +16,8 @@
  */
 package org.veo.forms
 
-import junit.framework.Assert.assertEquals
+import java.util.UUID
+import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -32,11 +33,29 @@ class FormJpaTest {
         val content2k = "i".repeat(2000)
 
         // When saving form content and retrieving all forms.
-        repo.save(Form("long form", ModelType.Document, content2k))
+        repo.save(Form(UUID.randomUUID(), "long form", ModelType.Document, content2k))
         val allForms = repo.findAll()
 
         // Then only client A's forms are returned
         assertEquals(1, allForms.size)
         assertEquals(allForms[0].content, content2k)
+    }
+
+    @Test
+    fun `finds all forms by client`() {
+        // Given two forms from client A and one from client B
+        val clientAUuid = UUID.randomUUID()
+        val clientBUuid = UUID.randomUUID()
+        repo.save(Form(clientAUuid, "form one", ModelType.Document, ""))
+        repo.save(Form(clientAUuid, "form two", ModelType.Document, ""))
+        repo.save(Form(clientBUuid, "form three", ModelType.Document, ""))
+
+        // When querying all forms from client A
+        val clientForms = repo.findAllByClient(clientAUuid)
+
+        // Then only client A's forms are returned
+        assertEquals(2, clientForms.size)
+        assertEquals("form one", clientForms[0].name)
+        assertEquals("form two", clientForms[1].name)
     }
 }

@@ -17,6 +17,7 @@
 package org.veo.forms
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.UUID
 import org.springframework.stereotype.Component
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormGistDto
@@ -32,8 +33,8 @@ class FormMapper(private val objectMapper: ObjectMapper) {
         return FormGistDto(entity.id, entity.name, entity.modelType)
     }
 
-    fun toEntity(dto: FormDto): Form {
-        return Form(dto.name, dto.modelType, objectMapper.writeValueAsString(dto.content))
+    fun toEntity(clientId: UUID, dto: FormDto): Form {
+        return Form(clientId, dto.name, dto.modelType, objectMapper.writeValueAsString(dto.content))
     }
 
     fun updateEntity(form: Form, dto: FormDto) {

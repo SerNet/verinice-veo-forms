@@ -16,19 +16,13 @@
  */
 package org.veo.forms
 
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Lob
+import org.springframework.security.test.context.support.WithSecurityContext
 
-@Entity
-open class Form(
-    var clientId: UUID,
-    var name: String,
-    var modelType: ModelType,
-    @Lob var content: String,
-    @Id var id: UUID = UUID.randomUUID()
-) {
-    // ORM constructor
-    private constructor() : this(UUID.randomUUID(), "", ModelType.Asset, "")
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
+
+@Retention(RetentionPolicy.RUNTIME)
+@WithSecurityContext(factory = WithMockClientSecurityContextFactory)
+@interface WithMockClient {
+    String clientUuid() default "21712604-ed85-4f08-aa46-1cf39607ee9e"
 }

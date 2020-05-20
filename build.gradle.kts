@@ -22,9 +22,13 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
     implementation("org.springdoc:springdoc-openapi-ui:1.3.9")
+    implementation("io.mockk:mockk:1.10.0")
 
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
     testImplementation("org.spockframework:spock-spring:1.3-groovy-2.5")

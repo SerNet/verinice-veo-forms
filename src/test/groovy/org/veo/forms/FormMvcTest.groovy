@@ -19,6 +19,7 @@ package org.veo.forms
 
 import org.springframework.http.HttpMethod
 
+@WithMockClient
 class FormMvcTest extends AbstractMvcTest {
 
     def 'add form and retrieve'() {

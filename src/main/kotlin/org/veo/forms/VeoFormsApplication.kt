@@ -16,11 +16,27 @@
  */
 package org.veo.forms
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
+import io.swagger.v3.oas.annotations.security.OAuthFlow
+import io.swagger.v3.oas.annotations.security.OAuthFlows
+import io.swagger.v3.oas.annotations.security.OAuthScope
+import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class VeoFormsApplication
+@SecurityScheme(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
+        `in` = SecuritySchemeIn.HEADER,
+        description = "openidconnect Login", flows = OAuthFlows(implicit = OAuthFlow(
+        authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+        scopes = [OAuthScope(name = "veo-datenschutz",
+                description = "Optional scope for access to specific content.")])))
+class VeoFormsApplication {
+    companion object {
+        const val SECURITY_SCHEME_OAUTH = "OAuth2"
+    }
+}
 
 fun main(args: Array<String>) {
     runApplication<VeoFormsApplication>(*args)
