@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.2.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    groovy
     kotlin("jvm") version "1.3.71"
     kotlin("plugin.spring") version "1.3.71"
     id("com.diffplug.gradle.spotless") version "4.0.1"
@@ -24,6 +25,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
 
+    testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
+    testImplementation("org.spockframework:spock-spring:1.3-groovy-2.5")
     testImplementation("com.h2database:h2:1.4.199")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -52,6 +55,11 @@ spotless {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
+    }
+    groovy {
+        greclipse()
+        indentWithSpaces()
+        trimTrailingWhitespace()
     }
     kotlin {
         ktlint()
