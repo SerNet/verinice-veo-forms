@@ -32,6 +32,9 @@ dependencies {
 
     testImplementation("io.kotest:kotest-assertions-core-jvm:4.2.5")
     testImplementation("org.codehaus.groovy:groovy-json:3.0.4")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.2.5")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.2.5")
+    testImplementation("io.kotest:kotest-property-jvm:4.2.5")
     testImplementation("com.h2database:h2:1.4.199")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
