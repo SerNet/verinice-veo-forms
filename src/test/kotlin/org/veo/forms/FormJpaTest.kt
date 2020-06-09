@@ -32,11 +32,11 @@ class FormJpaTest {
         // Given a very long content string
         val content2k = "i".repeat(2000)
 
-        // When saving form content and retrieving all forms.
+        // when saving form content and retrieving all forms
         repo.save(Form(UUID.randomUUID(), "long form", ModelType.Document, content2k))
         val allForms = repo.findAll()
 
-        // Then only client A's forms are returned
+        // then the form is returned with its complete content.
         assertEquals(1, allForms.size)
         assertEquals(allForms[0].content, content2k)
     }
@@ -50,10 +50,10 @@ class FormJpaTest {
         repo.save(Form(clientAUuid, "form two", ModelType.Document, ""))
         repo.save(Form(clientBUuid, "form three", ModelType.Document, ""))
 
-        // When querying all forms from client A
+        // when querying all forms from client A
         val clientForms = repo.findAllByClient(clientAUuid)
 
-        // Then only client A's forms are returned
+        // then only client A's forms are returned.
         assertEquals(2, clientForms.size)
         assertEquals("form one", clientForms[0].name)
         assertEquals("form two", clientForms[1].name)

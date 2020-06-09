@@ -57,10 +57,10 @@ class FormControllerUnitTest() {
         every { mapper.toGistDto(clientFormA) } returns clientFormADto
         every { mapper.toGistDto(clientFormB) } returns clientFormBDto
 
-        // When getting all forms
+        // when getting all forms
         val clientForms = sut.getForms(auth)
 
-        // Then the DTOs from the mapper are returned
+        // then the DTOs from the mapper are returned.
         assertEquals(2, clientForms.size)
         assertSame(clientFormADto, clientForms[0])
         assertSame(clientFormBDto, clientForms[1])
@@ -78,10 +78,10 @@ class FormControllerUnitTest() {
         every { repo.findById(formId) } returns Optional.of(entity)
         every { mapper.toDto(entity) } returns dto
 
-        // When requesting the form
+        // when requesting the form
         val form = sut.getForm(auth, formId)
 
-        // Then the DTO from the mapper is returned
+        // then the DTO from the mapper is returned.
         assertSame(form, dto)
     }
 
@@ -98,10 +98,10 @@ class FormControllerUnitTest() {
         every { mapper.updateEntity(entity, dto) } just Runs
         every { repo.save(entity) } returns mockk()
 
-        // When updating the form
+        // when updating the form
         sut.updateForm(auth, formId, dto)
 
-        // Then the form is updated by the mapper and persisted
+        // then the form is updated by the mapper and persisted.
         verify { mapper.updateEntity(entity, dto) }
         verify { repo.save(entity) }
     }
@@ -119,10 +119,10 @@ class FormControllerUnitTest() {
         every { mapper.toEntity(authClientId, dto) } returns mappedEntity
         every { repo.save(mappedEntity) } returns savedEntity
 
-        // When creating the form
+        // when creating the form
         val uuid = sut.createForm(auth, dto)
 
-        // Then the UUID from the repo is returned
+        // then the UUID from the repo is returned.
         assertEquals(formId, uuid)
     }
 
@@ -137,7 +137,7 @@ class FormControllerUnitTest() {
 
         every { repo.findById(formId) } returns Optional.of(entity)
 
-        // When doing stuff with the form then exceptions are thrown
+        // when doing stuff with the form then exceptions are thrown.
         assertThrows<AccessDeniedException> { sut.getForm(auth, formId) }
         assertThrows<AccessDeniedException> { sut.updateForm(auth, formId, mockk()) }
         assertThrows<AccessDeniedException> { sut.deleteForm(auth, formId) }
@@ -149,7 +149,7 @@ class FormControllerUnitTest() {
         val formId = UUID.randomUUID()
         every { repo.findById(formId) } returns Optional.empty()
 
-        // When doing stuff with that form then exceptions are thrown
+        // when doing stuff with that form then exceptions are thrown.
         assertThrows<ResourceNotFoundException> { sut.getForm(auth, formId) }
         assertThrows<ResourceNotFoundException> { sut.updateForm(auth, formId, mockk()) }
         assertThrows<ResourceNotFoundException> { sut.deleteForm(auth, formId) }
