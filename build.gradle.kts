@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.spring") version "1.3.71"
     id("com.diffplug.gradle.spotless") version "4.0.1"
     id("com.github.hierynomus.license") version "0.15.0"
+    jacoco
 }
 
 group = "org.veo"

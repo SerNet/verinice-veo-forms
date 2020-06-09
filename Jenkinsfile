@@ -38,6 +38,7 @@ pipeline {
                         // Touch all test results (to keep junit step from complaining about old results).
                         sh script: 'find build/test-results | xargs touch'
                         junit testResults: 'build/test-results/test/**/*.xml'
+                        jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
                     }
                 }
                 stage('Artifacts') {
