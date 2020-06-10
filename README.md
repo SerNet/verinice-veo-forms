@@ -41,9 +41,8 @@ Launch and visit <http://localhost:8080/swagger-ui.html>
 
 
 ## Code format
-Spotless is used for linting and license-gradle-plugin is used to apply license headers. License headers include the
-author name, so you must create a text file containing your name at `templates/authorName.txt.local`. The following task
-applies spotless code format & adds missing license headers to new files:
+Spotless is used for linting and license-gradle-plugin is used to apply license headers. The following task applies
+spotless code format & adds missing license headers to new files:
 
     ./gradlew formatApply
 

@@ -79,5 +79,6 @@ license {
     header = file("templates/licenseHeader.txt")
     skipExistingHeaders = true
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
-    ext["author"] = File("templates/authorName.txt.local").apply { createNewFile() }.readText()
+    ext["author"] = ProcessBuilder("git", "config", "user.name").start()
+            .inputStream.bufferedReader().readText().trim()
 }
