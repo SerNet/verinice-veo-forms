@@ -24,29 +24,25 @@ pipeline {
                 buildDescription "${env.GIT_BRANCH} ${env.GIT_COMMIT[0..8]}"
             }
         }
-        stage('CI/CD') {
-            stages {
-                stage('Build') {
-                    steps {
-                        sh './gradlew --no-daemon classes'
-                    }
-                }
-                stage('Test') {
-                    steps {
-                        // Don't fail the build here, let the junit step decide what to do if there are test failures.
-                        sh script: './gradlew --no-daemon test', returnStatus: true
-                        // Touch all test results (to keep junit step from complaining about old results).
-                        sh script: 'find build/test-results | xargs touch'
-                        junit testResults: 'build/test-results/test/**/*.xml'
-                        jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
-                    }
-                }
-                stage('Artifacts') {
-                    steps {
-                        sh './gradlew --no-daemon build -x test'
-                        archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                    }
-                }
+        stage('Build') {
+            steps {
+                sh './gradlew --no-daemon classes'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Don't fail the build here, let the junit step decide what to do if there are test failures.
+                sh script: './gradlew --no-daemon test', returnStatus: true
+                // Touch all test results (to keep junit step from complaining about old results).
+                sh script: 'find build/test-results | xargs touch'
+                junit testResults: 'build/test-results/test/**/*.xml'
+                jacoco classPattern: 'build/classes/*/main', sourcePattern: 'src/main'
+            }
+        }
+        stage('Artifacts') {
+            steps {
+                sh './gradlew --no-daemon build -x test'
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             }
         }
     }
