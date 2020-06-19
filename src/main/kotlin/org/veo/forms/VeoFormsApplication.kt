@@ -16,8 +16,12 @@
  */
 package org.veo.forms
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
+import io.swagger.v3.oas.annotations.info.Contact
+import io.swagger.v3.oas.annotations.info.Info
+import io.swagger.v3.oas.annotations.info.License
 import io.swagger.v3.oas.annotations.security.OAuthFlow
 import io.swagger.v3.oas.annotations.security.OAuthFlows
 import io.swagger.v3.oas.annotations.security.OAuthScope
@@ -32,6 +36,13 @@ import org.springframework.boot.runApplication
         authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
         scopes = [OAuthScope(name = "veo-datenschutz",
                 description = "Optional scope for access to specific content.")])))
+
+@OpenAPIDefinition(info = Info(title = "verinice.veo-forms API",
+        description = "OpenAPI documentation for verinice.veo-forms.",
+        license = License(name = "GNU Lesser General Public License",
+                url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"),
+        contact = Contact(url = "http://verinice.com",
+                email = "verinice@sernet.de")))
 class VeoFormsApplication {
     companion object {
         const val SECURITY_SCHEME_OAUTH = "OAuth2"
