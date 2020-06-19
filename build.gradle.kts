@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
-    implementation("org.springdoc:springdoc-openapi-ui:1.3.9")
+    implementation("org.springdoc:springdoc-openapi-ui:1.4.0")
     implementation("io.mockk:mockk:1.10.0")
 
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
