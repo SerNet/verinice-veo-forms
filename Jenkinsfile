@@ -99,6 +99,15 @@ pipeline {
                 }
             }
         }
+        stage('Trigger Deployment') {
+            agent any
+            when {
+                branch 'master'
+            }
+            steps {
+                build job: 'verinice-veo-deployment/master'
+            }
+        }
     }
     post {
         always {
