@@ -40,6 +40,7 @@ class SecurityMvcTest extends AbstractMvcTest {
 
         where:
         url                      | status
+        "/health"                | 200
         "/swagger-ui.html"       | 302
         "/swagger-ui/index.html" | 200
         "/v3/api-docs"           | 200
