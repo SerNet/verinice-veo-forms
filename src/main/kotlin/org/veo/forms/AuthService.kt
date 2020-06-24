@@ -39,12 +39,9 @@ class AuthService {
 
     private fun extractClientId(groups: List<String>): UUID {
         logger.debug("extract client id from {}", groups)
-        require(groups.size == 1) {
-            "Expected 1 client for the account. Got ${groups.size}."
-        }
-        return clientGroupRegex
-                .matchEntire(groups[0])
-                ?.let { UUID.fromString(it.groupValues[1]) }
-                ?: throw IllegalArgumentException("Invalid group claim.")
+        return groups.mapNotNull { clientGroupRegex.matchEntire(it) }
+                .also { require(it.size == 1) { "Expected 1 client for the account. Got ${it.size}." } }
+                .first()
+                .let { UUID.fromString(it.groupValues[1]) }
     }
 }

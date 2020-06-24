@@ -42,6 +42,21 @@ class AuthServiceUnitTest {
     }
 
     @Test
+    fun `parses client UUID with mixed groups`() {
+        val auth = mockk<JwtAuthenticationToken> {
+            every { token } returns mockk {
+                every { getClaimAsStringList("groups") } returns listOf(
+                        "keycloak-maintainer",
+                        "/veo_client:76ca215f-f4e3-4cbd-8524-f69742cc4dad")
+            }
+        }
+
+        val clientId = sut.getClientId(auth)
+
+        assertEquals(UUID.fromString("76ca215f-f4e3-4cbd-8524-f69742cc4dad"), clientId)
+    }
+
+    @Test
     fun `throws exception for multiple group claims`() {
         val auth = mockk<JwtAuthenticationToken> {
             every { token } returns mockk {
