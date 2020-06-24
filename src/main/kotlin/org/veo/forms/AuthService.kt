@@ -17,6 +17,7 @@
 package org.veo.forms
 
 import java.util.UUID
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component
 class AuthService {
     private val uuidPattern = """[a-fA-F\d]{8}(?:-[a-fA-F\d]{4}){3}-[a-fA-F\d]{12}"""
     private val clientGroupRegex = Regex("^/veo_client:($uuidPattern)$")
+    private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun getClientId(authentication: Authentication): UUID {
         if (authentication is JwtAuthenticationToken) {
@@ -36,6 +38,7 @@ class AuthService {
     }
 
     private fun extractClientId(groups: List<String>): UUID {
+        logger.debug("extract client id from {}", groups)
         require(groups.size == 1) {
             "Expected 1 client for the account. Got ${groups.size}."
         }
