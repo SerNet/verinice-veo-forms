@@ -20,8 +20,10 @@ import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Lob
+import org.hibernate.annotations.Proxy
 
 @Entity
+@Proxy(lazy = false)
 open class Form(
     var clientId: UUID,
     var name: String,
