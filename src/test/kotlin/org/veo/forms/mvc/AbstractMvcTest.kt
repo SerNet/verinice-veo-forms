@@ -14,11 +14,13 @@
  * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.mvc
 
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import javax.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,35 +30,30 @@ import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import spock.lang.Specification
 
-import javax.transaction.Transactional
-
-import static org.springframework.boot.jdbc.EmbeddedDatabaseConnection.H2
-
-@AutoConfigureTestDatabase(connection = H2)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAsync
 @ComponentScan("org.veo.forms")
 @AutoConfigureMockMvc
 @Transactional
-abstract class AbstractMvcTest extends Specification {
+abstract class AbstractMvcTest {
 
     @Autowired
-    protected MockMvc mvc
+    protected lateinit var mvc: MockMvc
 
-    protected static Object parseBody(MvcResult result) {
-        new JsonSlurper().parseText(result.response.getContentAsString())
+    protected fun parseBody(result: MvcResult): Any {
+        return JsonSlurper().parseText(result.response.contentAsString)
     }
 
-    protected MvcResult request(HttpMethod method, String url, Object body = null) {
-        def request = MockMvcRequestBuilders.request(method, url)
+    protected fun request(method: HttpMethod, url: String, body: Any? = null): MvcResult {
+        val request = MockMvcRequestBuilders.request(method, url)
         if (body != null) {
             request
                     .contentType("application/json")
                     .content((JsonOutput.toJson(body)))
         }
-        mvc
+        return mvc
                 .perform(request)
                 .andReturn()
     }

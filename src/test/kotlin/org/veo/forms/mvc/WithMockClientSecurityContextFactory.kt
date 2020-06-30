@@ -14,35 +14,27 @@
  * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.mvc
 
-
+import java.time.Instant
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.security.test.context.support.WithSecurityContextFactory
 
-import java.time.Instant
-
-class WithMockClientSecurityContextFactory implements WithSecurityContextFactory<WithMockClient> {
-    @Override
-    SecurityContext createSecurityContext(WithMockClient annotation) {
-        def context = SecurityContextHolder.createEmptyContext()
-        context.authentication = new MockToken(new Jwt("test", Instant.now(), Instant.now(),
-                [test: "test"], [groups: "/veo_client:" + annotation.clientUuid()]))
+class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMockClient> {
+    override fun createSecurityContext(annotation: WithMockClient): SecurityContext {
+        val context = SecurityContextHolder.createEmptyContext()
+        context.authentication = MockToken(
+            Jwt("test", Instant.now(), Instant.now(),
+                mapOf("test" to "test"), mapOf("groups" to "/veo_client:" + annotation.clientUuid)))
         return context
     }
 
-    class MockToken extends JwtAuthenticationToken {
-        MockToken(Jwt jwt) {
-            super(jwt)
-        }
-
-        @Override
-        boolean isAuthenticated() {
+    class MockToken(jwt: Jwt) : JwtAuthenticationToken(jwt) {
+        override fun isAuthenticated(): Boolean {
             return true
         }
     }
 }
-

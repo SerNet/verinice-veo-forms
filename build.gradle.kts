@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.3.0.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    groovy
     kotlin("jvm") version "1.3.71"
     kotlin("plugin.spring") version "1.3.71"
     id("com.diffplug.gradle.spotless") version "4.0.1"
@@ -31,8 +30,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.4.0")
     implementation("io.mockk:mockk:1.10.0")
 
-    testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
-    testImplementation("org.spockframework:spock-spring:1.3-groovy-2.5")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.1.0")
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.4")
     testImplementation("com.h2database:h2:1.4.199")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -61,11 +60,6 @@ spotless {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
-    }
-    groovy {
-        greclipse()
-        indentWithSpaces()
-        trimTrailingWhitespace()
     }
     kotlin {
         ktlint()

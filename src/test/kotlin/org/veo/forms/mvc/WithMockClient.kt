@@ -14,15 +14,12 @@
  * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.mvc
 
 import org.springframework.security.test.context.support.WithSecurityContext
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
-@Retention(RetentionPolicy.RUNTIME)
-@WithSecurityContext(factory = WithMockClientSecurityContextFactory)
-@interface WithMockClient {
-    String clientUuid() default "21712604-ed85-4f08-aa46-1cf39607ee9e"
-}
+@Retention(AnnotationRetention.RUNTIME)
+@WithSecurityContext(factory = WithMockClientSecurityContextFactory::class)
+annotation class WithMockClient(
+    val clientUuid: String = "21712604-ed85-4f08-aa46-1cf39607ee9e"
+)

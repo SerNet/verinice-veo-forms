@@ -16,12 +16,13 @@
  */
 package org.veo.forms
 
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import java.lang.IllegalArgumentException
 import java.util.UUID
-import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 
 class AuthServiceUnitTest {
@@ -38,7 +39,7 @@ class AuthServiceUnitTest {
 
         val clientId = sut.getClientId(auth)
 
-        assertEquals(UUID.fromString("76ca215f-f4e3-4cbd-8524-f69742cc4dad"), clientId)
+        clientId shouldBe UUID.fromString("76ca215f-f4e3-4cbd-8524-f69742cc4dad")
     }
 
     @Test
@@ -53,7 +54,7 @@ class AuthServiceUnitTest {
 
         val clientId = sut.getClientId(auth)
 
-        assertEquals(UUID.fromString("76ca215f-f4e3-4cbd-8524-f69742cc4dad"), clientId)
+        clientId shouldBe UUID.fromString("76ca215f-f4e3-4cbd-8524-f69742cc4dad")
     }
 
     @Test
@@ -66,6 +67,6 @@ class AuthServiceUnitTest {
             }
         }
 
-        assertThrows<IllegalArgumentException> { sut.getClientId(auth) }
+        shouldThrow<IllegalArgumentException> { sut.getClientId(auth) }
     }
 }

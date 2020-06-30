@@ -16,8 +16,8 @@
  */
 package org.veo.forms
 
+import io.kotest.matchers.shouldBe
 import java.util.UUID
-import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -37,8 +37,8 @@ class FormJpaTest {
         val allForms = repo.findAll()
 
         // then the form is returned with its complete content.
-        assertEquals(1, allForms.size)
-        assertEquals(allForms[0].content, content2k)
+        allForms.size shouldBe 1
+        allForms[0].content shouldBe content2k
     }
 
     @Test
@@ -54,8 +54,8 @@ class FormJpaTest {
         val clientForms = repo.findAllByClient(clientAUuid)
 
         // then only client A's forms are returned.
-        assertEquals(2, clientForms.size)
-        assertEquals("form one", clientForms[0].name)
-        assertEquals("form two", clientForms[1].name)
+        clientForms.size shouldBe 2
+        clientForms[0].name shouldBe "form one"
+        clientForms[1].name shouldBe "form two"
     }
 }

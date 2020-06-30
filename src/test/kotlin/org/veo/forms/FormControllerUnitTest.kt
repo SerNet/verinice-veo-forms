@@ -16,6 +16,7 @@
  */
 package org.veo.forms
 
+import io.kotest.matchers.shouldBe
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -23,8 +24,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import java.util.Optional
 import java.util.UUID
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertSame
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.veo.forms.dtos.FormDto
@@ -32,7 +31,7 @@ import org.veo.forms.dtos.FormGistDto
 import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 
-class FormControllerUnitTest() {
+class FormControllerUnitTest {
     private val repo = mockk<FormRepository>()
     private val mapper = mockk<FormMapper>()
     private val authService = mockk<AuthService>()
@@ -61,9 +60,10 @@ class FormControllerUnitTest() {
         val clientForms = sut.getForms(auth)
 
         // then the DTOs from the mapper are returned.
-        assertEquals(2, clientForms.size)
-        assertSame(clientFormADto, clientForms[0])
-        assertSame(clientFormBDto, clientForms[1])
+        clientForms shouldBe listOf(
+            clientFormADto,
+            clientFormBDto
+        )
     }
 
     @Test
@@ -82,7 +82,7 @@ class FormControllerUnitTest() {
         val form = sut.getForm(auth, formId)
 
         // then the DTO from the mapper is returned.
-        assertSame(form, dto)
+        form shouldBe dto
     }
 
     @Test
@@ -123,7 +123,7 @@ class FormControllerUnitTest() {
         val uuid = sut.createForm(auth, dto)
 
         // then the UUID from the repo is returned.
-        assertEquals(formId, uuid)
+        uuid shouldBe formId
     }
 
     @Test
