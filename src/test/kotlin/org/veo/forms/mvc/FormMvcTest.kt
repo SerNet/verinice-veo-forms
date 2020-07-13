@@ -59,6 +59,7 @@ class FormMvcTest : AbstractMvcTest() {
         // then it is returned with content
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
+            "id" to formUuid,
             "name" to "form one",
             "modelType" to "Person",
             "content" to mapOf(
@@ -101,6 +102,7 @@ class FormMvcTest : AbstractMvcTest() {
         // then the changes have been applied
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
+            "id" to formUuid,
             "modelType" to "Process",
             "name" to "new name",
             "content" to mapOf(

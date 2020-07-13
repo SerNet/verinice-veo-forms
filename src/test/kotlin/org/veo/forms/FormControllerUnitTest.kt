@@ -27,7 +27,8 @@ import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.veo.forms.dtos.FormDto
-import org.veo.forms.dtos.FormGistDto
+import org.veo.forms.dtos.FormDtoWithoutContent
+import org.veo.forms.dtos.FormDtoWithoutId
 import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 
@@ -49,12 +50,12 @@ class FormControllerUnitTest {
         // Given two client forms in the repo
         val clientFormA = mockk<Form>()
         val clientFormB = mockk<Form>()
-        val clientFormADto = mockk<FormGistDto>()
-        val clientFormBDto = mockk<FormGistDto>()
+        val clientFormADto = mockk<FormDtoWithoutContent>()
+        val clientFormBDto = mockk<FormDtoWithoutContent>()
 
         every { repo.findAllByClient(authClientId) } returns listOf(clientFormA, clientFormB)
-        every { mapper.toGistDto(clientFormA) } returns clientFormADto
-        every { mapper.toGistDto(clientFormB) } returns clientFormBDto
+        every { mapper.toDtoWithoutContent(clientFormA) } returns clientFormADto
+        every { mapper.toDtoWithoutContent(clientFormB) } returns clientFormBDto
 
         // when getting all forms
         val clientForms = sut.getForms(auth)
@@ -92,7 +93,7 @@ class FormControllerUnitTest {
         val entity = mockk<Form> {
             every { clientId } returns authClientId
         }
-        val dto = mockk<FormDto>()
+        val dto = mockk<FormDtoWithoutId>()
 
         every { repo.findById(formId) } returns Optional.of(entity)
         every { mapper.updateEntity(entity, dto) } just Runs
@@ -114,7 +115,7 @@ class FormControllerUnitTest {
         val savedEntity = mockk<Form> {
             every { id } returns formId
         }
-        val dto = mockk<FormDto>()
+        val dto = mockk<FormDtoWithoutId>()
 
         every { mapper.toEntity(authClientId, dto) } returns mappedEntity
         every { repo.save(mappedEntity) } returns savedEntity

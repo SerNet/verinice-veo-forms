@@ -31,7 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormDto
-import org.veo.forms.dtos.FormGistDto
+import org.veo.forms.dtos.FormDtoWithoutContent
+import org.veo.forms.dtos.FormDtoWithoutId
 import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 
@@ -46,9 +47,9 @@ class FormController(
 
     @Operation(description = "Get all forms (metadata only).")
     @GetMapping
-    fun getForms(auth: Authentication): List<FormGistDto> {
+    fun getForms(auth: Authentication): List<FormDtoWithoutContent> {
         return repo.findAllByClient(authService.getClientId(auth)).map {
-            mapper.toGistDto(it)
+            mapper.toDtoWithoutContent(it)
         }
     }
 
@@ -61,7 +62,7 @@ class FormController(
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createForm(auth: Authentication, @RequestBody dto: FormDto): UUID {
+    fun createForm(auth: Authentication, @RequestBody dto: FormDtoWithoutId): UUID {
         mapper.toEntity(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
@@ -70,7 +71,7 @@ class FormController(
     @Operation(description = "Update a form.")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDto) {
+    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDtoWithoutId) {
         findClientForm(auth, id).let {
             mapper.updateEntity(it, dto)
             repo.save(it)

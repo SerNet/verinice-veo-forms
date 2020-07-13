@@ -16,11 +16,10 @@
  */
 package org.veo.forms.dtos
 
-import java.util.UUID
 import org.veo.forms.ModelType
 
-data class FormGistDto(
-    val id: UUID,
+data class FormDtoWithoutId(
     val name: String,
-    val modelType: ModelType
+    val modelType: ModelType,
+    val content: Any
 )
