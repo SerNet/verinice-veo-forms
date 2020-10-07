@@ -30,7 +30,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.4.0")
     implementation("io.mockk:mockk:1.10.0")
 
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.1.0")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.2.5")
     testImplementation("org.codehaus.groovy:groovy-json:3.0.4")
     testImplementation("com.h2database:h2:1.4.199")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
