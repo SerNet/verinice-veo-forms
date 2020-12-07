@@ -82,31 +82,20 @@ pipeline {
             steps {
                 script {
                     def dockerImage = docker.build('eu.gcr.io/veo-projekt/veo-forms', "--label org.opencontainers.image.version='$projectVersion' --label org.opencontainers.image.revision='$env.GIT_COMMIT' .")
-
-                    def removeImage = { identifier ->
-                       sh "docker image rm -f ${identifier}"
-                    }
-
-                    def pushAndRemoveImage = { img, imageTag ->
-                       img.push(imageTag)
-                       removeImage("${img.id}:${imageTag}")
-                    }
-
                     // Finally, we'll push the image with several tags:
                     // Pushing multiple tags is cheap, as all the layers are reused.
                     withDockerRegistry(credentialsId: 'gcr:verinice-projekt@gcr', url: 'https://eu.gcr.io') {
-                        pushAndRemoveImage(dockerImage, "git-${env.GIT_COMMIT}")
+                        dockerImage.push("git-${env.GIT_COMMIT}")
                         if (env.GIT_BRANCH == 'master') {
-                            pushAndRemoveImage(dockerImage, 'latest')
-                            pushAndRemoveImage(dockerImage, "master-build-${env.BUILD_NUMBER}")
+                            dockerImage.push("latest")
+                            dockerImage.push(env.BUILD_NUMBER)
                         } else if (env.GIT_BRANCH ==~ /PR-\d+/) { // we only want to build pull requests
                             // Note that '/' is not allowed in docker tags.
                             def dockertag = env.GIT_BRANCH.replace("/","-")
-                            pushAndRemoveImage(dockerImage, dockertag)
-                            pushAndRemoveImage(dockerImage, "${dockertag}-build-${env.BUILD_NUMBER}")
+                            dockerImage.push("${dockertag}")
+                            dockerImage.push("${dockertag}-${env.BUILD_NUMBER}")
                         }
                     }
-                    removeImage(dockerImage.id)
                 }
             }
         }
