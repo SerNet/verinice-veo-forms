@@ -18,8 +18,8 @@ package org.veo.forms.dtos
 
 import org.veo.forms.ModelType
 
-data class FormDtoWithoutId(
-    val name: String,
-    val modelType: ModelType,
-    val content: Any
-)
+class FormDtoWithoutId(
+    val content: Any,
+    name: String,
+    modelType: ModelType
+) : AbstractFormDto(name, modelType)

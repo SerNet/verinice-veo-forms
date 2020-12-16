@@ -19,8 +19,8 @@ package org.veo.forms.dtos
 import java.util.UUID
 import org.veo.forms.ModelType
 
-data class FormDtoWithoutContent(
+class FormDtoWithoutContent(
     val id: UUID,
-    val name: String,
-    val modelType: ModelType
-)
+    name: String,
+    modelType: ModelType
+) : AbstractFormDto(name, modelType)
