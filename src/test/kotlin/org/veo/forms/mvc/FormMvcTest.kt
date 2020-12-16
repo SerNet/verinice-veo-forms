@@ -29,6 +29,7 @@ class FormMvcTest : AbstractMvcTest() {
         var result = request(HttpMethod.POST, "/", mapOf(
             "name" to "form one",
             "modelType" to "Person",
+            "subType" to "VeryNicePerson",
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
@@ -50,7 +51,8 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "id" to formUuid,
                 "name" to "form one",
-                "modelType" to "Person"
+                "modelType" to "Person",
+                "subType" to "VeryNicePerson"
             ))
 
         // when querying the new form
@@ -62,6 +64,7 @@ class FormMvcTest : AbstractMvcTest() {
             "id" to formUuid,
             "name" to "form one",
             "modelType" to "Person",
+            "subType" to "VeryNicePerson",
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
@@ -88,6 +91,7 @@ class FormMvcTest : AbstractMvcTest() {
         result = request(HttpMethod.PUT, "/$formUuid", mapOf(
             "name" to "new name",
             "modelType" to "Process",
+            "subType" to "VT",
             "content" to mapOf(
                 "newProp" to "newValue"
             )
@@ -104,6 +108,7 @@ class FormMvcTest : AbstractMvcTest() {
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
             "modelType" to "Process",
+            "subType" to "VT",
             "name" to "new name",
             "content" to mapOf(
                 "newProp" to "newValue"

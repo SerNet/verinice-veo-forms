@@ -27,22 +27,23 @@ import org.veo.forms.dtos.FormDtoWithoutId
 class FormMapper(private val objectMapper: ObjectMapper) {
 
     fun toDto(entity: Form): FormDto {
-        return FormDto(entity.id, entity.name, entity.modelType,
+        return FormDto(entity.id, entity.name, entity.modelType, entity.subType,
             objectMapper.readValue(entity.content, Object::class.java))
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
-        return FormDtoWithoutContent(entity.id, entity.name, entity.modelType)
+        return FormDtoWithoutContent(entity.id, entity.name, entity.modelType, entity.subType)
     }
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
-        return Form(clientId, dto.name, dto.modelType, objectMapper.writeValueAsString(dto.content))
+        return Form(clientId, dto.name, dto.modelType, dto.subType, objectMapper.writeValueAsString(dto.content))
     }
 
     fun updateEntity(form: Form, dto: FormDtoWithoutId) {
         form.apply {
             name = dto.name
             modelType = dto.modelType
+            subType = dto.subType
             content = objectMapper.writeValueAsString(dto.content)
         }
     }

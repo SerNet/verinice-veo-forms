@@ -33,7 +33,7 @@ class FormJpaTest {
         val content2k = "i".repeat(2000)
 
         // when saving form content and retrieving all forms
-        repo.save(Form(UUID.randomUUID(), "long form", ModelType.Document, content2k))
+        repo.save(Form(UUID.randomUUID(), "long form", ModelType.Document, null, content2k))
         val allForms = repo.findAll()
 
         // then the form is returned with its complete content.
@@ -46,9 +46,9 @@ class FormJpaTest {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, "form one", ModelType.Document, ""))
-        repo.save(Form(clientAUuid, "form two", ModelType.Document, ""))
-        repo.save(Form(clientBUuid, "form three", ModelType.Document, ""))
+        repo.save(Form(clientAUuid, "form one", ModelType.Document, null, ""))
+        repo.save(Form(clientAUuid, "form two", ModelType.Document, null, ""))
+        repo.save(Form(clientBUuid, "form three", ModelType.Document, null, ""))
 
         // when querying all forms from client A
         val clientForms = repo.findAllByClient(clientAUuid)

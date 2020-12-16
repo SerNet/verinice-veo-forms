@@ -20,5 +20,6 @@ import org.veo.forms.ModelType
 
 abstract class AbstractFormDto(
     val name: String,
-    val modelType: ModelType
+    val modelType: ModelType,
+    val subType: String?
 )

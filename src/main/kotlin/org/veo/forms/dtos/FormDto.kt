@@ -23,5 +23,6 @@ class FormDto(
     val id: UUID,
     name: String,
     modelType: ModelType,
+    subType: String?,
     val content: Any
-) : AbstractFormDto(name, modelType)
+) : AbstractFormDto(name, modelType, subType)

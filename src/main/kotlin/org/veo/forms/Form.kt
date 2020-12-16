@@ -28,9 +28,10 @@ open class Form(
     var clientId: UUID,
     var name: String,
     var modelType: ModelType,
+    var subType: String?,
     @Lob var content: String,
     @Id var id: UUID = UUID.randomUUID()
 ) {
     // ORM constructor
-    private constructor() : this(UUID.randomUUID(), "", ModelType.Asset, "")
+    private constructor() : this(UUID.randomUUID(), "", ModelType.Asset, null, "")
 }
