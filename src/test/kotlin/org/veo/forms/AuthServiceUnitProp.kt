@@ -20,7 +20,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
-import io.kotest.property.arbitrary.arb
+import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.list
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
@@ -32,10 +32,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 class AuthServiceUnitProp : StringSpec({
     val sut = AuthService()
 
-    val uuidArb = arb { rs ->
-        generateSequence {
-            UUID(rs.random.nextLong(), rs.random.nextLong())
-        }
+    val uuidArb = arbitrary { rs ->
+        UUID(rs.random.nextLong(), rs.random.nextLong())
     }
 
     "parses client UUID" {

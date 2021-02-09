@@ -2,11 +2,11 @@ import java.util.Calendar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.3.0.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    kotlin("jvm") version "1.3.71"
+    id("org.springframework.boot") version "2.3.8.RELEASE"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.3.71"
-    id("com.diffplug.gradle.spotless") version "4.0.1"
+    id("com.diffplug.spotless") version "5.9.0"
     id("com.github.hierynomus.license") version "0.15.0"
     jacoco
 }
@@ -27,15 +27,15 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
-    implementation("org.springdoc:springdoc-openapi-ui:1.4.0")
-    implementation("io.mockk:mockk:1.10.0")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
+    implementation("io.mockk:mockk:1.10.5")
 
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.2.5")
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.4")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.2.5")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.2.5")
-    testImplementation("io.kotest:kotest-property-jvm:4.2.5")
-    testImplementation("com.h2database:h2:1.4.199")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.7")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
+    testImplementation("io.kotest:kotest-property-jvm:4.4.0")
+    testImplementation("com.h2database:h2:1.4.200")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
