@@ -44,13 +44,24 @@ class FormRepositoryUnitTest {
     }
 
     @Test
-    fun `finds all forms`() {
+    fun `finds all forms by client`() {
         val result = listOf(mockk<Form>(), mockk<Form>())
         val clientId = UUID.randomUUID()
 
         every { jpaRepo.findAllByClient(clientId) } returns result
 
-        sut.findAll(clientId) shouldBe result
+        sut.findAll(clientId, null) shouldBe result
+    }
+
+    @Test
+    fun `finds all forms by client and domain`() {
+        val result = listOf(mockk<Form>(), mockk<Form>())
+        val clientId = UUID.randomUUID()
+        val domainId = UUID.randomUUID()
+
+        every { jpaRepo.findAllByClientAndDomain(clientId, domainId) } returns result
+
+        sut.findAll(clientId, domainId) shouldBe result
     }
 
     @Test

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormDto
@@ -45,8 +46,8 @@ class FormController(
 
     @Operation(description = "Get all forms (metadata only).")
     @GetMapping
-    fun getForms(auth: Authentication): List<FormDtoWithoutContent> {
-        return repo.findAll(authService.getClientId(auth)).map {
+    fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?): List<FormDtoWithoutContent> {
+        return repo.findAll(authService.getClientId(auth), domainId).map {
             mapper.toDtoWithoutContent(it)
         }
     }

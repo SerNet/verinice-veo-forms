@@ -44,17 +44,18 @@ class FormControllerUnitTest {
     @Test
     fun `retrieves forms by client`() {
         // Given two client forms in the repo
+        val domainId = UUID.randomUUID()
         val clientFormA = mockk<Form>()
         val clientFormB = mockk<Form>()
         val clientFormADto = mockk<FormDtoWithoutContent>()
         val clientFormBDto = mockk<FormDtoWithoutContent>()
 
-        every { repo.findAll(authClientId) } returns listOf(clientFormA, clientFormB)
+        every { repo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
         every { mapper.toDtoWithoutContent(clientFormA) } returns clientFormADto
         every { mapper.toDtoWithoutContent(clientFormB) } returns clientFormBDto
 
         // when getting all forms
-        val clientForms = sut.getForms(auth)
+        val clientForms = sut.getForms(auth, domainId)
 
         // then the DTOs from the mapper are returned.
         clientForms shouldBe listOf(

@@ -26,6 +26,7 @@ import org.hibernate.annotations.Proxy
 @Proxy(lazy = false)
 open class Form(
     var clientId: UUID,
+    var domainId: UUID,
     var name: String,
     var modelType: ModelType,
     var subType: String?,

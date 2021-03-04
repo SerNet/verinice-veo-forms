@@ -24,8 +24,9 @@ import org.veo.forms.exceptions.ResourceNotFoundException
 @Component
 class FormRepository(private val jpaRepo: FormJpaRepository) {
     fun delete(form: Form) = jpaRepo.delete(form)
-    fun findAll(clientId: UUID): List<Form> {
-        return jpaRepo.findAllByClient(clientId)
+    fun findAll(clientId: UUID, domainId: UUID?): List<Form> {
+        return domainId?.let { jpaRepo.findAllByClientAndDomain(clientId, it) }
+            ?: jpaRepo.findAllByClient(clientId)
     }
 
     fun findClientForm(clientId: UUID, formId: UUID): Form {

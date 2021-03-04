@@ -21,8 +21,9 @@ import org.veo.forms.ModelType
 
 class FormDto(
     val id: UUID,
+    domainId: UUID,
     name: String,
     modelType: ModelType,
     subType: String?,
     val content: Any
-) : AbstractFormDto(name, modelType, subType)
+) : AbstractFormDto(domainId, name, modelType, subType)

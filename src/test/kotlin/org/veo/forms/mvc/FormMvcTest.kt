@@ -28,6 +28,7 @@ class FormMvcTest : AbstractMvcTest() {
         // when adding a new form
         var result = request(HttpMethod.POST, "/", mapOf(
             "name" to "form one",
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "modelType" to "Person",
             "subType" to "VeryNicePerson",
             "content" to mapOf(
@@ -50,6 +51,7 @@ class FormMvcTest : AbstractMvcTest() {
         parseBody(result) shouldBe listOf(
             mapOf(
                 "id" to formUuid,
+                "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
                 "name" to "form one",
                 "modelType" to "Person",
                 "subType" to "VeryNicePerson"
@@ -62,6 +64,7 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to "form one",
             "modelType" to "Person",
             "subType" to "VeryNicePerson",
@@ -76,6 +79,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and update`() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
+            "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
             "name" to "old name",
             "modelType" to "Person",
             "content" to mapOf(
@@ -89,6 +93,7 @@ class FormMvcTest : AbstractMvcTest() {
 
         // when updating the form
         result = request(HttpMethod.PUT, "/$formUuid", mapOf(
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to "new name",
             "modelType" to "Process",
             "subType" to "VT",
@@ -107,6 +112,7 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "modelType" to "Process",
             "subType" to "VT",
             "name" to "new name",
@@ -120,6 +126,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and delete`() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to "old name",
             "modelType" to "Person",
             "content" to emptyMap<String, Any>()
@@ -140,5 +147,33 @@ class FormMvcTest : AbstractMvcTest() {
 
         // then the resource is not found
         result.response.status shouldBe 404
+    }
+
+    @Test
+    fun `retrieve by domain ID`() {
+        // given two forms from different domains
+        request(HttpMethod.POST, "/", mapOf(
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "name" to "one",
+            "modelType" to "Person",
+            "content" to emptyMap<String, Any>()
+        ))
+        request(HttpMethod.POST, "/", mapOf(
+            "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
+            "name" to "two",
+            "modelType" to "Person",
+            "content" to emptyMap<String, Any>()
+        ))
+
+        // when requesting only forms from the second domain
+        val result = parseBody(request(HttpMethod.GET, "/?domainId=d40c5289-1d84-4408-b903-38939ab980c6"))
+
+        // then only the second form is returned
+        with(result as List<*>) {
+            size shouldBe 1
+            with(first() as Map<*, *>) {
+                get("name") shouldBe "two"
+            }
+        }
     }
 }

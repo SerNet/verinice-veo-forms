@@ -16,9 +16,11 @@
  */
 package org.veo.forms.dtos
 
+import java.util.UUID
 import org.veo.forms.ModelType
 
 abstract class AbstractFormDto(
+    val domainId: UUID,
     val name: String,
     val modelType: ModelType,
     val subType: String?
