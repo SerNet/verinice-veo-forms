@@ -33,8 +33,6 @@ import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
-import org.veo.forms.exceptions.AccessDeniedException
-import org.veo.forms.exceptions.ResourceNotFoundException
 
 @RestController
 @RequestMapping("/")
@@ -48,7 +46,7 @@ class FormController(
     @Operation(description = "Get all forms (metadata only).")
     @GetMapping
     fun getForms(auth: Authentication): List<FormDtoWithoutContent> {
-        return repo.findAllByClient(authService.getClientId(auth)).map {
+        return repo.findAll(authService.getClientId(auth)).map {
             mapper.toDtoWithoutContent(it)
         }
     }
@@ -56,7 +54,7 @@ class FormController(
     @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
     fun getForm(auth: Authentication, @PathVariable("id") id: UUID): FormDto {
-        return mapper.toDto(findClientForm(auth, id))
+        return mapper.toDto(repo.findClientForm(authService.getClientId(auth), id))
     }
 
     @Operation(description = "Create a form.")
@@ -72,7 +70,7 @@ class FormController(
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDtoWithoutId) {
-        findClientForm(auth, id).let {
+        repo.findClientForm(authService.getClientId(auth), id).let {
             mapper.updateEntity(it, dto)
             repo.save(it)
         }
@@ -82,16 +80,6 @@ class FormController(
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteForm(auth: Authentication, @PathVariable("id") id: UUID) {
-        repo.delete(findClientForm(auth, id))
-    }
-
-    private fun findClientForm(auth: Authentication, id: UUID): Form {
-        return repo.findById(id)
-                .orElseThrow { ResourceNotFoundException() }
-                .also {
-                    if (it.clientId != authService.getClientId(auth)) {
-                        throw AccessDeniedException()
-                    }
-                }
+        repo.delete(repo.findClientForm(authService.getClientId(auth), id))
     }
 }

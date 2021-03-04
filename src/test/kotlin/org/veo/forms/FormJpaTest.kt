@@ -25,7 +25,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 @DataJpaTest
 class FormJpaTest {
     @Autowired
-    private lateinit var repo: FormRepository
+    private lateinit var repo: FormJpaRepository
 
     @Test
     fun `saves long content`() {

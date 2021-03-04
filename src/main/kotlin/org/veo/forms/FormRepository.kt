@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 Jonas Jordan.
+ * Copyright (c) 2021 Jonas Jordan.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -17,14 +17,26 @@
 package org.veo.forms
 
 import java.util.UUID
-import javax.transaction.Transactional
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
+import org.veo.forms.exceptions.AccessDeniedException
+import org.veo.forms.exceptions.ResourceNotFoundException
 
-@Repository
-@Transactional
-interface FormRepository : JpaRepository<Form, UUID> {
-    @Query("SELECT f FROM Form f WHERE f.clientId = :clientId")
-    fun findAllByClient(clientId: UUID): List<Form>
+@Component
+class FormRepository(private val jpaRepo: FormJpaRepository) {
+    fun delete(form: Form) = jpaRepo.delete(form)
+    fun findAll(clientId: UUID): List<Form> {
+        return jpaRepo.findAllByClient(clientId)
+    }
+
+    fun findClientForm(clientId: UUID, formId: UUID): Form {
+        return jpaRepo.findById(formId)
+            .orElseThrow { ResourceNotFoundException() }
+            .also {
+                if (it.clientId != clientId) {
+                    throw AccessDeniedException()
+                }
+            }
+    }
+
+    fun save(form: Form): Form = jpaRepo.save(form)
 }
