@@ -6,6 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.3.71"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.4.31"
     id("com.diffplug.spotless") version "5.9.0"
     id("com.github.hierynomus.license") version "0.15.0"
     jacoco
@@ -79,4 +80,9 @@ license {
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
             .inputStream.bufferedReader().readText().trim()
+}
+
+// Add no-arg ORM constructors for JPA entities.
+noArg {
+    annotation("javax.persistence.Entity")
 }
