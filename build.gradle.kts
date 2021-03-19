@@ -10,6 +10,7 @@ plugins {
     id("com.diffplug.spotless") version "5.9.0"
     id("com.github.hierynomus.license") version "0.15.0"
     jacoco
+    id("com.gorylenko.gradle-git-properties") version "2.2.4"
 }
 
 group = "org.veo"
@@ -85,4 +86,17 @@ license {
 // Add no-arg ORM constructors for JPA entities.
 noArg {
     annotation("javax.persistence.Entity")
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            if (getRootProject().hasProperty("ciBuildNumer")) {
+                additional = mapOf(
+                    "ci.buildnumber" to rootProject.properties["ciBuildNumer"],
+                    "ci.jobname" to rootProject.properties["ciJobName"]
+                )
+            }
+        }
+    }
 }
