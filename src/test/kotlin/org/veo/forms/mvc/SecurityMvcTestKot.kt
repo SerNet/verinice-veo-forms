@@ -19,8 +19,10 @@ package org.veo.forms.mvc
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
 
+@SpringBootTest(properties = ["management.endpoint.health.probes.enabled=true"])
 class SecurityMvcTestKot : AbstractMvcTest() {
     @TestFactory
     fun `regular API calls are forbidden without authorization`() = listOf(
@@ -33,7 +35,8 @@ class SecurityMvcTestKot : AbstractMvcTest() {
 
     @TestFactory
     fun `documentation is accessible`() = listOf(
-            testStatus(HttpMethod.GET, "/health", 200),
+            testStatus(HttpMethod.GET, "/actuator/health/readiness", 200),
+            testStatus(HttpMethod.GET, "/actuator/health/liveness", 200),
             testStatus(HttpMethod.GET, "/swagger-ui.html", 302),
             testStatus(HttpMethod.GET, "/swagger-ui/index.html", 200),
             testStatus(HttpMethod.GET, "/v3/api-docs", 200)

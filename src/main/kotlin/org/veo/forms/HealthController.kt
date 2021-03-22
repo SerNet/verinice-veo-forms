@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@Deprecated("Replaced by Spring Boot Actuator, kept for compatibility reasons")
 class HealthController {
     @GetMapping("/health")
     fun getHealth() { }

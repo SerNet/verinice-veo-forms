@@ -32,6 +32,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
     implementation("io.mockk:mockk:1.10.5")
 
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
     testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
     testImplementation("org.codehaus.groovy:groovy-json:3.0.7")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
