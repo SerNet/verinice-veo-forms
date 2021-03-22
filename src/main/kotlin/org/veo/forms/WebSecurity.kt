@@ -41,7 +41,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                 // .anonymous()
                 //     .disable()
                 .authorizeRequests()
-                .antMatchers("/actuator/**", "/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
+                .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
