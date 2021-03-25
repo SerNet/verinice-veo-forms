@@ -24,4 +24,5 @@ enum class ModelType {
     Person,
     Process,
     Scenario,
+    Scope
 }
