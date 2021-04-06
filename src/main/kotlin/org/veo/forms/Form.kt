@@ -31,5 +31,6 @@ open class Form(
     var modelType: ModelType,
     var subType: String?,
     @Lob var content: String,
+    @Lob var translation: String?,
     @Id var id: UUID = UUID.randomUUID()
 )

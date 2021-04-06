@@ -34,6 +34,11 @@ class FormMvcTest : AbstractMvcTest() {
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
+            ),
+            "translation" to mapOf(
+                "de" to mapOf(
+                    "name" to "Name"
+                )
             )
         ))
         val formUuid = parseBody(result)
@@ -71,6 +76,11 @@ class FormMvcTest : AbstractMvcTest() {
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
+            ),
+            "translation" to mapOf(
+                "de" to mapOf(
+                    "name" to "Name"
+                )
             )
         )
     }
@@ -84,6 +94,11 @@ class FormMvcTest : AbstractMvcTest() {
             "modelType" to "Person",
             "content" to mapOf(
                 "oldProp" to "oldValue"
+            ),
+            "translation" to mapOf(
+                "de" to mapOf(
+                    "foo" to "Foo"
+                )
             )
         ))
         val formUuid = parseBody(result) as String
@@ -99,6 +114,11 @@ class FormMvcTest : AbstractMvcTest() {
             "subType" to "VT",
             "content" to mapOf(
                 "newProp" to "newValue"
+            ),
+            "translation" to mapOf(
+                "de" to mapOf(
+                    "bar" to "Bar"
+                )
             )
         ))
 
@@ -118,6 +138,11 @@ class FormMvcTest : AbstractMvcTest() {
             "name" to "new name",
             "content" to mapOf(
                 "newProp" to "newValue"
+            ),
+            "translation" to mapOf(
+                "de" to mapOf(
+                    "bar" to "Bar"
+                )
             )
         )
     }

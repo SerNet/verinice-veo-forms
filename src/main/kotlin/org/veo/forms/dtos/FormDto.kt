@@ -25,5 +25,6 @@ class FormDto(
     name: String,
     modelType: ModelType,
     subType: String?,
-    val content: Any
+    val content: Any,
+    val translation: Any?
 ) : AbstractFormDto(domainId, name, modelType, subType)

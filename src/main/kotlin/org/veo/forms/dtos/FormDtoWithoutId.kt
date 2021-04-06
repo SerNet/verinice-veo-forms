@@ -21,6 +21,7 @@ import org.veo.forms.ModelType
 
 class FormDtoWithoutId(
     val content: Any,
+    val translation: Any?,
     domainId: UUID,
     name: String,
     modelType: ModelType,

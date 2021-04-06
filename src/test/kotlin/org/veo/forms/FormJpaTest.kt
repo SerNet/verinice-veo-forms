@@ -33,7 +33,7 @@ class FormJpaTest {
         val content2k = "i".repeat(2000)
 
         // when saving form content and retrieving all forms
-        repo.save(Form(UUID.randomUUID(), UUID.randomUUID(), "long form", ModelType.Document, null, content2k))
+        repo.save(Form(UUID.randomUUID(), UUID.randomUUID(), "long form", ModelType.Document, null, content2k, null))
         val allForms = repo.findAll()
 
         // then the form is returned with its complete content.
@@ -46,9 +46,9 @@ class FormJpaTest {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, UUID.randomUUID(), "form one", ModelType.Document, null, ""))
-        repo.save(Form(clientAUuid, UUID.randomUUID(), "form two", ModelType.Document, null, ""))
-        repo.save(Form(clientBUuid, UUID.randomUUID(), "form three", ModelType.Document, null, ""))
+        repo.save(Form(clientAUuid, UUID.randomUUID(), "form one", ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, UUID.randomUUID(), "form two", ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, UUID.randomUUID(), "form three", ModelType.Document, null, "", null))
 
         // when querying all forms from client A
         val clientForms = repo.findAllByClient(clientAUuid)
@@ -66,11 +66,11 @@ class FormJpaTest {
         val clientBUuid = UUID.randomUUID()
         val domainAUuid = UUID.randomUUID()
         val domainBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, domainAUuid, "form one", ModelType.Document, null, ""))
-        repo.save(Form(clientAUuid, domainBUuid, "form two", ModelType.Document, null, ""))
-        repo.save(Form(clientBUuid, domainAUuid, "form three", ModelType.Document, null, ""))
-        repo.save(Form(clientBUuid, domainBUuid, "form four", ModelType.Document, null, ""))
-        repo.save(Form(clientBUuid, domainBUuid, "form five", ModelType.Document, null, ""))
+        repo.save(Form(clientAUuid, domainAUuid, "form one", ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, domainBUuid, "form two", ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainAUuid, "form three", ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainBUuid, "form four", ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainBUuid, "form five", ModelType.Document, null, "", null))
 
         // when querying all forms from client B and domain B
         val clientForms = repo.findAllByClientAndDomain(clientBUuid, domainBUuid)
