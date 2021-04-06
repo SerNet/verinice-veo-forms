@@ -1,4 +1,5 @@
 import java.util.Calendar
+import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,7 +9,7 @@ plugins {
     kotlin("plugin.spring") version "1.3.71"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.4.31"
     id("com.diffplug.spotless") version "5.9.0"
-    id("com.github.hierynomus.license") version "0.15.0"
+    id("org.cadixdev.licenser") version "0.5.1"
     jacoco
     id("com.gorylenko.gradle-git-properties") version "2.2.4"
 }
@@ -79,7 +80,11 @@ spotless {
 
 license {
     header = file("templates/licenseHeader.txt")
+    newLine = false
     skipExistingHeaders = true
+    style(closureOf<HeaderFormatRegistry> {
+        put("kt", "JAVADOC")
+    })
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
             .inputStream.bufferedReader().readText().trim()
