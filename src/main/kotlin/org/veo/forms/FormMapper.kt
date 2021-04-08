@@ -28,7 +28,7 @@ class FormMapper(private val objectMapper: ObjectMapper) {
 
     fun toDto(entity: Form): FormDto {
         return FormDto(entity.id, entity.domainId, entity.name, entity.modelType, entity.subType,
-            objectMapper.readValue(entity.content, Object::class.java), objectMapper.readValue(entity.translation, Object::class.java))
+            objectMapper.readValue(entity.content, Object::class.java), entity.translation?.let { objectMapper.readValue(it, Object::class.java) })
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
@@ -36,7 +36,8 @@ class FormMapper(private val objectMapper: ObjectMapper) {
     }
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
-        return Form(clientId, dto.domainId, dto.name, dto.modelType, dto.subType, objectMapper.writeValueAsString(dto.content), objectMapper.writeValueAsString(dto.translation))
+        return Form(clientId, dto.domainId, dto.name, dto.modelType, dto.subType,
+            objectMapper.writeValueAsString(dto.content), dto.translation?.let { objectMapper.writeValueAsString(it) })
     }
 
     fun updateEntity(form: Form, dto: FormDtoWithoutId) {
@@ -46,7 +47,7 @@ class FormMapper(private val objectMapper: ObjectMapper) {
             modelType = dto.modelType
             subType = dto.subType
             content = objectMapper.writeValueAsString(dto.content)
-            translation = objectMapper.writeValueAsString(dto.translation)
+            translation = dto.translation?.let { objectMapper.writeValueAsString(it) }
         }
     }
 }
