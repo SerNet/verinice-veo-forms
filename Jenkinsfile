@@ -88,12 +88,10 @@ pipeline {
                         dockerImage.push("git-${env.GIT_COMMIT}")
                         if (env.GIT_BRANCH == 'master') {
                             dockerImage.push("latest")
-                            dockerImage.push(env.BUILD_NUMBER)
-                        } else if (env.GIT_BRANCH ==~ /PR-\d+/) { // we only want to build pull requests
-                            // Note that '/' is not allowed in docker tags.
-                            def dockertag = env.GIT_BRANCH.replace("/","-")
-                            dockerImage.push("${dockertag}")
-                            dockerImage.push("${dockertag}-${env.BUILD_NUMBER}")
+                            dockerImage.push("master-build-${env.BUILD_NUMBER}")
+                        } else if (env.GIT_BRANCH == 'develop') {
+                            dockerImage.push("develop")
+                            dockerImage.push("develop-build-${env.BUILD_NUMBER}")
                         }
                     }
                 }
