@@ -87,7 +87,7 @@ license {
     })
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
-            .inputStream.bufferedReader().readText().trim()
+        .inputStream.bufferedReader().readText().trim()
 }
 
 // Add no-arg ORM constructors for JPA entities.
