@@ -40,10 +40,14 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
     testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
     testImplementation("io.kotest:kotest-property-jvm:4.4.0")
-    testImplementation("com.h2database:h2:1.4.200")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+
+    val testcontainersVersion = "1.15.3"
+    testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
+    testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 }
 
 tasks.withType<Test> {

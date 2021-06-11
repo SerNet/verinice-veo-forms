@@ -1,11 +1,13 @@
 # veo-forms
 Spring boot micro service for veo forms.
 
+### Build dependencies
+* Docker
 
-## Runtime dependencies
-* PostgreSQL DB
-* OAuth server
-
+By default, integration tests use testcontainers to launch an embedded PostgreSQL DB. This requires docker.
+If you wish to use your [local PostgreSQL DB](#create-postgresql-db) instead, apply the `spring.datasource.[...]` config
+from [application.properties](/src/main/resources/application.properties) to your
+[application_test.properties](/src/test/resources/application-test.properties).
 
 ## Build
 
@@ -13,6 +15,9 @@ Spring boot micro service for veo forms.
 
 For verification, I recommend this as a `pre-commit` git hook.
 
+## Runtime dependencies
+* PostgreSQL DB
+* OAuth server
 
 ## Config & Launch
 ### Create PostgreSQL DB
