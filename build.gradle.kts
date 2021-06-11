@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
+    implementation("com.vladmihalcea:hibernate-types-52:2.11.1")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
     implementation("io.mockk:mockk:1.10.5")
 

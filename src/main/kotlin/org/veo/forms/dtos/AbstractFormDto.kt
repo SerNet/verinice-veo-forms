@@ -17,12 +17,16 @@
  */
 package org.veo.forms.dtos
 
+import io.swagger.v3.oas.annotations.media.Schema
 import java.util.UUID
 import org.veo.forms.ModelType
 
 abstract class AbstractFormDto(
     val domainId: UUID,
-    val name: String,
+    @field:Schema(
+        description = "Translated form name. Use keys for language ISO code and values for translated name.",
+        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""")
+    val name: Map<String, String>,
     val modelType: ModelType,
     val subType: String?
 )

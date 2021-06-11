@@ -23,7 +23,7 @@ import org.veo.forms.ModelType
 class FormDtoWithoutContent(
     val id: UUID,
     domainId: UUID,
-    name: String,
+    name: Map<String, String>,
     modelType: ModelType,
     subType: String?
 ) : AbstractFormDto(domainId, name, modelType, subType)

@@ -28,7 +28,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and retrieve`() {
         // when adding a new form
         var result = request(HttpMethod.POST, "/", mapOf(
-            "name" to "form one",
+            "name" to mapOf("en" to "form one"),
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "modelType" to "Person",
             "subType" to "VeryNicePerson",
@@ -58,7 +58,7 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "id" to formUuid,
                 "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-                "name" to "form one",
+                "name" to mapOf("en" to "form one"),
                 "modelType" to "Person",
                 "subType" to "VeryNicePerson"
             ))
@@ -71,7 +71,7 @@ class FormMvcTest : AbstractMvcTest() {
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "name" to "form one",
+            "name" to mapOf("en" to "form one"),
             "modelType" to "Person",
             "subType" to "VeryNicePerson",
             "content" to mapOf(
@@ -91,7 +91,7 @@ class FormMvcTest : AbstractMvcTest() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
             "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
-            "name" to "old name",
+            "name" to mapOf("en" to "old name"),
             "modelType" to "Person",
             "content" to mapOf(
                 "oldProp" to "oldValue"
@@ -110,7 +110,7 @@ class FormMvcTest : AbstractMvcTest() {
         // when updating the form
         result = request(HttpMethod.PUT, "/$formUuid", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "name" to "new name",
+            "name" to mapOf("en" to "new name"),
             "modelType" to "Process",
             "subType" to "VT",
             "content" to mapOf(
@@ -136,7 +136,7 @@ class FormMvcTest : AbstractMvcTest() {
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "modelType" to "Process",
             "subType" to "VT",
-            "name" to "new name",
+            "name" to mapOf("en" to "new name"),
             "content" to mapOf(
                 "newProp" to "newValue"
             ),
@@ -153,7 +153,7 @@ class FormMvcTest : AbstractMvcTest() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "name" to "old name",
+            "name" to mapOf("en" to "old name"),
             "modelType" to "Person",
             "content" to emptyMap<String, Any>()
         ))
@@ -180,13 +180,13 @@ class FormMvcTest : AbstractMvcTest() {
         // given two forms from different domains
         request(HttpMethod.POST, "/", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "name" to "one",
+            "name" to mapOf("en" to "one"),
             "modelType" to "Person",
             "content" to emptyMap<String, Any>()
         ))
         request(HttpMethod.POST, "/", mapOf(
             "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
-            "name" to "two",
+            "name" to mapOf("en" to "two"),
             "modelType" to "Person",
             "content" to emptyMap<String, Any>()
         ))
@@ -198,8 +198,18 @@ class FormMvcTest : AbstractMvcTest() {
         with(result as List<*>) {
             size shouldBe 1
             with(first() as Map<*, *>) {
-                get("name") shouldBe "two"
+                get("name") shouldBe mapOf("en" to "two")
             }
         }
+    }
+
+    @Test
+    fun `can't create form with invalid name structure`() {
+        request(HttpMethod.POST, "/", mapOf(
+            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "name" to mapOf("foo" to mapOf("bar" to "star")),
+            "modelType" to "Person",
+            "content" to emptyMap<String, Any>()
+        )).response.status shouldBe 400
     }
 }

@@ -33,7 +33,7 @@ class FormJpaTest : AbstractSpringTest() {
         val content2k = "i".repeat(2000)
 
         // when saving form content and retrieving all forms
-        repo.save(Form(UUID.randomUUID(), UUID.randomUUID(), "long form", ModelType.Document, null, content2k, null))
+        repo.save(Form(UUID.randomUUID(), UUID.randomUUID(), emptyMap(), ModelType.Document, null, content2k, null))
         val allForms = repo.findAll()
 
         // then the form is returned with its complete content.
@@ -46,17 +46,17 @@ class FormJpaTest : AbstractSpringTest() {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, UUID.randomUUID(), "form one", ModelType.Document, null, "", null))
-        repo.save(Form(clientAUuid, UUID.randomUUID(), "form two", ModelType.Document, null, "", null))
-        repo.save(Form(clientBUuid, UUID.randomUUID(), "form three", ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, UUID.randomUUID(), mapOf("en" to "form one"), ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, UUID.randomUUID(), mapOf("en" to "form two"), ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, UUID.randomUUID(), mapOf("en" to "form three"), ModelType.Document, null, "", null))
 
         // when querying all forms from client A
         val clientForms = repo.findAllByClient(clientAUuid)
 
         // then only client A's forms are returned.
         clientForms.size shouldBe 2
-        clientForms[0].name shouldBe "form one"
-        clientForms[1].name shouldBe "form two"
+        clientForms[0].name["en"] shouldBe "form one"
+        clientForms[1].name["en"] shouldBe "form two"
     }
 
     @Test
@@ -66,18 +66,18 @@ class FormJpaTest : AbstractSpringTest() {
         val clientBUuid = UUID.randomUUID()
         val domainAUuid = UUID.randomUUID()
         val domainBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, domainAUuid, "form one", ModelType.Document, null, "", null))
-        repo.save(Form(clientAUuid, domainBUuid, "form two", ModelType.Document, null, "", null))
-        repo.save(Form(clientBUuid, domainAUuid, "form three", ModelType.Document, null, "", null))
-        repo.save(Form(clientBUuid, domainBUuid, "form four", ModelType.Document, null, "", null))
-        repo.save(Form(clientBUuid, domainBUuid, "form five", ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, domainAUuid, mapOf("en" to "form one"), ModelType.Document, null, "", null))
+        repo.save(Form(clientAUuid, domainBUuid, mapOf("en" to "form two"), ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainAUuid, mapOf("en" to "form three"), ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainBUuid, mapOf("en" to "form four"), ModelType.Document, null, "", null))
+        repo.save(Form(clientBUuid, domainBUuid, mapOf("en" to "form five"), ModelType.Document, null, "", null))
 
         // when querying all forms from client B and domain B
         val clientForms = repo.findAllByClientAndDomain(clientBUuid, domainBUuid)
 
         // then only the two matching forms are returned
         clientForms.size shouldBe 2
-        clientForms[0].name shouldBe "form four"
-        clientForms[1].name shouldBe "form five"
+        clientForms[0].name["en"] shouldBe "form four"
+        clientForms[1].name["en"] shouldBe "form five"
     }
 }

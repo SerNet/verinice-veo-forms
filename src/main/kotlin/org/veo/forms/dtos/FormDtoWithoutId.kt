@@ -24,7 +24,7 @@ class FormDtoWithoutId(
     val content: Any,
     val translation: Any?,
     domainId: UUID,
-    name: String,
+    name: Map<String, String>,
     modelType: ModelType,
     subType: String?
 ) : AbstractFormDto(domainId, name, modelType, subType)

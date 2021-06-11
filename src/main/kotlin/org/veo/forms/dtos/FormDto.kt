@@ -23,7 +23,7 @@ import org.veo.forms.ModelType
 class FormDto(
     val id: UUID,
     domainId: UUID,
-    name: String,
+    name: Map<String, String>,
     modelType: ModelType,
     subType: String?,
     val content: Any,

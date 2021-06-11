@@ -17,18 +17,23 @@
  */
 package org.veo.forms
 
+import com.vladmihalcea.hibernate.type.json.JsonType
 import java.util.UUID
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Lob
 import org.hibernate.annotations.Proxy
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 
 @Entity
 @Proxy(lazy = false)
+@TypeDef(name = "json", typeClass = JsonType::class)
 open class Form(
     var clientId: UUID,
     var domainId: UUID,
-    var name: String,
+    @Type(type = "json") @Column(columnDefinition = "jsonb") var name: Map<String, String>,
     var modelType: ModelType,
     var subType: String?,
     @Lob var content: String,
