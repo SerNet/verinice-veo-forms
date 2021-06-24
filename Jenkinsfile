@@ -113,7 +113,7 @@ pipeline {
         stage('Trigger Deployment') {
             agent any
             when {
-                branch 'master'
+                anyOf { branch 'master'; branch 'develop' }
             }
             steps {
                 build job: 'verinice-veo-deployment/master'
