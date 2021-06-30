@@ -22,7 +22,6 @@ import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
-import javax.persistence.Lob
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
@@ -36,7 +35,7 @@ open class Form(
     @Type(type = "json") @Column(columnDefinition = "jsonb") var name: Map<String, String>,
     var modelType: ModelType,
     var subType: String?,
-    @Lob var content: String,
-    @Lob var translation: String?,
+    @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
+    @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
     @Id var id: UUID = UUID.randomUUID()
 )

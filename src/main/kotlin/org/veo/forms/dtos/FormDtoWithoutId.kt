@@ -21,8 +21,8 @@ import java.util.UUID
 import org.veo.forms.ModelType
 
 class FormDtoWithoutId(
-    val content: Any,
-    val translation: Any?,
+    val content: Map<String, *>,
+    val translation: Map<String, *>?,
     domainId: UUID,
     name: Map<String, String>,
     modelType: ModelType,

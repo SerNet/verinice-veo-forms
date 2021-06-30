@@ -17,7 +17,6 @@
  */
 package org.veo.forms
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import java.util.UUID
 import org.springframework.stereotype.Component
 import org.veo.forms.dtos.FormDto
@@ -25,11 +24,11 @@ import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
 
 @Component
-class FormMapper(private val objectMapper: ObjectMapper) {
+class FormMapper {
 
     fun toDto(entity: Form): FormDto {
         return FormDto(entity.id, entity.domainId, entity.name, entity.modelType, entity.subType,
-            objectMapper.readValue(entity.content, Object::class.java), entity.translation?.let { objectMapper.readValue(it, Object::class.java) })
+            entity.content, entity.translation)
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
@@ -38,7 +37,7 @@ class FormMapper(private val objectMapper: ObjectMapper) {
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
         return Form(clientId, dto.domainId, dto.name, dto.modelType, dto.subType,
-            objectMapper.writeValueAsString(dto.content), dto.translation?.let { objectMapper.writeValueAsString(it) })
+            dto.content, dto.translation)
     }
 
     fun updateEntity(form: Form, dto: FormDtoWithoutId) {
@@ -47,8 +46,8 @@ class FormMapper(private val objectMapper: ObjectMapper) {
             name = dto.name
             modelType = dto.modelType
             subType = dto.subType
-            content = objectMapper.writeValueAsString(dto.content)
-            translation = dto.translation?.let { objectMapper.writeValueAsString(it) }
+            content = dto.content
+            translation = dto.translation
         }
     }
 }

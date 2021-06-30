@@ -17,7 +17,6 @@
  */
 package org.veo.forms
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -26,15 +25,13 @@ import org.veo.forms.dtos.FormDtoWithoutId
 
 class FormMapperUnitTest {
 
-    private val objectMapper = mockk<ObjectMapper>()
-    private val sut = FormMapper(objectMapper)
+    private val sut = FormMapper()
 
     @Test
     fun `map Form without translation`() {
         val formWithoutTranslation = mockk<Form>(relaxed = true)
-        every { formWithoutTranslation.content } returns "content"
+        every { formWithoutTranslation.content } returns emptyMap<String, Any>()
         every { formWithoutTranslation.translation } returns null
-        every { objectMapper.readValue("content", any<Class<Any>>()) } returns ""
 
         assertDoesNotThrow {
             sut.toDto(formWithoutTranslation)
@@ -47,7 +44,6 @@ class FormMapperUnitTest {
         val content = mapOf("foo" to "bar")
         every { dto.content } returns content
         every { dto.translation } returns null
-        every { objectMapper.writeValueAsString(content) } returns "{...}"
 
         assertDoesNotThrow {
             sut.toEntity(mockk(), dto)
@@ -60,7 +56,6 @@ class FormMapperUnitTest {
         val content = mapOf("foo" to "bar")
         every { dto.content } returns content
         every { dto.translation } returns null
-        every { objectMapper.writeValueAsString(content) } returns "{...}"
 
         assertDoesNotThrow {
             sut.updateEntity(mockk(relaxed = true), dto)
