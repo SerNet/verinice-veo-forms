@@ -46,9 +46,9 @@ class FormJpaTest : AbstractSpringTest() {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, UUID.randomUUID(), mapOf("en" to "form one"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientAUuid, UUID.randomUUID(), mapOf("en" to "form two"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientBUuid, UUID.randomUUID(), mapOf("en" to "form three"), ModelType.Document, null, emptyMap<String, Any>(), null))
+        createForm(clientAUuid, "form one")
+        createForm(clientAUuid, "form two")
+        createForm(clientBUuid, "form three")
 
         // when querying all forms from client A
         val clientForms = repo.findAllByClient(clientAUuid)
@@ -66,11 +66,11 @@ class FormJpaTest : AbstractSpringTest() {
         val clientBUuid = UUID.randomUUID()
         val domainAUuid = UUID.randomUUID()
         val domainBUuid = UUID.randomUUID()
-        repo.save(Form(clientAUuid, domainAUuid, mapOf("en" to "form one"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientAUuid, domainBUuid, mapOf("en" to "form two"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientBUuid, domainAUuid, mapOf("en" to "form three"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientBUuid, domainBUuid, mapOf("en" to "form four"), ModelType.Document, null, emptyMap<String, Any>(), null))
-        repo.save(Form(clientBUuid, domainBUuid, mapOf("en" to "form five"), ModelType.Document, null, emptyMap<String, Any>(), null))
+        createForm(clientAUuid, "form one", domainAUuid)
+        createForm(clientAUuid, "form two", domainBUuid)
+        createForm(clientBUuid, "form three", domainAUuid)
+        createForm(clientBUuid, "form four", domainBUuid)
+        createForm(clientBUuid, "form five", domainBUuid)
 
         // when querying all forms from client B and domain B
         val clientForms = repo.findAllByClientAndDomain(clientBUuid, domainBUuid)
@@ -79,5 +79,11 @@ class FormJpaTest : AbstractSpringTest() {
         clientForms.size shouldBe 2
         clientForms[0].name["en"] shouldBe "form four"
         clientForms[1].name["en"] shouldBe "form five"
+    }
+
+    private fun createForm(clientUuid: UUID, englishName: String, domainUuid: UUID = UUID.randomUUID()) {
+        repo.save(
+            Form(clientUuid, domainUuid, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
+                null))
     }
 }
