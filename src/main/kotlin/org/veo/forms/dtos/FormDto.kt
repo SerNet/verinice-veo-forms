@@ -26,6 +26,6 @@ class FormDto(
     name: Map<String, String>,
     modelType: ModelType,
     subType: String?,
-    val content: Any,
-    val translation: Any?
+    val content: Map<String, *>,
+    val translation: Map<String, *>?
 ) : AbstractFormDto(domainId, name, modelType, subType)
