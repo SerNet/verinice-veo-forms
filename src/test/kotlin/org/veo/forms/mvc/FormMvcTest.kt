@@ -30,7 +30,7 @@ class FormMvcTest : AbstractMvcTest() {
         var result = request(HttpMethod.POST, "/", mapOf(
             "name" to mapOf("en" to "form one"),
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "modelType" to "Person",
+            "modelType" to "person",
             "subType" to "VeryNicePerson",
             "content" to mapOf(
                 "prop1" to "val1",
@@ -59,7 +59,7 @@ class FormMvcTest : AbstractMvcTest() {
                 "id" to formUuid,
                 "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
                 "name" to mapOf("en" to "form one"),
-                "modelType" to "Person",
+                "modelType" to "person",
                 "subType" to "VeryNicePerson"
             ))
 
@@ -72,7 +72,7 @@ class FormMvcTest : AbstractMvcTest() {
             "id" to formUuid,
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to mapOf("en" to "form one"),
-            "modelType" to "Person",
+            "modelType" to "person",
             "subType" to "VeryNicePerson",
             "content" to mapOf(
                 "prop1" to "val1",
@@ -92,7 +92,7 @@ class FormMvcTest : AbstractMvcTest() {
         var result = request(HttpMethod.POST, "/", mapOf(
             "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
             "name" to mapOf("en" to "old name"),
-            "modelType" to "Person",
+            "modelType" to "person",
             "content" to mapOf(
                 "oldProp" to "oldValue"
             ),
@@ -111,7 +111,7 @@ class FormMvcTest : AbstractMvcTest() {
         result = request(HttpMethod.PUT, "/$formUuid", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to mapOf("en" to "new name"),
-            "modelType" to "Process",
+            "modelType" to "process",
             "subType" to "VT",
             "content" to mapOf(
                 "newProp" to "newValue"
@@ -134,7 +134,7 @@ class FormMvcTest : AbstractMvcTest() {
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
-            "modelType" to "Process",
+            "modelType" to "process",
             "subType" to "VT",
             "name" to mapOf("en" to "new name"),
             "content" to mapOf(
@@ -154,7 +154,7 @@ class FormMvcTest : AbstractMvcTest() {
         var result = request(HttpMethod.POST, "/", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to mapOf("en" to "old name"),
-            "modelType" to "Person",
+            "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
         val formUuid = parseBody(result) as String
@@ -181,13 +181,13 @@ class FormMvcTest : AbstractMvcTest() {
         request(HttpMethod.POST, "/", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to mapOf("en" to "one"),
-            "modelType" to "Person",
+            "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
         request(HttpMethod.POST, "/", mapOf(
             "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
             "name" to mapOf("en" to "two"),
-            "modelType" to "Person",
+            "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
 
@@ -208,7 +208,7 @@ class FormMvcTest : AbstractMvcTest() {
         request(HttpMethod.POST, "/", mapOf(
             "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
             "name" to mapOf("foo" to mapOf("bar" to "star")),
-            "modelType" to "Person",
+            "modelType" to "person",
             "content" to emptyMap<String, Any>()
         )).response.status shouldBe 400
     }
