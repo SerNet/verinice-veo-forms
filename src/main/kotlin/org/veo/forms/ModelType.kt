@@ -23,6 +23,7 @@ enum class ModelType {
     @JsonProperty("asset") Asset,
     @JsonProperty("control") Control,
     @JsonProperty("document") Document,
+    @JsonProperty("incident") Incident,
     @JsonProperty("person") Person,
     @JsonProperty("process") Process,
     @JsonProperty("scenario") Scenario,
