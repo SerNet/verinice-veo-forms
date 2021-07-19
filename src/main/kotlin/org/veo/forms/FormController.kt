@@ -72,8 +72,9 @@ class FormController(
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDtoWithoutId) {
-        repo.findClientForm(authService.getClientId(auth), id).let {
-            mapper.updateEntity(it, dto)
+        val clientId = authService.getClientId(auth)
+        repo.findClientForm(clientId, id).let {
+            mapper.updateEntity(it, dto, clientId)
             repo.save(it)
         }
     }

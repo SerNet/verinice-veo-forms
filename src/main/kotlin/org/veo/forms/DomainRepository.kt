@@ -18,27 +18,31 @@
 package org.veo.forms
 
 import java.util.UUID
+import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 
 @Component
-class FormRepository(private val jpaRepo: FormJpaRepository) {
-    fun delete(form: Form) = jpaRepo.delete(form)
-    fun findAll(clientId: UUID, domainId: UUID?): List<Form> {
-        return domainId?.let { jpaRepo.findAllByClientAndDomain(clientId, it) }
-            ?: jpaRepo.findAllByClient(clientId)
+class DomainRepository(private val jpaRepo: DomainJpaRepository) {
+    /**
+     * Persists new domain
+     * @throws DuplicateKeyException if the domain ID is already present
+     */
+    fun addDomain(domain: Domain) {
+        if (jpaRepo.existsById(domain.id)) {
+            throw DuplicateKeyException("Domain already exists")
+        }
+        jpaRepo.save(domain)
     }
 
-    fun findClientForm(clientId: UUID, formId: UUID): Form {
-        return jpaRepo.findById(formId)
+    fun findClientDomain(domainId: UUID, clientId: UUID): Domain {
+        return jpaRepo.findById(domainId)
             .orElseThrow { ResourceNotFoundException() }
             .also {
-                if (it.domain.clientId != clientId) {
+                if (it.clientId != clientId) {
                     throw AccessDeniedException()
                 }
             }
     }
-
-    fun save(form: Form): Form = jpaRepo.save(form)
 }

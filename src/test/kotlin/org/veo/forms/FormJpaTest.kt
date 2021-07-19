@@ -25,7 +25,10 @@ import org.veo.forms.mvc.AbstractSpringTest
 
 class FormJpaTest : AbstractSpringTest() {
     @Autowired
-    private lateinit var repo: FormJpaRepository
+    private lateinit var formRepo: FormJpaRepository
+
+    @Autowired
+    private lateinit var domainRepo: DomainJpaRepository
 
     @Test
     fun `saves long content`() {
@@ -33,8 +36,9 @@ class FormJpaTest : AbstractSpringTest() {
         val content2k = mapOf("key" to "i".repeat(2000))
 
         // when saving form content and retrieving all forms
-        repo.save(Form(UUID.randomUUID(), UUID.randomUUID(), emptyMap(), ModelType.Document, null, content2k, null))
-        val allForms = repo.findAll()
+        formRepo.save(
+            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, content2k, null))
+        val allForms = formRepo.findAll()
 
         // then the form is returned with its complete content.
         allForms.size shouldBe 1
@@ -46,12 +50,12 @@ class FormJpaTest : AbstractSpringTest() {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        createForm(clientAUuid, "form one")
-        createForm(clientAUuid, "form two")
-        createForm(clientBUuid, "form three")
+        createForm("form one", createDomain(clientAUuid))
+        createForm("form two", createDomain(clientAUuid))
+        createForm("form three", createDomain(clientBUuid))
 
         // when querying all forms from client A
-        val clientForms = repo.findAllByClient(clientAUuid)
+        val clientForms = formRepo.findAllByClient(clientAUuid)
 
         // then only client A's forms are returned.
         clientForms.size shouldBe 2
@@ -61,29 +65,45 @@ class FormJpaTest : AbstractSpringTest() {
 
     @Test
     fun `finds all forms by client and domain`() {
-        // Given five forms from 2 different clients and 2 different domains
-        val clientAUuid = UUID.randomUUID()
-        val clientBUuid = UUID.randomUUID()
-        val domainAUuid = UUID.randomUUID()
-        val domainBUuid = UUID.randomUUID()
-        createForm(clientAUuid, "form one", domainAUuid)
-        createForm(clientAUuid, "form two", domainBUuid)
-        createForm(clientBUuid, "form three", domainAUuid)
-        createForm(clientBUuid, "form four", domainBUuid)
-        createForm(clientBUuid, "form five", domainBUuid)
+        // Given four forms from two different domains of the same client
+        val clientId = UUID.randomUUID()
+        val domainA = createDomain(clientId)
+        val domainB = createDomain(clientId)
+        createForm("form one", domainA)
+        createForm("form two", domainA)
+        createForm("form three", domainB)
+        createForm("form four", domainB)
 
         // when querying all forms from client B and domain B
-        val clientForms = repo.findAllByClientAndDomain(clientBUuid, domainBUuid)
+        val clientForms = formRepo.findAllByClientAndDomain(clientId, domainB.id)
 
-        // then only the two matching forms are returned
+        // then only the two forms from matching domains are returned
         clientForms.size shouldBe 2
-        clientForms[0].name["en"] shouldBe "form four"
-        clientForms[1].name["en"] shouldBe "form five"
+        clientForms[0].name["en"] shouldBe "form three"
+        clientForms[1].name["en"] shouldBe "form four"
     }
 
-    private fun createForm(clientUuid: UUID, englishName: String, domainUuid: UUID = UUID.randomUUID()) {
-        repo.save(
-            Form(clientUuid, domainUuid, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
+    @Test
+    fun `doesn't retrieve forms from other client`() {
+        // Given a client ID and a form that belongs to another client's domain
+        val clientId = UUID.randomUUID()
+        val otherClientsDomain = createDomain(UUID.randomUUID())
+        createForm("forbidden form", otherClientsDomain)
+
+        // when trying to query the form in the other clients's domain
+        val clientForms = formRepo.findAllByClientAndDomain(clientId, otherClientsDomain.id)
+
+        // then noting is retrieved
+        clientForms.size shouldBe 0
+    }
+
+    private fun createDomain(clientId: UUID): Domain {
+        return domainRepo.save(Domain(UUID.randomUUID(), clientId))
+    }
+
+    private fun createForm(englishName: String, domain: Domain) {
+        formRepo.save(
+            Form(domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
                 null))
     }
 }

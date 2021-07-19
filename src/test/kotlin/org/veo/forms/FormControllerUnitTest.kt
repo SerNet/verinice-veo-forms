@@ -69,9 +69,7 @@ class FormControllerUnitTest {
     fun `retrieves single form`() {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
-        val entity = mockk<Form> {
-            every { clientId } returns authClientId
-        }
+        val entity = mockk<Form>()
         val dto = mockk<FormDto>()
 
         every { repo.findClientForm(authClientId, formId) } returns entity
@@ -88,20 +86,18 @@ class FormControllerUnitTest {
     fun `updates form`() {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
-        val entity = mockk<Form> {
-            every { clientId } returns authClientId
-        }
+        val entity = mockk<Form> ()
         val dto = mockk<FormDtoWithoutId>()
 
         every { repo.findClientForm(authClientId, formId) } returns entity
-        every { mapper.updateEntity(entity, dto) } just Runs
+        every { mapper.updateEntity(entity, dto, authClientId) } just Runs
         every { repo.save(entity) } returns mockk()
 
         // when updating the form
         sut.updateForm(auth, formId, dto)
 
         // then the form is updated by the mapper and persisted.
-        verify { mapper.updateEntity(entity, dto) }
+        verify { mapper.updateEntity(entity, dto, authClientId) }
         verify { repo.save(entity) }
     }
 

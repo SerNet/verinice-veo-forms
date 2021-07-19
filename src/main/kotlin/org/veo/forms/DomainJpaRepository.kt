@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2021  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,17 +18,10 @@
 package org.veo.forms
 
 import java.util.UUID
-import javax.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
-@Transactional
-interface FormJpaRepository : JpaRepository<Form, UUID> {
-    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId")
-    fun findAllByClient(clientId: UUID): List<Form>
-
-    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId AND f.domain.id = :domainId")
-    fun findAllByClientAndDomain(clientId: UUID, domainId: UUID): List<Form>
-}
+@Transactional(readOnly = true)
+interface DomainJpaRepository : JpaRepository<Domain, UUID>

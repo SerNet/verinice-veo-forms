@@ -18,18 +18,36 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
+import java.util.UUID
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
+import org.veo.forms.Domain
+import org.veo.forms.DomainRepository
 
 @WithMockClient
 class FormMvcTest : AbstractMvcTest() {
+
+    private val domain1Id = UUID.randomUUID().toString()
+    private val domain2Id = UUID.randomUUID().toString()
+
+    @Autowired
+    private lateinit var domainRepo: DomainRepository
+
+    @BeforeEach
+    fun setup() {
+        listOf(domain1Id, domain2Id).forEach {
+            domainRepo.addDomain(Domain(UUID.fromString(it), UUID.fromString(mockClientUuid)))
+        }
+    }
 
     @Test
     fun `add form and retrieve`() {
         // when adding a new form
         var result = request(HttpMethod.POST, "/", mapOf(
             "name" to mapOf("en" to "form one"),
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "modelType" to "person",
             "subType" to "VeryNicePerson",
             "content" to mapOf(
@@ -57,7 +75,7 @@ class FormMvcTest : AbstractMvcTest() {
         parseBody(result) shouldBe listOf(
             mapOf(
                 "id" to formUuid,
-                "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+                "domainId" to domain1Id,
                 "name" to mapOf("en" to "form one"),
                 "modelType" to "person",
                 "subType" to "VeryNicePerson"
@@ -70,7 +88,7 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "name" to mapOf("en" to "form one"),
             "modelType" to "person",
             "subType" to "VeryNicePerson",
@@ -90,7 +108,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and update`() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
-            "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
+            "domainId" to domain1Id,
             "name" to mapOf("en" to "old name"),
             "modelType" to "person",
             "content" to mapOf(
@@ -109,7 +127,7 @@ class FormMvcTest : AbstractMvcTest() {
 
         // when updating the form
         result = request(HttpMethod.PUT, "/$formUuid", mapOf(
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "name" to mapOf("en" to "new name"),
             "modelType" to "process",
             "subType" to "VT",
@@ -133,7 +151,7 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 200
         parseBody(result) shouldBe mapOf(
             "id" to formUuid,
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "modelType" to "process",
             "subType" to "VT",
             "name" to mapOf("en" to "new name"),
@@ -152,7 +170,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and delete`() {
         // when adding a form
         var result = request(HttpMethod.POST, "/", mapOf(
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "name" to mapOf("en" to "old name"),
             "modelType" to "person",
             "content" to emptyMap<String, Any>()
@@ -179,20 +197,20 @@ class FormMvcTest : AbstractMvcTest() {
     fun `retrieve by domain ID`() {
         // given two forms from different domains
         request(HttpMethod.POST, "/", mapOf(
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "name" to mapOf("en" to "one"),
             "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
         request(HttpMethod.POST, "/", mapOf(
-            "domainId" to "d40c5289-1d84-4408-b903-38939ab980c6",
+            "domainId" to domain2Id,
             "name" to mapOf("en" to "two"),
             "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
 
         // when requesting only forms from the second domain
-        val result = parseBody(request(HttpMethod.GET, "/?domainId=d40c5289-1d84-4408-b903-38939ab980c6"))
+        val result = parseBody(request(HttpMethod.GET, "/?domainId=$domain2Id"))
 
         // then only the second form is returned
         with(result as List<*>) {
@@ -206,7 +224,7 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `can't create form with invalid name structure`() {
         request(HttpMethod.POST, "/", mapOf(
-            "domainId" to "e0bf63ee-0469-4614-bc5c-999928ca01ad",
+            "domainId" to domain1Id,
             "name" to mapOf("foo" to mapOf("bar" to "star")),
             "modelType" to "person",
             "content" to emptyMap<String, Any>()

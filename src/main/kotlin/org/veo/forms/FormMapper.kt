@@ -24,25 +24,25 @@ import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
 
 @Component
-class FormMapper {
+class FormMapper constructor(private val domainRepo: DomainRepository) {
 
     fun toDto(entity: Form): FormDto {
-        return FormDto(entity.id, entity.domainId, entity.name, entity.modelType, entity.subType,
+        return FormDto(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType,
             entity.content, entity.translation)
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
-        return FormDtoWithoutContent(entity.id, entity.domainId, entity.name, entity.modelType, entity.subType)
+        return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType)
     }
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
-        return Form(clientId, dto.domainId, dto.name, dto.modelType, dto.subType,
+        return Form(domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
             dto.content, dto.translation)
     }
 
-    fun updateEntity(form: Form, dto: FormDtoWithoutId) {
+    fun updateEntity(form: Form, dto: FormDtoWithoutId, clientId: UUID) {
         form.apply {
-            domainId = dto.domainId
+            domain = domainRepo.findClientDomain(dto.domainId, clientId)
             name = dto.name
             modelType = dto.modelType
             subType = dto.subType

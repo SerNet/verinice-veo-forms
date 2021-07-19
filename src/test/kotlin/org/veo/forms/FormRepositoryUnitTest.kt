@@ -70,7 +70,9 @@ class FormRepositoryUnitTest {
         val formClientId = UUID.randomUUID()
         val formId = UUID.randomUUID()
         val entity = mockk<Form> {
-            every { clientId } returns formClientId
+            every { domain } returns mockk {
+                every { clientId } returns formClientId
+            }
         }
 
         every { jpaRepo.findById(formId) } returns Optional.of(entity)
@@ -84,7 +86,9 @@ class FormRepositoryUnitTest {
         val otherClientUuid = UUID.randomUUID()
         val formId = UUID.randomUUID()
         val entity = mockk<Form> {
-            every { clientId } returns otherClientUuid
+            every { domain } returns mockk {
+                every { clientId } returns otherClientUuid
+            }
         }
 
         every { jpaRepo.findById(formId) } returns Optional.of(entity)

@@ -19,13 +19,15 @@ package org.veo.forms
 
 import io.mockk.every
 import io.mockk.mockk
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.veo.forms.dtos.FormDtoWithoutId
 
 class FormMapperUnitTest {
 
-    private val sut = FormMapper()
+    private val domainRepo: DomainRepository = mockk(relaxed = true)
+    private val sut = FormMapper(domainRepo)
 
     @Test
     fun `map Form without translation`() {
@@ -58,7 +60,7 @@ class FormMapperUnitTest {
         every { dto.translation } returns null
 
         assertDoesNotThrow {
-            sut.updateEntity(mockk(relaxed = true), dto)
+            sut.updateEntity(mockk(relaxed = true), dto, UUID.randomUUID())
         }
     }
 }

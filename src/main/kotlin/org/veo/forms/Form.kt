@@ -21,7 +21,10 @@ import com.vladmihalcea.hibernate.type.json.JsonType
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
@@ -30,8 +33,10 @@ import org.hibernate.annotations.TypeDef
 @Proxy(lazy = false)
 @TypeDef(name = "json", typeClass = JsonType::class)
 open class Form(
-    var clientId: UUID,
-    var domainId: UUID,
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "domain_id")
+    var domain: Domain,
+
     @Type(type = "json") @Column(columnDefinition = "jsonb") var name: Map<String, String>,
     var modelType: ModelType,
     var subType: String?,
