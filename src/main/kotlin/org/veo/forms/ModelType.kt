@@ -21,7 +21,6 @@ enum class ModelType {
     Asset,
     Control,
     Document,
-    ModelGroup,
     Person,
     Process,
     Scenario,
