@@ -26,16 +26,19 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.security:spring-security-test")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.2.23")
     implementation("com.vladmihalcea:hibernate-types-52:2.12.1")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
     implementation("io.mockk:mockk:1.12.0")
+    implementation("commons-codec:commons-codec:1.15")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 

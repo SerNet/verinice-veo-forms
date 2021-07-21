@@ -29,4 +29,7 @@ class Domain(
     var id: UUID,
     var clientId: UUID,
     var domainTemplateId: UUID? = null
-)
+) {
+    /** Currently used for template hash. Use for actual template version number in later releases). */
+    var domainTemplateVersion: String? = null
+}

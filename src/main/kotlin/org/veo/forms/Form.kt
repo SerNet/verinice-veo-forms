@@ -41,7 +41,8 @@ open class Form(
     var modelType: ModelType,
     var subType: String?,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
-    @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?
+    @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
+    var formTemplateId: UUID? = null
 ) {
     @Id
     var id: UUID = UUID.randomUUID()
