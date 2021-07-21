@@ -45,4 +45,6 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
                 }
             }
     }
+
+    fun findAll(): MutableList<Domain> = jpaRepo.findAll()
 }
