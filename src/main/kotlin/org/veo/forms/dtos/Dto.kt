@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2021  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,17 +17,4 @@
  */
 package org.veo.forms.dtos
 
-import io.swagger.v3.oas.annotations.media.Schema
-import java.util.UUID
-import org.veo.forms.ModelType
-
-@Dto
-abstract class AbstractFormDto(
-    val domainId: UUID,
-    @field:Schema(
-        description = "Translated form name. Use keys for language ISO code and values for translated name.",
-        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""")
-    val name: Map<String, String>,
-    val modelType: ModelType,
-    val subType: String?
-)
+annotation class Dto

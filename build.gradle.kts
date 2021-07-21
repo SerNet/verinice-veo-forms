@@ -104,6 +104,7 @@ license {
 // Add no-arg ORM constructors for JPA entities.
 noArg {
     annotation("javax.persistence.Entity")
+    annotation("org.veo.forms.dtos.Dto")
 }
 
 springBoot {
