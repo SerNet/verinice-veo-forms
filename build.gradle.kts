@@ -36,6 +36,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.2.23")
     implementation("com.vladmihalcea:hibernate-types-52:2.12.1")
+    implementation("org.flywaydb:flyway-core:6.5.7")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
     implementation("io.mockk:mockk:1.12.0")
     implementation("commons-codec:commons-codec:1.15")
