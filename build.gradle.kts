@@ -3,15 +3,18 @@ import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.3.8.RELEASE"
+    id("org.springframework.boot") version "2.5.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.4.30"
-    kotlin("plugin.spring") version "1.3.71"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.4.31"
-    id("com.diffplug.spotless") version "5.9.0"
-    id("org.cadixdev.licenser") version "0.5.1"
+
+    val ktVersion = "1.5.21"
+    kotlin("jvm") version ktVersion
+    kotlin("plugin.spring") version ktVersion
+    id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
+
+    id("com.diffplug.spotless") version "5.14.2"
+    id("org.cadixdev.licenser") version "0.6.1"
     jacoco
-    id("com.gorylenko.gradle-git-properties") version "2.2.4"
+    id("com.gorylenko.gradle-git-properties") version "2.3.1"
 }
 
 group = "org.veo"
@@ -29,23 +32,25 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.security:spring-security-test")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql")
-    implementation("com.vladmihalcea:hibernate-types-52:2.11.1")
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
-    implementation("io.mockk:mockk:1.10.5")
+    implementation("org.postgresql:postgresql:42.2.23")
+    implementation("com.vladmihalcea:hibernate-types-52:2.12.1")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
+    implementation("io.mockk:mockk:1.12.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.7")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.0")
-    testImplementation("io.kotest:kotest-property-jvm:4.4.0")
+    val kotestVersion = "4.6.1"
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-property-jvm:$kotestVersion")
+
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.8")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 
-    val testcontainersVersion = "1.15.3"
+    val testcontainersVersion = "1.16.0"
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
@@ -84,9 +89,9 @@ spotless {
 }
 
 license {
-    header = file("templates/licenseHeader.txt")
-    newLine = false
-    skipExistingHeaders = true
+    header.set(resources.text.fromFile("templates/licenseHeader.txt"))
+    newLine.set(false)
+    skipExistingHeaders.set(true)
     style(closureOf<HeaderFormatRegistry> {
         put("kt", "JAVADOC")
     })

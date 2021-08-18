@@ -1,6 +1,7 @@
 FROM openjdk:11-jre-slim
 
 RUN apt-get update
+ARG VEO_FORMS_VERSION
 
 LABEL org.opencontainers.image.title="vernice.veo forms"
 LABEL org.opencontainers.image.description="Backend of the verinice.veo-forms web application."
@@ -14,8 +15,7 @@ RUN adduser --home /app --disabled-password --gecos '' veo
 USER veo
 WORKDIR /app
 
-# If by accident we have more than one veo-forms-*.jar docker will complain, which is what we want.
-COPY build/libs/veo-forms-*.jar veo-forms.jar
+COPY build/libs/veo-forms-${VEO_FORMS_VERSION}.jar veo-forms.jar
 
 EXPOSE 8080
 CMD ["java", "-jar", "veo-forms.jar"]
