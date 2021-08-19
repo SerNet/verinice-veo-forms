@@ -63,7 +63,7 @@ pipeline {
                  script {
                      withDockerNetwork{ n ->
                          docker.image('postgres:11.7-alpine').withRun("--network ${n} --name database-${n} -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test") { db ->
-                             docker.image(imageForGradleStages).inside("--network ${n} -e SPRING_DATASOURCE_URL=jdbc:postgresql://database-${n}:5432/postgres -e SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver") {
+                             docker.image(imageForGradleStages).inside("${dockerArgsForGradleStages} --network ${n} -e SPRING_DATASOURCE_URL=jdbc:postgresql://database-${n}:5432/postgres -e SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver") {
                                 // Don't fail the build here, let the junit step decide what to do if there are test failures.
                                  sh script: './gradlew --no-daemon test', returnStatus: true
                                  // Touch all test results (to keep junit step from complaining about old results).
@@ -131,7 +131,7 @@ pipeline {
                       highTags: 'FIXME',
                       ignoreCase: true,
                       normalTags: 'TODO',
-                      excludePattern: 'Jenkinsfile, gradle-home/**, .gradle/**, buildSrc/.gradle/**, */build/**, **/*.pdf, **/*.png, **/*.jpg, **/*.vna'
+                      excludePattern: 'Jenkinsfile, gradle/wrapper/**, gradle-home/**, .gradle/**, buildSrc/.gradle/**, build/**'
                     )
                   ]
                 )
