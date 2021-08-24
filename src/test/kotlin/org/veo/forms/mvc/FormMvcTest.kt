@@ -18,6 +18,7 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -229,5 +230,18 @@ class FormMvcTest : AbstractMvcTest() {
             "modelType" to "person",
             "content" to emptyMap<String, Any>()
         )).response.status shouldBe 400
+    }
+
+    @Test
+    fun `gives JSON parsing error details`() {
+        // when adding a form without a domainId
+        val response = request(HttpMethod.POST, "/", mapOf(
+            "name" to mapOf("en" to "old name"),
+            "modelType" to "person",
+            "content" to emptyMap<String, Any>()
+        )).response
+
+        response.status shouldBe 400
+        response.contentAsString shouldContain "missing (therefore NULL) value for creator parameter domainId which is a non-nullable type"
     }
 }
