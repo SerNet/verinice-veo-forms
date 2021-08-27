@@ -50,7 +50,7 @@ class StaticTemplateMvcTest : AbstractMvcTest() {
 
         // all forms from static templates are returned
         with(result as List<*>) {
-            size shouldBe 13
+            size shouldBe 14
         }
     }
 }
