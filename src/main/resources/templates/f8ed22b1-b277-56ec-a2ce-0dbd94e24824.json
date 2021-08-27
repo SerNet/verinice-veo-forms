@@ -3206,7 +3206,7 @@
     "domainId": "442938ae-e497-48d3-81f1-d6b2ba9260fa",
     "name": {
       "de": "Datenschutzbeauftragte",
-      "en": "DataProtectionOfficer"
+      "en": "Data protection officer"
     },
     "modelType": "person",
     "subType": "PER_DataProtectionOfficer",
