@@ -1,0 +1,167 @@
+{
+  "content" : {
+    "elements" : [
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                },
+                "scope" : "#/properties/abbreviation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/name"
+                },
+                "scope" : "#/properties/name",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/description"
+            },
+            "scope" : "#/properties/description",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/control_generalInformation_document"
+            },
+            "scope" : "#/properties/customAspects/properties/control_generalInformation/properties/attributes/properties/control_generalInformation_document",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_465c148a-a011-47a4-8cc0-278a374f5955"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "format" : "autocomplete",
+              "label" : "#lang/control_implementation_status"
+            },
+            "scope" : "#/properties/customAspects/properties/control_implementation/properties/attributes/properties/control_implementation_status",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/control_implementation_explanation"
+            },
+            "scope" : "#/properties/customAspects/properties/control_implementation/properties/attributes/properties/control_implementation_explanation",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/control_implementation_date"
+            },
+            "scope" : "#/properties/customAspects/properties/control_implementation/properties/attributes/properties/control_implementation_date",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_280db834-f0ef-4ef5-816b-01c8896aab74"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "format" : "autocomplete",
+              "label" : "#lang/control_dataProtection_objectives"
+            },
+            "scope" : "#/properties/customAspects/properties/control_dataProtection/properties/attributes/properties/control_dataProtection_objectives",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_0c821dfb-82b7-4e5b-9be0-330c8a99f892"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/control_revision_last"
+                },
+                "scope" : "#/properties/customAspects/properties/control_revision/properties/attributes/properties/control_revision_last",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/control_revision_next"
+                },
+                "scope" : "#/properties/customAspects/properties/control_revision/properties/attributes/properties/control_revision_next",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/control_revision_comment"
+            },
+            "scope" : "#/properties/customAspects/properties/control_revision/properties/attributes/properties/control_revision_comment",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_092864d0-9c17-477f-bf03-c629408f36e6"
+        },
+        "type" : "Layout"
+      }
+    ],
+    "options" : {
+      "direction" : "vertical",
+      "format" : "group"
+    },
+    "type" : "Layout"
+  },
+  "modelType" : "control",
+  "name" : {
+    "de" : "TOM",
+    "en" : "TOM"
+  },
+  "subType" : "CTL_TOM",
+  "translation" : {
+    "de" : {
+      "group_092864d0-9c17-477f-bf03-c629408f36e6" : "Revision",
+      "group_0c821dfb-82b7-4e5b-9be0-330c8a99f892" : "Datenschutzziele",
+      "group_280db834-f0ef-4ef5-816b-01c8896aab74" : "Umsetzung",
+      "group_465c148a-a011-47a4-8cc0-278a374f5955" : "Allgemeine Angaben"
+    },
+    "en" : {
+      "group_092864d0-9c17-477f-bf03-c629408f36e6" : "Revision",
+      "group_0c821dfb-82b7-4e5b-9be0-330c8a99f892" : "Data protection objectives",
+      "group_280db834-f0ef-4ef5-816b-01c8896aab74" : "Implementation",
+      "group_465c148a-a011-47a4-8cc0-278a374f5955" : "General Information"
+    }
+  }
+}

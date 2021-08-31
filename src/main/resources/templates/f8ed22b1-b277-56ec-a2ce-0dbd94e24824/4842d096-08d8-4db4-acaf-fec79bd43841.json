@@ -1,0 +1,98 @@
+{
+  "content" : {
+    "elements" : [
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                },
+                "scope" : "#/properties/abbreviation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/name"
+                },
+                "scope" : "#/properties/name",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/description"
+            },
+            "scope" : "#/properties/description",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/asset_generalInformation_document"
+            },
+            "scope" : "#/properties/customAspects/properties/asset_generalInformation/properties/attributes/properties/asset_generalInformation_document",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_7dda6d0a-03f1-410f-a0aa-e1b083315cb5"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "label" : "#lang/asset_details_number"
+            },
+            "scope" : "#/properties/customAspects/properties/asset_details/properties/attributes/properties/asset_details_number",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "format" : "autocomplete",
+              "label" : "#lang/asset_details_operatingStage"
+            },
+            "scope" : "#/properties/customAspects/properties/asset_details/properties/attributes/properties/asset_details_operatingStage",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_bf3027b2-922d-4d29-8308-14f330cb7762"
+        },
+        "type" : "Layout"
+      }
+    ],
+    "options" : {
+      "direction" : "vertical",
+      "format" : "group"
+    },
+    "type" : "Layout"
+  },
+  "modelType" : "asset",
+  "name" : {
+    "de" : "Anwendung",
+    "en" : "Application"
+  },
+  "subType" : "AST_Application",
+  "translation" : {
+    "de" : {
+      "group_7dda6d0a-03f1-410f-a0aa-e1b083315cb5" : "Allgemeine Angaben",
+      "group_bf3027b2-922d-4d29-8308-14f330cb7762" : "Details"
+    },
+    "en" : {
+      "group_7dda6d0a-03f1-410f-a0aa-e1b083315cb5" : "General information",
+      "group_bf3027b2-922d-4d29-8308-14f330cb7762" : "Details"
+    }
+  }
+}

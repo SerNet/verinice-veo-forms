@@ -1,0 +1,556 @@
+{
+  "content" : {
+    "elements" : [
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                },
+                "scope" : "#/properties/abbreviation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/name"
+                },
+                "scope" : "#/properties/name",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/description"
+            },
+            "scope" : "#/properties/description",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_generalInformation_document"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_generalInformation/properties/attributes/properties/scope_generalInformation_document",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_d52c447b-4b62-40e6-a998-48e74d169283"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "label" : "#lang/scope_address_address1"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_address1",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_address_address2"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_address2",
+            "type" : "Control"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_address_postcode"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_postcode",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_address_city"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_city",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_address_country"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_country",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_address_state"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_state",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_9f7e874d-e7ae-4476-a943-1476dd5373ab"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_contactInformation_phone"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_phone",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_contactInformation_fax"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_fax",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_contactInformation_email"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_email",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_contactInformation_website"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_website",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_b11d786f-209c-4f12-abb7-27a61c7aa05a"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "label" : "#lang/scope_thirdCountry_status"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_status",
+            "type" : "Control"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_thirdCountry_name"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_name",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/scope_thirdCountry_description"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_description",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_thirdCountry_address1"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_address1",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_thirdCountry_address2"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_address2",
+                "type" : "Control"
+              },
+              {
+                "elements" : [
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_postcode"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_postcode",
+                    "type" : "Control"
+                  },
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_city"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_city",
+                    "type" : "Control"
+                  }
+                ],
+                "options" : {
+                  "direction" : "horizontal",
+                  "format" : "group"
+                },
+                "type" : "Layout"
+              },
+              {
+                "elements" : [
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_country"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_country",
+                    "type" : "Control"
+                  },
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_state"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_state",
+                    "type" : "Control"
+                  }
+                ],
+                "options" : {
+                  "direction" : "horizontal",
+                  "format" : "group"
+                },
+                "type" : "Layout"
+              },
+              {
+                "elements" : [
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_phone"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_phone",
+                    "type" : "Control"
+                  },
+                  {
+                    "options" : {
+                      "label" : "#lang/scope_thirdCountry_fax"
+                    },
+                    "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_fax",
+                    "type" : "Control"
+                  }
+                ],
+                "options" : {
+                  "direction" : "horizontal",
+                  "format" : "group"
+                },
+                "type" : "Layout"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_thirdCountry_website"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_website",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_thirdCountry_email"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_email",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "format" : "group",
+              "label" : "#lang/group_fbde1606-f433-486d-ac53-15b8f0ecf3a8"
+            },
+            "rule" : {
+              "condition" : {
+                "schema" : {
+                  "const" : true
+                },
+                "scope" : "#/properties/customAspects/properties/scope_thirdCountry/properties/attributes/properties/scope_thirdCountry_status"
+              },
+              "effect" : "SHOW"
+            },
+            "type" : "Layout"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_587ae551-9ab0-4d79-b0d1-8a0de01b4beb"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_dataProtectionOfficer_comment"
+                },
+                "scope" : "#/properties/attributes/properties/scope_dataProtectionOfficer_comment",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "radio",
+                  "label" : "#lang/scope_dataProtectionOfficer_affiliation"
+                },
+                "scope" : "#/properties/attributes/properties/scope_dataProtectionOfficer_affiliation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_dataProtectionOfficer_nomination"
+                },
+                "scope" : "#/properties/attributes/properties/scope_dataProtectionOfficer_nomination",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_dataProtectionOfficer_nominationDate"
+                },
+                "scope" : "#/properties/attributes/properties/scope_dataProtectionOfficer_nominationDate",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_dataProtectionOfficer_nominationEvidence"
+                },
+                "scope" : "#/properties/attributes/properties/scope_dataProtectionOfficer_nominationEvidence",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "vertical",
+              "label" : "#lang/scope_dataProtectionOfficer"
+            },
+            "scope" : "#/properties/links/properties/scope_dataProtectionOfficer",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_61a2d16c-6c09-4483-a383-b0f4770f29ab"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "label" : "#lang/scope_regulatoryAuthority_name"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_name",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/scope_regulatoryAuthority_description"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_description",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_regulatoryAuthority_address1"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_address1",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_regulatoryAuthority_address2"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_address2",
+            "type" : "Control"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_postcode"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_postcode",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_city"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_city",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_country"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_country",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_state"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_state",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_phone"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_phone",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/scope_regulatoryAuthority_fax"
+                },
+                "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_fax",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_regulatoryAuthority_email"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_email",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/scope_regulatoryAuthority_website"
+            },
+            "scope" : "#/properties/customAspects/properties/scope_regulatoryAuthority/properties/attributes/properties/scope_regulatoryAuthority_website",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_63ec9a48-41e9-4806-ae96-9a0290e20009"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [ ],
+            "options" : {
+              "label" : "#lang/scope_management"
+            },
+            "scope" : "#/properties/links/properties/scope_management",
+            "type" : "Control"
+          },
+          {
+            "elements" : [ ],
+            "options" : {
+              "label" : "#lang/scope_headOfDataProcessing"
+            },
+            "scope" : "#/properties/links/properties/scope_headOfDataProcessing",
+            "type" : "Control"
+          },
+          {
+            "elements" : [ ],
+            "options" : {
+              "label" : "#lang/scope_informationSecurityOfficer"
+            },
+            "scope" : "#/properties/links/properties/scope_informationSecurityOfficer",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f"
+        },
+        "type" : "Layout"
+      }
+    ],
+    "options" : {
+      "direction" : "vertical",
+      "format" : "group"
+    },
+    "type" : "Layout"
+  },
+  "modelType" : "scope",
+  "name" : {
+    "de" : "Auftragsverarbeiter",
+    "en" : "Processor"
+  },
+  "subType" : "SCP_Processor",
+  "translation" : {
+    "de" : {
+      "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Vertretung der Verantwortlichen Stelle",
+      "group_587ae551-9ab0-4d79-b0d1-8a0de01b4beb" : "Angaben zur Vertretung innerhalb der EU",
+      "group_61a2d16c-6c09-4483-a383-b0f4770f29ab" : "Datenschutzbeauftragte",
+      "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Zuständige Aufsichtsbehörde",
+      "group_9f7e874d-e7ae-4476-a943-1476dd5373ab" : "Adresse",
+      "group_b11d786f-209c-4f12-abb7-27a61c7aa05a" : "Kontaktinformation",
+      "group_d52c447b-4b62-40e6-a998-48e74d169283" : "Allgemeine Angaben",
+      "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Vertretung innerhalb der EU"
+    },
+    "en" : {
+      "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Representation of the responsible body",
+      "group_587ae551-9ab0-4d79-b0d1-8a0de01b4beb" : "Information on representation within the EU",
+      "group_61a2d16c-6c09-4483-a383-b0f4770f29ab" : "Data protection officer",
+      "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Responsible regulatory authority",
+      "group_9f7e874d-e7ae-4476-a943-1476dd5373ab" : "Address",
+      "group_b11d786f-209c-4f12-abb7-27a61c7aa05a" : "Contact information",
+      "group_d52c447b-4b62-40e6-a998-48e74d169283" : "General information",
+      "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Representation within the EU"
+    }
+  }
+}

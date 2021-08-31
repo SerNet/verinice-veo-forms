@@ -17,17 +17,13 @@
  */
 package org.veo.forms
 
-import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import java.io.BufferedReader
-import java.io.FileNotFoundException
 import java.io.IOException
-import java.io.InputStreamReader
-import java.nio.charset.StandardCharsets
 import java.util.UUID
-import java.util.stream.Collectors
 import mu.KotlinLogging
-import org.apache.commons.codec.digest.DigestUtils
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.stereotype.Component
 import org.veo.forms.dtos.FormDto
 
@@ -39,26 +35,32 @@ private val log = KotlinLogging.logger { }
  */
 @Component
 class TemplateProvider {
-    fun getFormTemplates(domainTemplateId: UUID): List<FormDto> = extract(domainTemplateId)
-        ?.let { jacksonObjectMapper().readValue(it, object : TypeReference<List<FormDto>>() {}) }
-        ?: emptyList()
+    private val resourceResolver = PathMatchingResourcePatternResolver(javaClass.classLoader)
+    private val om = jacksonObjectMapper()
+    private val formDtoReader = om.readerFor(FormDto::class.java)
 
-    fun getHash(domainTemplateId: UUID): String? {
-        return DigestUtils("SHA-256").digestAsHex(extract(domainTemplateId))
+    fun getFormTemplates(domainTemplateId: UUID): List<FormDto> = extract(domainTemplateId)
+        .map { formDtoReader.readValue(it) }
+
+    fun getHash(domainTemplateId: UUID): String {
+        return extract(domainTemplateId).hashCode().toString()
     }
 
-    private fun extract(domainTemplateId: UUID): String? = try {
-        BufferedReader(InputStreamReader(this.javaClass
-            .getResourceAsStream("/templates/$domainTemplateId.json"),
-            StandardCharsets.UTF_8
-        )).use { br ->
-            return br.lines()
-                .collect(Collectors.joining("\n"))
-        }
+    private fun extract(domainTemplateId: UUID): List<JsonNode> = try {
+        resourceResolver
+            .getResources("classpath*:/templates/$domainTemplateId/*.json")
+            .map { resource ->
+                (om.readTree(resource.file) as ObjectNode).also {
+                    it.put("id", resource.filename!!.removeSuffix(".json"))
+                    it.put("domainId", "00000000-0000-0000-0000-000000000000")
+                }
+            }
+            .also {
+                if (it.isEmpty()) {
+                    log.warn("No form templates found for domain template $domainTemplateId")
+                }
+            }
     } catch (e: IOException) {
         throw RuntimeException("Stored JSON file has wrong encoding.")
-    } catch (e: FileNotFoundException) {
-        log.warn("No form templates found for domain template $domainTemplateId")
-        null
     }
 }

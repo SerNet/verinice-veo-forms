@@ -1,0 +1,345 @@
+{
+  "content" : {
+    "elements" : [
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                },
+                "scope" : "#/properties/abbreviation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/name"
+                },
+                "scope" : "#/properties/name",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "direction" : "horizontal",
+              "format" : "group"
+            },
+            "type" : "Layout"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/description"
+            },
+            "scope" : "#/properties/description",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/process_generalInformation_document"
+            },
+            "scope" : "#/properties/customAspects/properties/process_generalInformation/properties/attributes/properties/process_generalInformation_document",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "direction" : "vertical",
+              "format" : "radio",
+              "label" : "#lang/process_recipient_type"
+            },
+            "scope" : "#/properties/customAspects/properties/process_recipient/properties/attributes/properties/process_recipient_type",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_a07359ba-61d9-49f5-8c8c-504b423d1ba9"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/process_internalRecipient_thirdCountryProcessing"
+                },
+                "scope" : "#/properties/attributes/properties/process_internalRecipient_thirdCountryProcessing",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_internalRecipient_thirdCountryName"
+                },
+                "scope" : "#/properties/attributes/properties/process_internalRecipient_thirdCountryName",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_internalRecipient_thirdCountryGuarantees"
+                },
+                "scope" : "#/properties/attributes/properties/process_internalRecipient_thirdCountryGuarantees",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_internalRecipient_thirdCountryExplanation"
+                },
+                "scope" : "#/properties/attributes/properties/process_internalRecipient_thirdCountryExplanation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_internalRecipient_thirdCountryDocument"
+                },
+                "scope" : "#/properties/attributes/properties/process_internalRecipient_thirdCountryDocument",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "label" : "#lang/process_internalRecipient"
+            },
+            "scope" : "#/properties/links/properties/process_internalRecipient",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_e46c6da5-4dc4-4d2a-b24a-44feef38f9d6"
+        },
+        "rule" : {
+          "condition" : {
+            "schema" : {
+              "enum" : [
+                "process_recipient_type_internal"
+              ]
+            },
+            "scope" : "#/properties/customAspects/properties/process_recipient/properties/attributes/properties/process_recipient_type"
+          },
+          "effect" : "SHOW"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/process_externalRecipient_thirdCountryProcessing"
+                },
+                "scope" : "#/properties/attributes/properties/process_externalRecipient_thirdCountryProcessing",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_externalRecipient_thirdCountryName"
+                },
+                "scope" : "#/properties/attributes/properties/process_externalRecipient_thirdCountryName",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_externalRecipient_thirdCountryGuarantees"
+                },
+                "scope" : "#/properties/attributes/properties/process_externalRecipient_thirdCountryGuarantees",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_externalRecipient_thirdCountryExplanation"
+                },
+                "scope" : "#/properties/attributes/properties/process_externalRecipient_thirdCountryExplanation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_externalRecipient_thirdCountryDocument"
+                },
+                "scope" : "#/properties/attributes/properties/process_externalRecipient_thirdCountryDocument",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "label" : "#lang/process_externalRecipient"
+            },
+            "scope" : "#/properties/links/properties/process_externalRecipient",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_65c6bf0a-bb76-432e-a819-b25056005755"
+        },
+        "rule" : {
+          "condition" : {
+            "schema" : {
+              "enum" : [
+                "process_recipient_type_external"
+              ]
+            },
+            "scope" : "#/properties/customAspects/properties/process_recipient/properties/attributes/properties/process_recipient_type"
+          },
+          "effect" : "SHOW"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [
+              {
+                "options" : {
+                  "label" : "#lang/process_processor_thirdCountryProcessing"
+                },
+                "scope" : "#/properties/attributes/properties/process_processor_thirdCountryProcessing",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_processor_thirdCountryName"
+                },
+                "scope" : "#/properties/attributes/properties/process_processor_thirdCountryName",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_processor_thirdCountryGuarantees"
+                },
+                "scope" : "#/properties/attributes/properties/process_processor_thirdCountryGuarantees",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "format" : "multiline",
+                  "label" : "#lang/process_processor_thirdCountryExplanation"
+                },
+                "scope" : "#/properties/attributes/properties/process_processor_thirdCountryExplanation",
+                "type" : "Control"
+              },
+              {
+                "options" : {
+                  "label" : "#lang/process_processor_thirdCountryDocument"
+                },
+                "scope" : "#/properties/attributes/properties/process_processor_thirdCountryDocument",
+                "type" : "Control"
+              }
+            ],
+            "options" : {
+              "label" : "#lang/process_processor"
+            },
+            "scope" : "#/properties/links/properties/process_processor",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_03d02962-acbe-4137-a5a6-81b7aa4e4f86"
+        },
+        "rule" : {
+          "condition" : {
+            "schema" : {
+              "enum" : [
+                "process_recipient_type_processor"
+              ]
+            },
+            "scope" : "#/properties/customAspects/properties/process_recipient/properties/attributes/properties/process_recipient_type"
+          },
+          "effect" : "SHOW"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "elements" : [ ],
+            "options" : {
+              "label" : "#lang/process_dataType"
+            },
+            "scope" : "#/properties/links/properties/process_dataType",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_e893d799-477b-4b7a-b633-8cd32892bb17"
+        },
+        "type" : "Layout"
+      },
+      {
+        "elements" : [
+          {
+            "options" : {
+              "format" : "autocomplete",
+              "label" : "#lang/process_dataTransfer_legalBasis"
+            },
+            "scope" : "#/properties/customAspects/properties/process_dataTransfer/properties/attributes/properties/process_dataTransfer_legalBasis",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/process_dataTransfer_otherLegalBasis"
+            },
+            "scope" : "#/properties/customAspects/properties/process_dataTransfer/properties/attributes/properties/process_dataTransfer_otherLegalBasis",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "format" : "multiline",
+              "label" : "#lang/process_dataTransfer_explanation"
+            },
+            "scope" : "#/properties/customAspects/properties/process_dataTransfer/properties/attributes/properties/process_dataTransfer_explanation",
+            "type" : "Control"
+          },
+          {
+            "options" : {
+              "label" : "#lang/process_dataTransfer_document"
+            },
+            "scope" : "#/properties/customAspects/properties/process_dataTransfer/properties/attributes/properties/process_dataTransfer_document",
+            "type" : "Control"
+          }
+        ],
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_582a2d50-f080-449b-99c3-80c4215d57f2"
+        },
+        "type" : "Layout"
+      }
+    ],
+    "options" : {
+      "direction" : "vertical",
+      "format" : "group"
+    },
+    "type" : "Layout"
+  },
+  "modelType" : "process",
+  "name" : {
+    "de" : "Datenübertragung",
+    "en" : "Data transfer"
+  },
+  "subType" : "PRO_DataTransfer",
+  "translation" : {
+    "de" : {
+      "group_03d02962-acbe-4137-a5a6-81b7aa4e4f86" : "Auftragsverarbeiter",
+      "group_582a2d50-f080-449b-99c3-80c4215d57f2" : "Rechtsgrundlage für die Datenübertragung",
+      "group_65c6bf0a-bb76-432e-a819-b25056005755" : "Externer Empfänger",
+      "group_a07359ba-61d9-49f5-8c8c-504b423d1ba9" : "Allgemeine Angaben",
+      "group_e46c6da5-4dc4-4d2a-b24a-44feef38f9d6" : "Interner Empfänger",
+      "group_e893d799-477b-4b7a-b633-8cd32892bb17" : "Datenart/Datenkategorie"
+    },
+    "en" : {
+      "group_03d02962-acbe-4137-a5a6-81b7aa4e4f86" : "Processor",
+      "group_582a2d50-f080-449b-99c3-80c4215d57f2" : "Legal basis for the data transfer",
+      "group_65c6bf0a-bb76-432e-a819-b25056005755" : "External recipient",
+      "group_a07359ba-61d9-49f5-8c8c-504b423d1ba9" : "General information",
+      "group_e46c6da5-4dc4-4d2a-b24a-44feef38f9d6" : "Internal recipient",
+      "group_e893d799-477b-4b7a-b633-8cd32892bb17" : "Data type/data categorie"
+    }
+  }
+}
