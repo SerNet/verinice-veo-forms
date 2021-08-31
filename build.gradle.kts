@@ -1,3 +1,8 @@
+import com.diffplug.spotless.FormatterStep
+import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS
 import java.util.Calendar
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -90,6 +95,18 @@ spotless {
     }
     kotlinGradle {
         ktlint()
+    }
+    json {
+        target("**/*.json")
+        addStep(object : FormatterStep {
+            override fun getName() = "format json"
+            override fun format(rawUnix: String, file: File): String {
+                val om = ObjectMapper().enable(ORDER_MAP_ENTRIES_BY_KEYS)
+                return om.writer()
+                    .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
+                    .writeValueAsString(om.readValue(rawUnix, Map::class.java))
+            }
+        })
     }
 }
 
