@@ -19,6 +19,7 @@ package org.veo.forms.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
 import java.util.UUID
+import javax.validation.constraints.Size
 import org.veo.forms.ModelType
 
 abstract class AbstractFormDto(
@@ -28,5 +29,6 @@ abstract class AbstractFormDto(
         example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""")
     val name: Map<String, String>,
     val modelType: ModelType,
+    @field:Size(min = 1, max = 255)
     val subType: String?
 )

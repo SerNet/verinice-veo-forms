@@ -20,6 +20,7 @@ package org.veo.forms
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.util.UUID
+import javax.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -62,7 +63,7 @@ class FormController(
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createForm(auth: Authentication, @RequestBody dto: FormDtoWithoutId): UUID {
+    fun createForm(auth: Authentication, @Valid @RequestBody dto: FormDtoWithoutId): UUID {
         mapper.toEntity(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
@@ -71,7 +72,7 @@ class FormController(
     @Operation(description = "Update a form.")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @RequestBody dto: FormDtoWithoutId) {
+    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @Valid @RequestBody dto: FormDtoWithoutId) {
         val clientId = authService.getClientId(auth)
         repo.findClientForm(clientId, id).let {
             mapper.updateEntity(it, dto, clientId)

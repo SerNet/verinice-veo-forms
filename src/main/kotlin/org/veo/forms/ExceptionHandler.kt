@@ -21,14 +21,15 @@ import javax.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class ExceptionHandler {
-    @ExceptionHandler(HttpMessageNotReadableException::class)
+    @ExceptionHandler(HttpMessageNotReadableException::class, MethodArgumentNotValidException::class)
     fun handleException(
-        exception: HttpMessageNotReadableException,
+        exception: Exception,
         request: HttpServletRequest?
     ): ResponseEntity<String> {
         return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)

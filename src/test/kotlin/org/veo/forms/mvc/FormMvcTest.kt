@@ -244,4 +244,19 @@ class FormMvcTest : AbstractMvcTest() {
         response.status shouldBe 400
         response.contentAsString shouldContain "missing (therefore NULL) value for creator parameter domainId which is a non-nullable type"
     }
+
+    @Test
+    fun `empty sub type is not allowed`() {
+        // when adding a form without a domainId
+        val response = request(HttpMethod.POST, "/", mapOf(
+            "domainId" to domain1Id,
+            "name" to mapOf("en" to "old name"),
+            "modelType" to "person",
+            "subType" to "",
+            "content" to emptyMap<String, Any>()
+        )).response
+
+        response.status shouldBe 400
+        response.contentAsString shouldContain "size must be between 1 and 255"
+    }
 }
