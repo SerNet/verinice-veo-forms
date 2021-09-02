@@ -38,12 +38,15 @@ class TemplateProvider {
     private val resourceResolver = PathMatchingResourcePatternResolver(javaClass.classLoader)
     private val om = jacksonObjectMapper()
     private val formDtoReader = om.readerFor(FormDto::class.java)
+    private val hashCache = mutableMapOf<UUID, String>()
 
     fun getFormTemplates(domainTemplateId: UUID): List<FormDto> = extract(domainTemplateId)
         .map { formDtoReader.readValue(it) }
 
     fun getHash(domainTemplateId: UUID): String {
-        return extract(domainTemplateId).hashCode().toString()
+        return hashCache.computeIfAbsent(domainTemplateId) {
+            extract(domainTemplateId).hashCode().toString()
+        }
     }
 
     private fun extract(domainTemplateId: UUID): List<JsonNode> = try {
