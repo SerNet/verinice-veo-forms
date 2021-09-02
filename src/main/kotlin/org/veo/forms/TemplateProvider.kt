@@ -18,7 +18,7 @@
 package org.veo.forms
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -40,7 +40,7 @@ private val log = KotlinLogging.logger { }
 @Component
 class TemplateProvider {
     fun getFormTemplates(domainTemplateId: UUID): List<FormDto> = extract(domainTemplateId)
-        ?.let { ObjectMapper().readValue(it, object : TypeReference<List<FormDto>>() {}) }
+        ?.let { jacksonObjectMapper().readValue(it, object : TypeReference<List<FormDto>>() {}) }
         ?: emptyList()
 
     fun getHash(domainTemplateId: UUID): String? {
