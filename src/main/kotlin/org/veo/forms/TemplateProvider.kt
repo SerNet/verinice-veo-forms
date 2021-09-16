@@ -53,7 +53,7 @@ class TemplateProvider {
         resourceResolver
             .getResources("classpath*:/templates/$domainTemplateId/*.json")
             .map { resource ->
-                (om.readTree(resource.file) as ObjectNode).also {
+                (om.readTree(resource.inputStream) as ObjectNode).also {
                     it.put("id", resource.filename!!.removeSuffix(".json"))
                     it.put("domainId", "00000000-0000-0000-0000-000000000000")
                 }
