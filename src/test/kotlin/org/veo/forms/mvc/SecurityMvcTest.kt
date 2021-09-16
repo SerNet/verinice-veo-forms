@@ -24,7 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
 
 @SpringBootTest(properties = ["management.endpoint.health.probes.enabled=true"])
-class SecurityMvcTestKot : AbstractMvcTest() {
+class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     fun `regular API calls are forbidden without authorization`() = listOf(
             testStatus(HttpMethod.GET, "/", 401),
