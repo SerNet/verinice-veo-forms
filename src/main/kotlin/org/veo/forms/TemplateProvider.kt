@@ -64,6 +64,6 @@ class TemplateProvider {
                 }
             }
     } catch (e: IOException) {
-        throw RuntimeException("Stored JSON file has wrong encoding.")
+        throw RuntimeException("Failed reading JSON file.", e)
     }
 }
