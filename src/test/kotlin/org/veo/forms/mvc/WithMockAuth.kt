@@ -22,5 +22,5 @@ import org.springframework.security.test.context.support.WithSecurityContext
 const val mockClientUuid: String = "21712604-ed85-4f08-aa46-1cf39607ee9e"
 
 @Retention(AnnotationRetention.RUNTIME)
-@WithSecurityContext(factory = WithMockClientSecurityContextFactory::class)
-annotation class WithMockClient
+@WithSecurityContext(factory = WithMockAuthSecurityContextFactory::class)
+annotation class WithMockAuth

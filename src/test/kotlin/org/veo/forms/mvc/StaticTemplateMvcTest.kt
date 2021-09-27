@@ -28,7 +28,7 @@ import org.veo.forms.DomainService
 /**
  * Makes sure that static form templates from resource files can be fetched.
  */
-@WithMockClient
+@WithMockAuth
 class StaticTemplateMvcTest : AbstractMvcTest() {
 
     @Autowired

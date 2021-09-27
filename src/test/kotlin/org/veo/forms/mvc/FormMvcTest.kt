@@ -27,7 +27,7 @@ import org.springframework.http.HttpMethod
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
 
-@WithMockClient
+@WithMockAuth
 class FormMvcTest : AbstractMvcTest() {
 
     private val domain1Id = UUID.randomUUID().toString()
