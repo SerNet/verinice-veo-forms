@@ -28,6 +28,8 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+const val ROLE_USER = "veo-user"
+
 /**
  * This class bundles custom API security configurations.
  */
@@ -47,7 +49,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                 .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
                 .permitAll()
                 .anyRequest()
-                .hasRole("veo-user")
+                .hasRole(ROLE_USER)
 
                 .and()
                 .sessionManagement()

@@ -24,13 +24,14 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.security.test.context.support.WithSecurityContextFactory
+import org.veo.forms.ROLE_USER
 
 class WithMockClientSecurityContextFactory : WithSecurityContextFactory<WithMockClient> {
     override fun createSecurityContext(annotation: WithMockClient): SecurityContext {
         val context = SecurityContextHolder.createEmptyContext()
         context.authentication = MockToken(
             Jwt("test", Instant.now(), Instant.MAX,
-                mapOf("test" to "test"), mapOf("groups" to "/veo_client:$mockClientUuid")), listOf("veo-user"))
+                mapOf("test" to "test"), mapOf("groups" to "/veo_client:$mockClientUuid")), listOf(ROLE_USER))
         return context
     }
 
