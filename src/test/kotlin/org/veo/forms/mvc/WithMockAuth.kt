@@ -18,9 +18,10 @@
 package org.veo.forms.mvc
 
 import org.springframework.security.test.context.support.WithSecurityContext
+import org.veo.forms.ROLE_USER
 
 const val mockClientUuid: String = "21712604-ed85-4f08-aa46-1cf39607ee9e"
 
 @Retention(AnnotationRetention.RUNTIME)
 @WithSecurityContext(factory = WithMockAuthSecurityContextFactory::class)
-annotation class WithMockAuth
+annotation class WithMockAuth(val roles: Array<String> = [ROLE_USER])

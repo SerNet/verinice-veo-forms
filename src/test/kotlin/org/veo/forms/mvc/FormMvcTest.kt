@@ -26,8 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
+import org.veo.forms.ROLE_ADMIN
+import org.veo.forms.ROLE_USER
 
-@WithMockAuth
+@WithMockAuth(roles = [ROLE_USER, ROLE_ADMIN])
 class FormMvcTest : AbstractMvcTest() {
 
     private val domain1Id = UUID.randomUUID().toString()

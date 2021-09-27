@@ -35,6 +35,14 @@ class SecurityMvcTest : AbstractMvcTest() {
     )
 
     @TestFactory
+    @WithMockAuth
+    fun `write API calls are forbidden for normal users`() = listOf(
+        testStatus(HttpMethod.POST, "/", 403),
+        testStatus(HttpMethod.PUT, "/a", 403),
+        testStatus(HttpMethod.DELETE, "/a", 403)
+    )
+
+    @TestFactory
     fun `documentation is accessible`() = listOf(
             testStatus(HttpMethod.GET, "/actuator/health/readiness", 200),
             testStatus(HttpMethod.GET, "/actuator/health/liveness", 200),

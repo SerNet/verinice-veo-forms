@@ -24,18 +24,17 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.security.test.context.support.WithSecurityContextFactory
-import org.veo.forms.ROLE_USER
 
 class WithMockAuthSecurityContextFactory : WithSecurityContextFactory<WithMockAuth> {
     override fun createSecurityContext(annotation: WithMockAuth): SecurityContext {
         val context = SecurityContextHolder.createEmptyContext()
         context.authentication = MockToken(
             Jwt("test", Instant.now(), Instant.MAX,
-                mapOf("test" to "test"), mapOf("groups" to "/veo_client:$mockClientUuid")), listOf(ROLE_USER))
+                mapOf("test" to "test"), mapOf("groups" to "/veo_client:$mockClientUuid")), annotation.roles)
         return context
     }
 
-    class MockToken(jwt: Jwt, val roles: List<String>) : JwtAuthenticationToken(jwt) {
+    class MockToken(jwt: Jwt, val roles: Array<String>) : JwtAuthenticationToken(jwt) {
         override fun getAuthorities() =
             roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
 

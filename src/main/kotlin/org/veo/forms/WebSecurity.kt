@@ -18,6 +18,7 @@
 package org.veo.forms
 
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -28,6 +29,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+const val ROLE_ADMIN = "veo-admin"
 const val ROLE_USER = "veo-user"
 
 /**
@@ -48,8 +50,13 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
                 .authorizeRequests()
                 .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
                 .permitAll()
-                .anyRequest()
+
+                // TODO VEO-842 re-enable form manipulation for normal users.
+                .mvcMatchers(HttpMethod.GET, "*")
                 .hasRole(ROLE_USER)
+
+                .anyRequest()
+                .hasRole(ROLE_ADMIN)
 
                 .and()
                 .sessionManagement()
