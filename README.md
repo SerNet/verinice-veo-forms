@@ -64,3 +64,7 @@ Veo-forms uses [flyway](https://github.com/flyway/flyway/) for DB migrations. It
 4. Create a new migration script (e.g. `src/main/kotlin/org/veo/forms/migrations/V3__add_fancy_new_columns.kt`) and let it execute the SQL you copied (see existing migration scripts).
 5. Append a semicolon to every SQL command
 6. Add some DML to your migration if necessary.
+
+## License
+
+verinice.veo is released under [GNU AFFERO GENERAL PUBLIC LICENSE](https://www.gnu.org/licenses/agpl-3.0.en.html) Version 3 (see [LICENSE.txt](./LICENSE.txt)) and uses third party libraries that are distributed under their own terms.
