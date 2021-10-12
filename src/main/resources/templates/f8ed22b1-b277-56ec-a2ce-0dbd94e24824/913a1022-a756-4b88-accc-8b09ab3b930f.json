@@ -237,6 +237,7 @@
     "de" : "Person",
     "en" : "Person"
   },
+  "sorting" : "l200",
   "subType" : "PER_Person",
   "translation" : {
     "de" : {

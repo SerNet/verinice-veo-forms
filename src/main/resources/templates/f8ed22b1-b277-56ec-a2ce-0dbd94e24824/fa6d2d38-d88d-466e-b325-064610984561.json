@@ -130,6 +130,7 @@
     "de" : "Gefährdung",
     "en" : "Scenario"
   },
+  "sorting" : "r100",
   "subType" : "SCN_Scenario",
   "translation" : {
     "de" : {

@@ -707,6 +707,7 @@
     "de" : "Verarbeitungstätigkeit",
     "en" : "Data processing"
   },
+  "sorting" : "f100",
   "subType" : "PRO_DataProcessing",
   "translation" : {
     "de" : {

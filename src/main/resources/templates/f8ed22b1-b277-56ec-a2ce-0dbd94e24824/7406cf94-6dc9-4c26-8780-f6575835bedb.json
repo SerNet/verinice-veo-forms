@@ -530,6 +530,7 @@
     "de" : "Auftragsverarbeiter",
     "en" : "Processor"
   },
+  "sorting" : "c200",
   "subType" : "SCP_Processor",
   "translation" : {
     "de" : {

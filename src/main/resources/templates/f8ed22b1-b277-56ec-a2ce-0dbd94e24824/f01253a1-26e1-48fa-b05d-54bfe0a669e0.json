@@ -260,6 +260,7 @@
     "de" : "Datenschutzbeauftragte",
     "en" : "Data protection officer"
   },
+  "sorting" : "l100",
   "subType" : "PER_DataProtectionOfficer",
   "translation" : {
     "de" : {

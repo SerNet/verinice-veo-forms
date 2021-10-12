@@ -84,6 +84,7 @@
     "de" : "IT-System",
     "en" : "IT system"
   },
+  "sorting" : "i300",
   "subType" : "AST_IT-System",
   "translation" : {
     "de" : {

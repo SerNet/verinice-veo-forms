@@ -165,6 +165,7 @@
     "de" : "Dokument",
     "en" : "Document"
   },
+  "sorting" : "u100",
   "subType" : "DOC_Document",
   "translation" : {
     "de" : {

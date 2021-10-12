@@ -530,6 +530,7 @@
     "de" : "Gemeinsame Verantwortliche",
     "en" : "Joint controllership"
   },
+  "sorting" : "c300",
   "subType" : "SCP_JointController",
   "translation" : {
     "de" : {

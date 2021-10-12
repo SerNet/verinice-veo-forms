@@ -530,6 +530,7 @@
     "de" : "Auftraggeber",
     "en" : "Controller"
   },
+  "sorting" : "c300",
   "subType" : "SCP_Controller",
   "translation" : {
     "de" : {

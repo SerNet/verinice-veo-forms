@@ -530,6 +530,7 @@
     "de" : "Verantwortliche Stelle",
     "en" : "Responsible body"
   },
+  "sorting" : "c100",
   "subType" : "SCP_ResponsibleBody",
   "translation" : {
     "de" : {

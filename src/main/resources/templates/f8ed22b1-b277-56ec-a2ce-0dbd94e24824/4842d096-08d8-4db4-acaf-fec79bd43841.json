@@ -84,6 +84,7 @@
     "de" : "Anwendung",
     "en" : "Application"
   },
+  "sorting" : "i200",
   "subType" : "AST_Application",
   "translation" : {
     "de" : {

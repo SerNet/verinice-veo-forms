@@ -84,6 +84,7 @@
     "de" : "Datenart",
     "en" : "Datatype"
   },
+  "sorting" : "i100",
   "subType" : "AST_Datatype",
   "translation" : {
     "de" : {
