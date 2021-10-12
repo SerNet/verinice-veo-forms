@@ -27,17 +27,17 @@ import org.veo.forms.dtos.FormDtoWithoutId
 class FormMapper constructor(private val domainRepo: DomainRepository) {
 
     fun toDto(entity: Form): FormDto {
-        return FormDto(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType,
-            entity.content, entity.translation)
+        return FormDto(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
+                entity.content, entity.translation)
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
-        return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType)
+        return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
     }
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
         return Form(domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
-            dto.content, dto.translation)
+            dto.content, dto.translation, null, dto.sorting)
     }
 
     fun updateEntity(form: Form, dto: FormDtoWithoutId, clientId: UUID) {
@@ -46,13 +46,14 @@ class FormMapper constructor(private val domainRepo: DomainRepository) {
             name = dto.name
             modelType = dto.modelType
             subType = dto.subType
+            sorting = dto.sorting
             content = dto.content
             translation = dto.translation
         }
     }
 
     fun createEntityByTemplate(it: FormDto, domain: Domain): Form {
-        return Form(domain, it.name, it.modelType, it.subType, it.content, it.translation, it.id)
+        return Form(domain, it.name, it.modelType, it.subType, it.content, it.translation, it.id, it.sorting)
     }
 
     fun updateEntityByTemplate(form: Form, dto: FormDto) {
@@ -60,6 +61,7 @@ class FormMapper constructor(private val domainRepo: DomainRepository) {
             name = dto.name
             modelType = dto.modelType
             subType = dto.subType
+            sorting = dto.sorting
             content = dto.content
             translation = dto.translation
             formTemplateId = dto.id

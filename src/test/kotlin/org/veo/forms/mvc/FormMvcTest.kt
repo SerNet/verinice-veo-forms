@@ -53,6 +53,7 @@ class FormMvcTest : AbstractMvcTest() {
             "domainId" to domain1Id,
             "modelType" to "person",
             "subType" to "VeryNicePerson",
+            "sorting" to "b2",
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
@@ -81,7 +82,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "form one"),
                 "modelType" to "person",
-                "subType" to "VeryNicePerson"
+                "subType" to "VeryNicePerson",
+                "sorting" to "b2"
             ))
 
         // when querying the new form
@@ -95,6 +97,7 @@ class FormMvcTest : AbstractMvcTest() {
             "name" to mapOf("en" to "form one"),
             "modelType" to "person",
             "subType" to "VeryNicePerson",
+            "sorting" to "b2",
             "content" to mapOf(
                 "prop1" to "val1",
                 "prop2" to listOf("ok")
@@ -134,6 +137,7 @@ class FormMvcTest : AbstractMvcTest() {
             "name" to mapOf("en" to "new name"),
             "modelType" to "process",
             "subType" to "VT",
+            "sorting" to "b2",
             "content" to mapOf(
                 "newProp" to "newValue"
             ),
@@ -157,6 +161,7 @@ class FormMvcTest : AbstractMvcTest() {
             "domainId" to domain1Id,
             "modelType" to "process",
             "subType" to "VT",
+            "sorting" to "b2",
             "name" to mapOf("en" to "new name"),
             "content" to mapOf(
                 "newProp" to "newValue"
@@ -260,5 +265,21 @@ class FormMvcTest : AbstractMvcTest() {
 
         response.status shouldBe 400
         response.contentAsString shouldContain "size must be between 1 and 255"
+    }
+
+    @Test
+    fun `special characters in sorting is not allowed`() {
+        // when adding a form without a domainId
+        val response = request(HttpMethod.POST, "/", mapOf(
+                "domainId" to domain1Id,
+                "name" to mapOf("en" to "John Doe"),
+                "modelType" to "person",
+                "subType" to "PER_Person",
+                "sorting" to "ä1",
+                "content" to emptyMap<String, Any>()
+        )).response
+
+        response.status shouldBe 400
+        response.contentAsString shouldContain "Only ASCII characters are allowed"
     }
 }

@@ -26,5 +26,6 @@ class FormDtoWithoutId(
     domainId: UUID,
     name: Map<String, String>,
     modelType: ModelType,
-    subType: String?
-) : AbstractFormDto(domainId, name, modelType, subType)
+    subType: String?,
+    sorting: String?
+) : AbstractFormDto(domainId, name, modelType, subType, sorting)
