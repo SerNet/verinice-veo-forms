@@ -46,6 +46,21 @@ class FormJpaTest : AbstractSpringTest() {
     }
 
     @Test
+    fun `saves sorting`() {
+        // Given sorting with letter and number
+        val sorting = "a1"
+
+        // when saving form content and retrieving all forms
+        formRepo.save(
+                Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, emptyMap<String, Any>(), null, null, sorting))
+        val allForms = formRepo.findAll()
+
+        // then the form is returned and its sorting is the given sorting
+        allForms.size shouldBe 1
+        allForms[0].sorting shouldBe sorting
+    }
+
+    @Test
     fun `finds all forms by client`() {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
@@ -101,9 +116,9 @@ class FormJpaTest : AbstractSpringTest() {
         return domainRepo.save(Domain(UUID.randomUUID(), clientId))
     }
 
-    private fun createForm(englishName: String, domain: Domain) {
+    private fun createForm(englishName: String, domain: Domain, sorting: String? = null) {
         formRepo.save(
             Form(domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
-                null))
+                null, null, sorting))
     }
 }
