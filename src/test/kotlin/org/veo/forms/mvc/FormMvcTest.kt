@@ -203,10 +203,10 @@ class FormMvcTest : AbstractMvcTest() {
 
     @Test
     fun `retrieve by domain ID`() {
-        // given two forms from different domains
+        // given four forms from different domains
         request(HttpMethod.POST, "/", mapOf(
-            "domainId" to domain1Id,
-            "name" to mapOf("en" to "one"),
+            "domainId" to domain2Id,
+            "name" to mapOf("en" to "three"),
             "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
@@ -214,17 +214,37 @@ class FormMvcTest : AbstractMvcTest() {
             "domainId" to domain2Id,
             "name" to mapOf("en" to "two"),
             "modelType" to "person",
+            "content" to emptyMap<String, Any>(),
+            "sorting" to "a2"
+        ))
+        request(HttpMethod.POST, "/", mapOf(
+            "domainId" to domain2Id,
+            "name" to mapOf("en" to "one"),
+            "modelType" to "person",
+            "content" to emptyMap<String, Any>(),
+            "sorting" to "a11"
+        ))
+        request(HttpMethod.POST, "/", mapOf(
+            "domainId" to domain1Id,
+            "name" to mapOf("en" to "four"),
+            "modelType" to "person",
             "content" to emptyMap<String, Any>()
         ))
 
         // when requesting only forms from the second domain
         val result = parseBody(request(HttpMethod.GET, "/?domainId=$domain2Id"))
 
-        // then only the second form is returned
+        // then only three forms with the second domain are returned
         with(result as List<*>) {
-            size shouldBe 1
-            with(first() as Map<*, *>) {
+            size shouldBe 3
+            with(get(0) as Map<*, *>) {
+                get("name") shouldBe mapOf("en" to "one")
+            }
+            with(get(1) as Map<*, *>) {
                 get("name") shouldBe mapOf("en" to "two")
+            }
+            with(get(2) as Map<*, *>) {
+                get("name") shouldBe mapOf("en" to "three")
             }
         }
     }

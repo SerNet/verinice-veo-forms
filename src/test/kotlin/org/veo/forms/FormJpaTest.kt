@@ -65,9 +65,13 @@ class FormJpaTest : AbstractSpringTest() {
         // Given two forms from client A and one from client B
         val clientAUuid = UUID.randomUUID()
         val clientBUuid = UUID.randomUUID()
-        createForm("form one", createDomain(clientAUuid))
-        createForm("form two", createDomain(clientAUuid))
-        createForm("form three", createDomain(clientBUuid))
+        val domainA = createDomain(clientAUuid)
+        val domainB = createDomain(clientBUuid)
+        val sorting11 = "11"
+        val sorting2 = "2"
+        createForm("form two", domainA, sorting2)
+        createForm("form one", domainA, sorting11)
+        createForm("form three", domainB)
 
         // when querying all forms from client A
         val clientForms = formRepo.findAllByClient(clientAUuid)
@@ -75,7 +79,9 @@ class FormJpaTest : AbstractSpringTest() {
         // then only client A's forms are returned.
         clientForms.size shouldBe 2
         clientForms[0].name["en"] shouldBe "form one"
+        clientForms[0].sorting shouldBe sorting11
         clientForms[1].name["en"] shouldBe "form two"
+        clientForms[1].sorting shouldBe sorting2
     }
 
     @Test
@@ -84,18 +90,30 @@ class FormJpaTest : AbstractSpringTest() {
         val clientId = UUID.randomUUID()
         val domainA = createDomain(clientId)
         val domainB = createDomain(clientId)
+        val a100 = "a100"
+        val a200 = "a200"
+        val c100 = "c100"
+
+        createForm("form six", domainB)
+        createForm("form five", domainB, c100)
         createForm("form one", domainA)
         createForm("form two", domainA)
-        createForm("form three", domainB)
-        createForm("form four", domainB)
+        createForm("form three", domainB, a100)
+        createForm("form four", domainB, a200)
 
         // when querying all forms from client B and domain B
         val clientForms = formRepo.findAllByClientAndDomain(clientId, domainB.id)
 
-        // then only the two forms from matching domains are returned
-        clientForms.size shouldBe 2
+        // then only the four forms from matching domains are returned in the correct order
+        clientForms.size shouldBe 4
         clientForms[0].name["en"] shouldBe "form three"
+        clientForms[0].sorting shouldBe a100
         clientForms[1].name["en"] shouldBe "form four"
+        clientForms[1].sorting shouldBe a200
+        clientForms[2].name["en"] shouldBe "form five"
+        clientForms[2].sorting shouldBe c100
+        clientForms[3].name["en"] shouldBe "form six"
+        clientForms[3].sorting shouldBe null
     }
 
     @Test

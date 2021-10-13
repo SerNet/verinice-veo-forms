@@ -46,7 +46,7 @@ class FormController(
     private val authService: AuthService
 ) {
 
-    @Operation(description = "Get all forms (metadata only).")
+    @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting.")
     @GetMapping
     fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?): List<FormDtoWithoutContent> {
         return repo.findAll(authService.getClientId(auth), domainId).map {

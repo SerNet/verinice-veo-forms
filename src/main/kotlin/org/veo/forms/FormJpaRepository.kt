@@ -26,9 +26,9 @@ import org.springframework.stereotype.Repository
 @Repository
 @Transactional
 interface FormJpaRepository : JpaRepository<Form, UUID> {
-    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId")
+    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId ORDER BY f.sorting ASC")
     fun findAllByClient(clientId: UUID): List<Form>
 
-    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId AND f.domain.id = :domainId")
+    @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId AND f.domain.id = :domainId ORDER BY f.sorting ASC")
     fun findAllByClientAndDomain(clientId: UUID, domainId: UUID): List<Form>
 }
