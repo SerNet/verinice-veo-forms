@@ -18,10 +18,10 @@
 package org.veo.forms
 
 import io.kotest.matchers.shouldBe
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.veo.forms.mvc.AbstractSpringTest
+import java.util.UUID
 
 class FormJpaTest : AbstractSpringTest() {
     @Autowired
@@ -37,7 +37,8 @@ class FormJpaTest : AbstractSpringTest() {
 
         // when saving form content and retrieving all forms
         formRepo.save(
-            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, content2k, null))
+            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, content2k, null)
+        )
         val allForms = formRepo.findAll()
 
         // then the form is returned with its complete content.
@@ -52,7 +53,8 @@ class FormJpaTest : AbstractSpringTest() {
 
         // when saving form content and retrieving all forms
         formRepo.save(
-                Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, emptyMap<String, Any>(), null, null, sorting))
+            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, emptyMap<String, Any>(), null, null, sorting)
+        )
         val allForms = formRepo.findAll()
 
         // then the form is returned and its sorting is the given sorting
@@ -136,7 +138,10 @@ class FormJpaTest : AbstractSpringTest() {
 
     private fun createForm(englishName: String, domain: Domain, sorting: String? = null) {
         formRepo.save(
-            Form(domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
-                null, null, sorting))
+            Form(
+                domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
+                null, null, sorting
+            )
+        )
     }
 }

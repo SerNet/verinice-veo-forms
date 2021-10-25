@@ -17,10 +17,10 @@
  */
 package org.veo.forms
 
+import org.hibernate.annotations.Proxy
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
-import org.hibernate.annotations.Proxy
 
 @Entity
 @Proxy(lazy = false)

@@ -17,18 +17,20 @@
  */
 package org.veo.forms
 
-import java.util.UUID
 import org.springframework.stereotype.Component
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
+import java.util.UUID
 
 @Component
 class FormMapper constructor(private val domainRepo: DomainRepository) {
 
     fun toDto(entity: Form): FormDto {
-        return FormDto(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
-                entity.content, entity.translation)
+        return FormDto(
+            entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
+            entity.content, entity.translation
+        )
     }
 
     fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
@@ -36,8 +38,10 @@ class FormMapper constructor(private val domainRepo: DomainRepository) {
     }
 
     fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
-        return Form(domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
-            dto.content, dto.translation, null, dto.sorting)
+        return Form(
+            domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
+            dto.content, dto.translation, null, dto.sorting
+        )
     }
 
     fun updateEntity(form: Form, dto: FormDtoWithoutId, clientId: UUID) {

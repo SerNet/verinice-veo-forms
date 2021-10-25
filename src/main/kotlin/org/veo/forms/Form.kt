@@ -18,6 +18,9 @@
 package org.veo.forms
 
 import com.vladmihalcea.hibernate.type.json.JsonType
+import org.hibernate.annotations.Proxy
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -25,9 +28,6 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import org.hibernate.annotations.Proxy
-import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 
 @Entity
 @Proxy(lazy = false)

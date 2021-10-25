@@ -17,17 +17,22 @@
  */
 package org.veo.forms.mvc
 
-import java.time.Instant
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.security.test.context.support.WithSecurityContextFactory
+import java.time.Instant
 
 class WithMockAuthSecurityContextFactory : WithSecurityContextFactory<WithMockAuth> {
     override fun createSecurityContext(annotation: WithMockAuth) = SecurityContextHolder.createEmptyContext().apply {
-        authentication = MockToken(Jwt("test", Instant.now(), Instant.MAX, mapOf("test" to "test"),
-            mapOf("groups" to "/veo_client:$mockClientUuid")), annotation.roles)
+        authentication = MockToken(
+            Jwt(
+                "test", Instant.now(), Instant.MAX, mapOf("test" to "test"),
+                mapOf("groups" to "/veo_client:$mockClientUuid")
+            ),
+            annotation.roles
+        )
     }
 
     class MockToken(jwt: Jwt, val roles: Array<String>) : JwtAuthenticationToken(jwt) {

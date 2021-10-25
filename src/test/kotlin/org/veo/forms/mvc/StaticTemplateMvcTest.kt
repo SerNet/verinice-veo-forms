@@ -18,12 +18,12 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
-import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.veo.forms.DomainService
+import java.util.UUID
 
 /**
  * Makes sure that static form templates from resource files can be fetched.
@@ -40,7 +40,8 @@ class StaticTemplateMvcTest : AbstractMvcTest() {
         domainService.initializeDomain(
             UUID.randomUUID(),
             UUID.fromString(mockClientUuid),
-            UUID.fromString("f8ed22b1-b277-56ec-a2ce-0dbd94e24824"))
+            UUID.fromString("f8ed22b1-b277-56ec-a2ce-0dbd94e24824")
+        )
     }
 
     @Test

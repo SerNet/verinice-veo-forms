@@ -17,8 +17,8 @@
  */
 package org.veo.forms.dtos
 
-import java.util.UUID
 import org.veo.forms.ModelType
+import java.util.UUID
 
 class FormDtoWithoutId(
     val content: Map<String, *>,

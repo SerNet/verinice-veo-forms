@@ -52,36 +52,37 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors()
-                .and()
-                .csrf()
-                .disable() // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
-                // swagger-ui. We cannot disable it.
-                // Make sure that no critical API can be accessed by an anonymous user!
-                // .anonymous()
-                //     .disable()
-                .authorizeRequests()
-                .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
-                .permitAll()
-
-                // TODO VEO-842 re-enable form manipulation for normal users.
-                .mvcMatchers(HttpMethod.GET, "*")
-                .hasRole(ROLE_USER)
-
-                .anyRequest()
-                .hasRole(ROLE_ADMIN)
-
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-            .jwtAuthenticationConverter(JwtAuthenticationConverter().apply {
-                setJwtGrantedAuthoritiesConverter(JwtGrantedAuthoritiesConverter().apply {
-                    setAuthoritiesClaimName("roles")
-                    setAuthorityPrefix("ROLE_")
-                })
-            })
+            .and()
+            .csrf()
+            .disable() // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
+            // swagger-ui. We cannot disable it.
+            // Make sure that no critical API can be accessed by an anonymous user!
+            // .anonymous()
+            //     .disable()
+            .authorizeRequests()
+            .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
+            .permitAll()
+            // TODO VEO-842 re-enable form manipulation for normal users.
+            .mvcMatchers(HttpMethod.GET, "*")
+            .hasRole(ROLE_USER)
+            .anyRequest()
+            .hasRole(ROLE_ADMIN)
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .oauth2ResourceServer()
+            .jwt()
+            .jwtAuthenticationConverter(
+                JwtAuthenticationConverter().apply {
+                    setJwtGrantedAuthoritiesConverter(
+                        JwtGrantedAuthoritiesConverter().apply {
+                            setAuthoritiesClaimName("roles")
+                            setAuthorityPrefix("ROLE_")
+                        }
+                    )
+                }
+            )
     }
 
     @Bean

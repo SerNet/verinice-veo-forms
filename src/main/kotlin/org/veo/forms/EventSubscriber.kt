@@ -18,7 +18,6 @@
 package org.veo.forms
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import java.util.UUID
 import mu.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.Argument
@@ -29,6 +28,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
@@ -37,12 +37,18 @@ private val log = KotlinLogging.logger {}
 class EventSubscriber(private val domainService: DomainService) {
     private val mapper = ObjectMapper()
 
-    @RabbitListener(bindings = [QueueBinding(
-        value = Queue(value = "\${veo.forms.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false",
-                arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")]),
-        exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),
-        key = ["\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event"]
-    )])
+    @RabbitListener(
+        bindings = [
+            QueueBinding(
+                value = Queue(
+                    value = "\${veo.forms.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false",
+                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")]
+                ),
+                exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),
+                key = ["\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event"]
+            )
+        ]
+    )
     fun handleEntityEvent(message: String) {
         val messageNode = mapper.readTree(message)
         log.debug { "Received domain event message with ID ${messageNode.get("id").asText()}" }

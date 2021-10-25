@@ -22,7 +22,8 @@ import org.flywaydb.core.api.migration.Context
 
 class V1__create : BaseJavaMigration() {
     override fun migrate(context: Context) {
-        context.connection.createStatement().execute("""
+        context.connection.createStatement().execute(
+            """
 
     create table domain (
        id uuid not null,
@@ -49,6 +50,7 @@ class V1__create : BaseJavaMigration() {
        foreign key (domain_id)
        references domain;
 
-""")
+"""
+        )
     }
 }
