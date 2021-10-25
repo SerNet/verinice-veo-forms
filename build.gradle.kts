@@ -49,7 +49,7 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-    val kotestVersion = "4.6.1"
+    val kotestVersion = "4.6.3"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
