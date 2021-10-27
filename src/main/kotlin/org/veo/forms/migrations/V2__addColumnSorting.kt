@@ -22,14 +22,13 @@ import org.flywaydb.core.api.migration.Context
 
 class V2__addColumnSorting : BaseJavaMigration() {
     override fun migrate(context: Context) {
-
-        context.connection.createStatement().execute(
-            """
-            
-    alter table if exists form 
-        add column sorting varchar(32);
-        
-"""
-        )
+        context.connection.createStatement().use {
+            it.execute(
+                """
+                alter table if exists form 
+                    add column sorting varchar(32);
+                """
+            )
+        }
     }
 }

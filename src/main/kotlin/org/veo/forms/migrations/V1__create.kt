@@ -22,35 +22,35 @@ import org.flywaydb.core.api.migration.Context
 
 class V1__create : BaseJavaMigration() {
     override fun migrate(context: Context) {
-        context.connection.createStatement().execute(
-            """
-
-    create table domain (
-       id uuid not null,
-        client_id uuid,
-        domain_template_id uuid,
-        domain_template_version varchar(255),
-        primary key (id)
-    );
-
-    create table form (
-       id uuid not null,
-        content jsonb,
-        form_template_id uuid,
-        model_type int4,
-        name jsonb,
-        sub_type varchar(255),
-        translation jsonb,
-        domain_id uuid not null,
-        primary key (id)
-    );
-
-    alter table form
-       add constraint FK_domain_id
-       foreign key (domain_id)
-       references domain;
-
-"""
-        )
+        context.connection.createStatement().use {
+            it.execute(
+                """
+                create table domain (
+                   id uuid not null,
+                    client_id uuid,
+                    domain_template_id uuid,
+                    domain_template_version varchar(255),
+                    primary key (id)
+                );
+            
+                create table form (
+                   id uuid not null,
+                    content jsonb,
+                    form_template_id uuid,
+                    model_type int4,
+                    name jsonb,
+                    sub_type varchar(255),
+                    translation jsonb,
+                    domain_id uuid not null,
+                    primary key (id)
+                );
+            
+                alter table form
+                   add constraint FK_domain_id
+                   foreign key (domain_id)
+                   references domain;
+                """
+            )
+        }
     }
 }
