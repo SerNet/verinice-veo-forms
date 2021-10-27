@@ -74,5 +74,6 @@ class CorsMvcTest : AbstractMvcTest() {
         result.response.getHeader("Access-Control-Allow-Origin") shouldBe origin
         result.response.getHeader("Access-Control-Allow-Methods") shouldBe "GET,POST,PUT,DELETE,OPTIONS"
         result.response.getHeader("Access-Control-Allow-Headers") shouldBe "Content-Type, Authorization, X-Ample, X-Custom-Header"
+        result.response.getHeader("Access-Control-Max-Age") shouldBe "1800"
     }
 }
