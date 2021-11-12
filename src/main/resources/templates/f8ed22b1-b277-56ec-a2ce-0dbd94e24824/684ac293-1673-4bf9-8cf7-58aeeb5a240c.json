@@ -4,7 +4,7 @@
     "en" : "Scope"
   },
   "modelType" : "scope",
-  "subType" : "",
+  "subType" : "SCP_Scope",
   "sorting" : "c500",
   "translation" : {
     "de" : {
