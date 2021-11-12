@@ -1,754 +1,763 @@
 {
-  "content" : {
-    "elements" : [
-      {
-        "elements" : [
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/abbreviation"
-                },
-                "scope" : "#/properties/abbreviation",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/name"
-                },
-                "scope" : "#/properties/name",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/description"
-            },
-            "scope" : "#/properties/description",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_generalInformation_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_generalInformation/properties/attributes/properties/process_generalInformation_document",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_ebc63727-2a95-4a12-98cd-a43fbab33b68"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_responsibleBody"
-            },
-            "scope" : "#/properties/links/properties/process_responsibleBody",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_processing_asProcessor"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processing/properties/attributes/properties/process_processing_asProcessor",
-            "type" : "Control"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/process_controller_document"
-                },
-                "scope" : "#/properties/attributes/properties/process_controller_document",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "label" : "#lang/process_controller"
-            },
-            "rule" : {
-              "condition" : {
-                "schema" : {
-                  "enum" : [
-                    true
-                  ]
-                },
-                "scope" : "#/properties/customAspects/properties/process_processing/properties/attributes/properties/process_processing_asProcessor"
-              },
-              "effect" : "SHOW"
-            },
-            "scope" : "#/properties/links/properties/process_controller",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_befb00f2-197e-437d-92ef-589902a0ec37"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "format" : "autocomplete",
-              "label" : "#lang/status"
-            },
-            "scope" : "#/properties/status",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_processingDetails_typeOfSurvey"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_typeOfSurvey",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_processingDetails_surveyConductedOn"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_surveyConductedOn",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_processingDetails_operatingStage"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_operatingStage",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_processingDetails_comment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_comment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_processingDetails_responsibleDepartment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_responsibleDepartment",
-            "type" : "Control"
-          },
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_responsiblePerson"
-            },
-            "scope" : "#/properties/links/properties/process_responsiblePerson",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_ee37e35a-e3be-40e3-a484-d9c1405b8711"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/process_jointControllership_document"
-                },
-                "scope" : "#/properties/attributes/properties/process_jointControllership_document",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "vertical",
-              "label" : "#lang/process_jointControllership"
-            },
-            "scope" : "#/properties/links/properties/process_jointControllership",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_caa29e99-cdd2-44e9-a389-49af09153f16"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_intendedPurpose_intendedPurpose"
-            },
-            "scope" : "#/properties/customAspects/properties/process_intendedPurpose/properties/attributes/properties/process_intendedPurpose_intendedPurpose",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_8c0d719b-5481-4515-bce5-2688c5318506"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "format" : "autocomplete",
-              "label" : "#lang/process_dataProcessing_legalBasis"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_legalBasis",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_dataProcessing_otherLegalBasis"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_otherLegalBasis",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_dataProcessing_explanation"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_explanation",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_dataProcessing_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_document",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "format" : "radio",
-                  "label" : "#lang/process_dataType_dataOrigin"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_dataOrigin",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/process_dataType_otherDataOrigin"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_otherDataOrigin",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "format" : "multiline",
-                  "label" : "#lang/process_dataType_comment"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_comment",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "format" : "autocomplete",
-                  "label" : "#lang/process_dataType_deletionPeriod"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriod",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/process_dataType_otherDeletionPeriod"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_otherDeletionPeriod",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "format" : "autocomplete",
-                  "label" : "#lang/process_dataType_deletionPeriodStart"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriodStart",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/process_dataType_otherDeletionPeriodStart"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_otherDeletionPeriodStart",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "format" : "multiline",
-                  "label" : "#lang/process_dataType_descriptionDeletionProcedure"
-                },
-                "scope" : "#/properties/attributes/properties/process_dataType_descriptionDeletionProcedure",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "label" : "#lang/process_dataType"
-            },
-            "scope" : "#/properties/links/properties/process_dataType",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_643a33ba-60af-4630-802d-a2aff222ce82"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "format" : "autocomplete",
-              "label" : "#lang/process_dataSubjects_dataSubjects"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataSubjects/properties/attributes/properties/process_dataSubjects_dataSubjects",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_dataSubjects_otherDataSubjects"
-            },
-            "scope" : "#/properties/customAspects/properties/process_dataSubjects/properties/attributes/properties/process_dataSubjects_otherDataSubjects",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_eae57830-e809-4e61-8c53-7450916ec7fc"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_accessAuthorization_concept"
-            },
-            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_concept",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_accessAuthorization_description"
-            },
-            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_description",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_accessAuthorization_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_document",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_489ebdcf-0157-484a-b989-21767aa1bfbe"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_dataTransmission"
-            },
-            "scope" : "#/properties/links/properties/process_dataTransmission",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_323dfeaf-5a4f-49d1-88c7-878e1feb3262"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_informationsObligations_status"
-            },
-            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_status",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_informationsObligations_explanation"
-            },
-            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_explanation",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_informationsObligations_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_document",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_26da422c-50fc-4fbd-a29c-40beae0be6d3"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_processingOnWhitelist"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOnWhitelist",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_processingOperationAccordingArt35"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOperationAccordingArt35",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_comment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_comment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_document",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_otherExclusions"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherExclusions",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_otherExclusionsComment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherExclusionsComment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_processingOnBlacklistArt35"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOnBlacklistArt35",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_blacklistComment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_blacklistComment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_blacklistDocument"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_blacklistDocument",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "autocomplete",
-              "label" : "#lang/process_privacyImpactAssessment_processingCriteria"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingCriteria",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_twoProcessingCriteria"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_twoProcessingCriteria",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_twoProcessingCriteriaComment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_twoProcessingCriteriaComment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_otherReasons"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherReasons",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_privacyImpactAssessment_supervisoryAuthorityConsulted"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_supervisoryAuthorityConsulted",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_privacyImpactAssessment_supervisoryAuthorityComment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_supervisoryAuthorityComment",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_a125234f-10d4-4b94-ad43-82094874fa3b"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_opinionDPO_privacyImpactAssessment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_privacyImpactAssessment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_opinionDPO_comment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_comment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_opinionDPO_document"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_document",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_opinionDPO_opinionDPO"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_opinionDPO",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_opinionDPO_findings"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_findings",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/process_opinionDPO_recommendations"
-            },
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_recommendations",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_846279a5-24f2-456f-9406-4a483b267451"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_requiredApplications"
-            },
-            "scope" : "#/properties/links/properties/process_requiredApplications",
-            "type" : "Control"
-          },
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_requiredITSystems"
-            },
-            "scope" : "#/properties/links/properties/process_requiredITSystems",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_4fb866dc-73d0-4aa0-afdb-04095b08be90"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [ ],
-            "options" : {
-              "label" : "#lang/process_tom"
-            },
-            "scope" : "#/properties/links/properties/process_tom",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_b7d55550-9e97-4fb1-87a5-0f6729f28157"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/process_tomAssessment_certification"
-            },
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certification",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_tomAssessment_certificationStandard"
-            },
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certificationStandard",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_tomAssessment_securityConcept"
-            },
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_securityConcept",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_tomAssessment_comment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_comment",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/process_tomAssessment_overallAssessment"
-            },
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_overallAssessment",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_cbc0c679-f0fa-4203-9f84-1c90da2da36e"
-        },
-        "type" : "Layout"
-      }
-    ],
-    "options" : {
-      "direction" : "vertical",
-      "format" : "group"
-    },
-    "type" : "Layout"
-  },
-  "modelType" : "process",
   "name" : {
     "de" : "Verarbeitungstätigkeit",
     "en" : "Data processing"
   },
-  "sorting" : "f100",
+  "modelType" : "process",
   "subType" : "PRO_DataProcessing",
+  "sorting" : "f100",
   "translation" : {
     "de" : {
-      "group_26da422c-50fc-4fbd-a29c-40beae0be6d3" : "Informationspflichten",
-      "group_323dfeaf-5a4f-49d1-88c7-878e1feb3262" : "Datenübertragung",
-      "group_489ebdcf-0157-484a-b989-21767aa1bfbe" : "Zugriffsberechtigte Personen(gruppen)",
-      "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Erforderliche Anwendungen und IT-Systeme",
-      "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Datenart/Datenkategorie",
-      "group_846279a5-24f2-456f-9406-4a483b267451" : "Rechtmäßigkeit der Verarbeitung",
-      "group_8c0d719b-5481-4515-bce5-2688c5318506" : "Zweckbestimmung",
-      "group_a125234f-10d4-4b94-ad43-82094874fa3b" : "Datenschutz-Folgenabschätzung",
-      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
-      "group_befb00f2-197e-437d-92ef-589902a0ec37" : "Verarbeitung als Auftragsverarbeiter",
-      "group_caa29e99-cdd2-44e9-a389-49af09153f16" : "Gemeinsame Verantwortliche",
-      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "Beurteilung der TOM",
-      "group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d" : "Rechtsgrundlage für die Datenverarbeitung",
-      "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Verantwortliche Stelle",
-      "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Kategorien betroffener Personen",
       "group_ebc63727-2a95-4a12-98cd-a43fbab33b68" : "Allgemeine Angaben",
       "group_ee37e35a-e3be-40e3-a484-d9c1405b8711" : "Verarbeitungsangaben",
+      "group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d" : "Rechtsgrundlage für die Datenverarbeitung",
+      "group_489ebdcf-0157-484a-b989-21767aa1bfbe" : "Zugriffsberechtigte Personen(gruppen)",
+      "group_26da422c-50fc-4fbd-a29c-40beae0be6d3" : "Informationspflichten",
+      "group_a125234f-10d4-4b94-ad43-82094874fa3b" : "Datenschutz-Folgenabschätzung",
+      "group_846279a5-24f2-456f-9406-4a483b267451" : "Rechtmäßigkeit der Verarbeitung",
+      "group_befb00f2-197e-437d-92ef-589902a0ec37" : "Verarbeitung als Auftragsverarbeiter",
+      "group_8c0d719b-5481-4515-bce5-2688c5318506" : "Zweckbestimmung",
+      "group_caa29e99-cdd2-44e9-a389-49af09153f16" : "Gemeinsame Verantwortliche",
+      "group_323dfeaf-5a4f-49d1-88c7-878e1feb3262" : "Datenübertragung",
+      "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Datenart/Datenkategorie",
+      "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Kategorien betroffener Personen",
+      "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Erforderliche Anwendungen und IT-Systeme",
+      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
+      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "Beurteilung der TOM",
+      "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Verantwortliche Stelle",
+      "group_6278f27a-b110-43bd-968a-ec3777522047" : "Status",
       "status" : "Status"
     },
     "en" : {
-      "group_26da422c-50fc-4fbd-a29c-40beae0be6d3" : "Information obligations",
-      "group_323dfeaf-5a4f-49d1-88c7-878e1feb3262" : "Data transfer",
-      "group_489ebdcf-0157-484a-b989-21767aa1bfbe" : "Access authorised persons",
-      "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Required applications and IT systems",
-      "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Data type/data categorie",
-      "group_846279a5-24f2-456f-9406-4a483b267451" : "Lawfulness of the processing",
-      "group_8c0d719b-5481-4515-bce5-2688c5318506" : "Intended purpose",
-      "group_a125234f-10d4-4b94-ad43-82094874fa3b" : "Privacy impact assessment",
-      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
-      "group_befb00f2-197e-437d-92ef-589902a0ec37" : "Processing as a processor",
-      "group_caa29e99-cdd2-44e9-a389-49af09153f16" : "Joint controllership",
-      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "TOM assessment",
-      "group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d" : "Legal basis for the data processing",
-      "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Responsible body",
-      "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Categories of data subjects",
       "group_ebc63727-2a95-4a12-98cd-a43fbab33b68" : "General information",
       "group_ee37e35a-e3be-40e3-a484-d9c1405b8711" : "Processing details",
+      "group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d" : "Legal basis for the data processing",
+      "group_489ebdcf-0157-484a-b989-21767aa1bfbe" : "Access authorised persons",
+      "group_26da422c-50fc-4fbd-a29c-40beae0be6d3" : "Information obligations",
+      "group_a125234f-10d4-4b94-ad43-82094874fa3b" : "Privacy impact assessment",
+      "group_846279a5-24f2-456f-9406-4a483b267451" : "Lawfulness of the processing",
+      "group_befb00f2-197e-437d-92ef-589902a0ec37" : "Processing as a processor",
+      "group_8c0d719b-5481-4515-bce5-2688c5318506" : "Intended purpose",
+      "group_caa29e99-cdd2-44e9-a389-49af09153f16" : "Joint controllership",
+      "group_323dfeaf-5a4f-49d1-88c7-878e1feb3262" : "Data transfer",
+      "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Data type/data categorie",
+      "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Categories of data subjects",
+      "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Required applications and IT systems",
+      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
+      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "TOM assessment",
+      "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Responsible body",
+      "group_6278f27a-b110-43bd-968a-ec3777522047" : "Status",
       "status" : "Status"
     }
+  },
+  "content" : {
+    "type" : "Layout",
+    "options" : {
+      "format" : "group",
+      "direction" : "vertical"
+    },
+    "elements" : [
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_ebc63727-2a95-4a12-98cd-a43fbab33b68"
+        },
+        "elements" : [
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/abbreviation",
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/name",
+                "options" : {
+                  "label" : "#lang/name"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/description",
+            "options" : {
+              "label" : "#lang/description",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_generalInformation/properties/attributes/properties/process_generalInformation_document",
+            "options" : {
+              "label" : "#lang/process_generalInformation_document"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_6278f27a-b110-43bd-968a-ec3777522047"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/domains/patternProperties/%5E%5B0-9a-f%5D%7B8%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B12%7D%24/properties/status",
+            "options" : {
+              "label" : "#lang/status"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_responsibleBody",
+            "options" : {
+              "label" : "#lang/process_responsibleBody"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_befb00f2-197e-437d-92ef-589902a0ec37"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processing/properties/attributes/properties/process_processing_asProcessor",
+            "options" : {
+              "label" : "#lang/process_processing_asProcessor"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_controller",
+            "options" : {
+              "label" : "#lang/process_controller"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_controller_document",
+                "options" : {
+                  "label" : "#lang/process_controller_document"
+                }
+              }
+            ],
+            "rule" : {
+              "effect" : "SHOW",
+              "condition" : {
+                "scope" : "#/properties/customAspects/properties/process_processing/properties/attributes/properties/process_processing_asProcessor",
+                "schema" : {
+                  "enum" : [
+                    true
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_ee37e35a-e3be-40e3-a484-d9c1405b8711"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_typeOfSurvey",
+            "options" : {
+              "label" : "#lang/process_processingDetails_typeOfSurvey"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_surveyConductedOn",
+            "options" : {
+              "label" : "#lang/process_processingDetails_surveyConductedOn"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_operatingStage",
+            "options" : {
+              "label" : "#lang/process_processingDetails_operatingStage"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_comment",
+            "options" : {
+              "label" : "#lang/process_processingDetails_comment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_processingDetails/properties/attributes/properties/process_processingDetails_responsibleDepartment",
+            "options" : {
+              "label" : "#lang/process_processingDetails_responsibleDepartment"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_responsiblePerson",
+            "options" : {
+              "label" : "#lang/process_responsiblePerson"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_caa29e99-cdd2-44e9-a389-49af09153f16"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_jointControllership",
+            "options" : {
+              "label" : "#lang/process_jointControllership",
+              "direction" : "vertical"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_jointControllership_document",
+                "options" : {
+                  "label" : "#lang/process_jointControllership_document"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_8c0d719b-5481-4515-bce5-2688c5318506"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_intendedPurpose/properties/attributes/properties/process_intendedPurpose_intendedPurpose",
+            "options" : {
+              "label" : "#lang/process_intendedPurpose_intendedPurpose",
+              "format" : "multiline"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_cf6bdfe8-a3fc-44c0-8867-00d5fc8cb41d"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_legalBasis",
+            "options" : {
+              "label" : "#lang/process_dataProcessing_legalBasis"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_otherLegalBasis",
+            "options" : {
+              "label" : "#lang/process_dataProcessing_otherLegalBasis"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_explanation",
+            "options" : {
+              "label" : "#lang/process_dataProcessing_explanation",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataProcessing/properties/attributes/properties/process_dataProcessing_document",
+            "options" : {
+              "label" : "#lang/process_dataProcessing_document"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_643a33ba-60af-4630-802d-a2aff222ce82"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_dataType",
+            "options" : {
+              "label" : "#lang/process_dataType"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_dataOrigin",
+                "options" : {
+                  "label" : "#lang/process_dataType_dataOrigin",
+                  "format" : "radio"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_otherDataOrigin",
+                "options" : {
+                  "label" : "#lang/process_dataType_otherDataOrigin"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_comment",
+                "options" : {
+                  "label" : "#lang/process_dataType_comment",
+                  "format" : "multiline"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriod",
+                "options" : {
+                  "label" : "#lang/process_dataType_deletionPeriod",
+                  "format" : "autocomplete"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_otherDeletionPeriod",
+                "options" : {
+                  "label" : "#lang/process_dataType_otherDeletionPeriod"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriodStart",
+                "options" : {
+                  "label" : "#lang/process_dataType_deletionPeriodStart",
+                  "format" : "autocomplete"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_otherDeletionPeriodStart",
+                "options" : {
+                  "label" : "#lang/process_dataType_otherDeletionPeriodStart"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/attributes/properties/process_dataType_descriptionDeletionProcedure",
+                "options" : {
+                  "label" : "#lang/process_dataType_descriptionDeletionProcedure",
+                  "format" : "multiline"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_eae57830-e809-4e61-8c53-7450916ec7fc"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataSubjects/properties/attributes/properties/process_dataSubjects_dataSubjects",
+            "options" : {
+              "label" : "#lang/process_dataSubjects_dataSubjects",
+              "format" : "autocomplete"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_dataSubjects/properties/attributes/properties/process_dataSubjects_otherDataSubjects",
+            "options" : {
+              "label" : "#lang/process_dataSubjects_otherDataSubjects"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_489ebdcf-0157-484a-b989-21767aa1bfbe"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_concept",
+            "options" : {
+              "label" : "#lang/process_accessAuthorization_concept"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_description",
+            "options" : {
+              "label" : "#lang/process_accessAuthorization_description",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_accessAuthorization/properties/attributes/properties/process_accessAuthorization_document",
+            "options" : {
+              "label" : "#lang/process_accessAuthorization_document"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_323dfeaf-5a4f-49d1-88c7-878e1feb3262"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_dataTransmission",
+            "options" : {
+              "label" : "#lang/process_dataTransmission"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_26da422c-50fc-4fbd-a29c-40beae0be6d3"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_status",
+            "options" : {
+              "label" : "#lang/process_informationsObligations_status"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_explanation",
+            "options" : {
+              "label" : "#lang/process_informationsObligations_explanation",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_informationsObligations/properties/attributes/properties/process_informationsObligations_document",
+            "options" : {
+              "label" : "#lang/process_informationsObligations_document"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_a125234f-10d4-4b94-ad43-82094874fa3b"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOnWhitelist",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_processingOnWhitelist"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOperationAccordingArt35",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_processingOperationAccordingArt35"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_comment",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_comment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_document",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_document"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherExclusions",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_otherExclusions"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherExclusionsComment",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_otherExclusionsComment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingOnBlacklistArt35",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_processingOnBlacklistArt35"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_blacklistComment",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_blacklistComment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_blacklistDocument",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_blacklistDocument"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_processingCriteria",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_processingCriteria",
+              "format" : "autocomplete"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_twoProcessingCriteria",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_twoProcessingCriteria"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_twoProcessingCriteriaComment",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_twoProcessingCriteriaComment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_otherReasons",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_otherReasons",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_supervisoryAuthorityConsulted",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_supervisoryAuthorityConsulted"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_privacyImpactAssessment/properties/attributes/properties/process_privacyImpactAssessment_supervisoryAuthorityComment",
+            "options" : {
+              "label" : "#lang/process_privacyImpactAssessment_supervisoryAuthorityComment",
+              "format" : "multiline"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_846279a5-24f2-456f-9406-4a483b267451"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_privacyImpactAssessment",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_privacyImpactAssessment"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_comment",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_comment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_document",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_document"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_opinionDPO",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_opinionDPO",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_findings",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_findings",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_recommendations",
+            "options" : {
+              "label" : "#lang/process_opinionDPO_recommendations",
+              "format" : "multiline"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_4fb866dc-73d0-4aa0-afdb-04095b08be90"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_requiredApplications",
+            "options" : {
+              "label" : "#lang/process_requiredApplications"
+            },
+            "elements" : [ ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_requiredITSystems",
+            "options" : {
+              "label" : "#lang/process_requiredITSystems"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_b7d55550-9e97-4fb1-87a5-0f6729f28157"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/process_tom",
+            "options" : {
+              "label" : "#lang/process_tom"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_cbc0c679-f0fa-4203-9f84-1c90da2da36e"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certification",
+            "options" : {
+              "label" : "#lang/process_tomAssessment_certification"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certificationStandard",
+            "options" : {
+              "label" : "#lang/process_tomAssessment_certificationStandard"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_securityConcept",
+            "options" : {
+              "label" : "#lang/process_tomAssessment_securityConcept"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_comment",
+            "options" : {
+              "label" : "#lang/process_tomAssessment_comment"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_overallAssessment",
+            "options" : {
+              "label" : "#lang/process_tomAssessment_overallAssessment"
+            }
+          }
+        ]
+      }
+    ]
   }
 }

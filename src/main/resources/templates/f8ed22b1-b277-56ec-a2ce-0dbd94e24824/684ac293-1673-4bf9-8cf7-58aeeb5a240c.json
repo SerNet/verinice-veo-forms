@@ -1,0 +1,255 @@
+{
+  "name" : {
+    "de" : "Scope",
+    "en" : "Scope"
+  },
+  "modelType" : "scope",
+  "subType" : "",
+  "sorting" : "c500",
+  "translation" : {
+    "de" : {
+      "group_d52c447b-4b62-40e6-a998-48e74d169283" : "Allgemeine Angaben",
+      "group_9f7e874d-e7ae-4476-a943-1476dd5373ab" : "Adresse",
+      "group_b11d786f-209c-4f12-abb7-27a61c7aa05a" : "Kontaktinformation",
+      "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Vertretung",
+      "group_4b0950e4-b12a-4862-96a0-299ca66342c8" : "Status",
+      "status" : "Status"
+    },
+    "en" : {
+      "group_d52c447b-4b62-40e6-a998-48e74d169283" : "General information",
+      "group_9f7e874d-e7ae-4476-a943-1476dd5373ab" : "Address",
+      "group_b11d786f-209c-4f12-abb7-27a61c7aa05a" : "Contact information",
+      "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Representation",
+      "group_4b0950e4-b12a-4862-96a0-299ca66342c8" : "Status",
+      "status" : "Status"
+    }
+  },
+  "content" : {
+    "type" : "Layout",
+    "options" : {
+      "format" : "group",
+      "direction" : "vertical"
+    },
+    "elements" : [
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_d52c447b-4b62-40e6-a998-48e74d169283"
+        },
+        "elements" : [
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/abbreviation",
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/name",
+                "options" : {
+                  "label" : "#lang/name"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/description",
+            "options" : {
+              "label" : "#lang/description",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_generalInformation/properties/attributes/properties/scope_generalInformation_document",
+            "options" : {
+              "label" : "#lang/scope_generalInformation_document"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_4b0950e4-b12a-4862-96a0-299ca66342c8"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/domains/patternProperties/%5E%5B0-9a-f%5D%7B8%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B12%7D%24/properties/status",
+            "options" : {
+              "label" : "#lang/status"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_9f7e874d-e7ae-4476-a943-1476dd5373ab"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_address1",
+            "options" : {
+              "label" : "#lang/scope_address_address1"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_address2",
+            "options" : {
+              "label" : "#lang/scope_address_address2"
+            }
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_postcode",
+                "options" : {
+                  "label" : "#lang/scope_address_postcode"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_city",
+                "options" : {
+                  "label" : "#lang/scope_address_city"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_country",
+                "options" : {
+                  "label" : "#lang/scope_address_country"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_address/properties/attributes/properties/scope_address_state",
+                "options" : {
+                  "label" : "#lang/scope_address_state"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_b11d786f-209c-4f12-abb7-27a61c7aa05a"
+        },
+        "elements" : [
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_phone",
+                "options" : {
+                  "label" : "#lang/scope_contactInformation_phone"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_fax",
+                "options" : {
+                  "label" : "#lang/scope_contactInformation_fax"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_email",
+            "options" : {
+              "label" : "#lang/scope_contactInformation_email"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_contactInformation/properties/attributes/properties/scope_contactInformation_website",
+            "options" : {
+              "label" : "#lang/scope_contactInformation_website"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/scope_management",
+            "options" : {
+              "label" : "#lang/scope_management"
+            },
+            "elements" : [ ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/scope_headOfDataProcessing",
+            "options" : {
+              "label" : "#lang/scope_headOfDataProcessing"
+            },
+            "elements" : [ ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/scope_informationSecurityOfficer",
+            "options" : {
+              "label" : "#lang/scope_informationSecurityOfficer"
+            },
+            "elements" : [ ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/scope_dataProtectionOfficer",
+            "options" : {
+              "label" : "#lang/scope_dataProtectionOfficer"
+            },
+            "elements" : [ ]
+          }
+        ]
+      }
+    ]
+  }
+}
