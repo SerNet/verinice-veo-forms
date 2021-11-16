@@ -43,7 +43,7 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-52:2.14.0")
     implementation("org.flywaydb:flyway-core:8.0.4")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
-    implementation("io.mockk:mockk:1.12.0")
+    implementation("io.mockk:mockk:1.12.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
