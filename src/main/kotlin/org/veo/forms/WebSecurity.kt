@@ -64,7 +64,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
             .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
             .permitAll()
             // TODO VEO-842 re-enable form manipulation for normal users.
-            .mvcMatchers(HttpMethod.GET, "*")
+            .antMatchers(HttpMethod.GET)
             .hasRole(ROLE_USER)
             .anyRequest()
             .hasRole(ROLE_ADMIN)
