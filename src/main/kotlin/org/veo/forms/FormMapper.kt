@@ -44,31 +44,7 @@ class FormMapper constructor(private val domainRepo: DomainRepository) {
         )
     }
 
-    fun updateEntity(form: Form, dto: FormDtoWithoutId, clientId: UUID) {
-        form.apply {
-            domain = domainRepo.findClientDomain(dto.domainId, clientId)
-            name = dto.name
-            modelType = dto.modelType
-            subType = dto.subType
-            sorting = dto.sorting
-            content = dto.content
-            translation = dto.translation
-        }
-    }
-
     fun createEntityByTemplate(it: FormDto, domain: Domain): Form {
         return Form(domain, it.name, it.modelType, it.subType, it.content, it.translation, it.id, it.sorting)
-    }
-
-    fun updateEntityByTemplate(form: Form, dto: FormDto) {
-        form.apply {
-            name = dto.name
-            modelType = dto.modelType
-            subType = dto.subType
-            sorting = dto.sorting
-            content = dto.content
-            translation = dto.translation
-            formTemplateId = dto.id
-        }
     }
 }

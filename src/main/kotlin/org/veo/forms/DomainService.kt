@@ -80,7 +80,7 @@ class DomainService(
         val existingForm = existingForms.find { it.formTemplateId == template.id }
         if (existingForm != null) {
             log.debug { "Updating existing form ${existingForm.id} to new version of form template ${template.id}" }
-            formMapper.updateEntityByTemplate(existingForm, template)
+            existingForm.updateByTemplate(template)
             formRepo.save(existingForm)
         } else {
             log.debug { "Incarnating new form template ${template.id}" }

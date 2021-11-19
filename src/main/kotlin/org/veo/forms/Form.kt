@@ -24,6 +24,8 @@ import com.vladmihalcea.hibernate.type.json.JsonType
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
+import org.veo.forms.dtos.FormDto
+import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -50,4 +52,24 @@ open class Form(
 ) {
     @Id
     var id: UUID = UUID.randomUUID()
+
+    fun update(dto: FormDtoWithoutId, domain: Domain) {
+        this.domain = domain
+        name = dto.name
+        modelType = dto.modelType
+        subType = dto.subType
+        sorting = dto.sorting
+        content = dto.content
+        translation = dto.translation
+    }
+
+    fun updateByTemplate(templateDto: FormDto) {
+        name = templateDto.name
+        modelType = templateDto.modelType
+        subType = templateDto.subType
+        sorting = templateDto.sorting
+        content = templateDto.content
+        translation = templateDto.translation
+        formTemplateId = templateDto.id
+    }
 }

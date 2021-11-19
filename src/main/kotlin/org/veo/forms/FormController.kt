@@ -42,6 +42,7 @@ import javax.validation.Valid
 @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
 class FormController(
     private val repo: FormRepository,
+    private val domainRepo: DomainRepository,
     private val mapper: FormMapper,
     private val authService: AuthService
 ) {
@@ -75,7 +76,7 @@ class FormController(
     fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @Valid @RequestBody dto: FormDtoWithoutId) {
         val clientId = authService.getClientId(auth)
         repo.findClientForm(clientId, id).let {
-            mapper.updateEntity(it, dto, clientId)
+            it.update(dto, domainRepo.findClientDomain(dto.domainId, clientId))
             repo.save(it)
         }
     }
