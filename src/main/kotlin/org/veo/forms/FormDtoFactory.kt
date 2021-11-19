@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2021  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,31 +20,17 @@ package org.veo.forms
 import org.springframework.stereotype.Component
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
-import org.veo.forms.dtos.FormDtoWithoutId
-import java.util.UUID
 
 @Component
-class FormMapper constructor(private val domainRepo: DomainRepository) {
-
-    fun toDto(entity: Form): FormDto {
+class FormDtoFactory {
+    fun createDto(entity: Form): FormDto {
         return FormDto(
             entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
             entity.content, entity.translation
         )
     }
 
-    fun toDtoWithoutContent(entity: Form): FormDtoWithoutContent {
+    fun createDtoWithoutContent(entity: Form): FormDtoWithoutContent {
         return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
-    }
-
-    fun toEntity(clientId: UUID, dto: FormDtoWithoutId): Form {
-        return Form(
-            domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
-            dto.content, dto.translation, null, dto.sorting
-        )
-    }
-
-    fun createEntityByTemplate(it: FormDto, domain: Domain): Form {
-        return Form(domain, it.name, it.modelType, it.subType, it.content, it.translation, it.id, it.sorting)
     }
 }

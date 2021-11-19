@@ -43,7 +43,8 @@ import javax.validation.Valid
 class FormController(
     private val repo: FormRepository,
     private val domainRepo: DomainRepository,
-    private val mapper: FormMapper,
+    private val formFactory: FormFactory,
+    private val formDtoFactory: FormDtoFactory,
     private val authService: AuthService
 ) {
 
@@ -51,21 +52,21 @@ class FormController(
     @GetMapping
     fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?): List<FormDtoWithoutContent> {
         return repo.findAll(authService.getClientId(auth), domainId).map {
-            mapper.toDtoWithoutContent(it)
+            formDtoFactory.createDtoWithoutContent(it)
         }
     }
 
     @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
     fun getForm(auth: Authentication, @PathVariable("id") id: UUID): FormDto {
-        return mapper.toDto(repo.findClientForm(authService.getClientId(auth), id))
+        return formDtoFactory.createDto(repo.findClientForm(authService.getClientId(auth), id))
     }
 
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createForm(auth: Authentication, @Valid @RequestBody dto: FormDtoWithoutId): UUID {
-        mapper.toEntity(authService.getClientId(auth), dto).let {
+        formFactory.createForm(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
     }

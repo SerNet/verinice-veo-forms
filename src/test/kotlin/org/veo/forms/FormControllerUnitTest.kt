@@ -32,9 +32,10 @@ import java.util.UUID
 class FormControllerUnitTest {
     private val formRepo = mockk<FormRepository>()
     private val domainRepo = mockk<DomainRepository>()
-    private val mapper = mockk<FormMapper>()
+    private val formFactory = mockk<FormFactory>()
+    private val dtoFactory = mockk<FormDtoFactory>()
     private val authService = mockk<AuthService>()
-    private val sut = FormController(formRepo, domainRepo, mapper, authService)
+    private val sut = FormController(formRepo, domainRepo, formFactory, dtoFactory, authService)
 
     private val auth = mockk<org.springframework.security.core.Authentication>()
     private val authClientId = UUID.randomUUID()
@@ -53,8 +54,8 @@ class FormControllerUnitTest {
         val clientFormBDto = mockk<FormDtoWithoutContent>()
 
         every { formRepo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
-        every { mapper.toDtoWithoutContent(clientFormA) } returns clientFormADto
-        every { mapper.toDtoWithoutContent(clientFormB) } returns clientFormBDto
+        every { dtoFactory.createDtoWithoutContent(clientFormA) } returns clientFormADto
+        every { dtoFactory.createDtoWithoutContent(clientFormB) } returns clientFormBDto
 
         // when getting all forms
         val clientForms = sut.getForms(auth, domainId)
@@ -74,7 +75,7 @@ class FormControllerUnitTest {
         val dto = mockk<FormDto>()
 
         every { formRepo.findClientForm(authClientId, formId) } returns entity
-        every { mapper.toDto(entity) } returns dto
+        every { dtoFactory.createDto(entity) } returns dto
 
         // when requesting the form
         val form = sut.getForm(auth, formId)
@@ -116,7 +117,7 @@ class FormControllerUnitTest {
         }
         val dto = mockk<FormDtoWithoutId>()
 
-        every { mapper.toEntity(authClientId, dto) } returns mappedEntity
+        every { formFactory.createForm(authClientId, dto) } returns mappedEntity
         every { formRepo.save(mappedEntity) } returns savedEntity
 
         // when creating the form

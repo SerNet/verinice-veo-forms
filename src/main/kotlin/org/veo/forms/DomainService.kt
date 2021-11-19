@@ -30,7 +30,7 @@ class DomainService(
     private val domainRepo: DomainRepository,
     private val templateProvider: TemplateProvider,
     private val formRepo: FormRepository,
-    private val formMapper: FormMapper
+    private val formFactory: FormFactory
 ) {
     init {
         domainRepo.findAll().forEach { updateByTemplate(it) }
@@ -51,7 +51,7 @@ class DomainService(
         domainTemplateId?.let { templateId ->
             templateProvider.getFormTemplates(templateId).forEach {
                 log.debug { "Incarnating form template ${it.id} in domain $domainId" }
-                formRepo.save(formMapper.createEntityByTemplate(it, domain))
+                formRepo.save(formFactory.createFormByTemplate(it, domain))
             }
         }
     }
@@ -84,7 +84,7 @@ class DomainService(
             formRepo.save(existingForm)
         } else {
             log.debug { "Incarnating new form template ${template.id}" }
-            formRepo.save(formMapper.createEntityByTemplate(template, domain))
+            formRepo.save(formFactory.createFormByTemplate(template, domain))
         }
     }
 }

@@ -27,11 +27,11 @@ import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID
 
 /**
- * Test [DomainService] using a real database and a real [FormMapper], but mocking the [TemplateProvider] to simulate changing templates.
+ * Test [DomainService] using a real database and a real [FormFactory], but mocking the [TemplateProvider] to simulate changing templates.
  */
 class DomainServiceIntegrationTest : AbstractSpringTest() {
     @Autowired
-    private lateinit var formMapper: FormMapper
+    private lateinit var formFactory: FormFactory
     @Autowired
     private lateinit var domainRepo: DomainRepository
     @Autowired
@@ -91,5 +91,5 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         }
     }
 
-    private fun buildDomainService(): DomainService = DomainService(domainRepo, templateProvider, formRepo, formMapper)
+    private fun buildDomainService(): DomainService = DomainService(domainRepo, templateProvider, formRepo, formFactory)
 }
