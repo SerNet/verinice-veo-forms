@@ -5,7 +5,6 @@
   },
   "modelType" : "scope",
   "subType" : "SCP_Controller",
-  "sorting" : "c300",
   "translation" : {
     "de" : {
       "group_d52c447b-4b62-40e6-a998-48e74d169283" : "Allgemeine Angaben",
@@ -16,7 +15,7 @@
       "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Zuständige Aufsichtsbehörde",
       "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Vertretung innerhalb der EU",
       "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Vertretung der Verantwortlichen Stelle",
-      "group_4dc9f9a4-cf11-42dd-8c94-b75b768aed4e" : "Status",
+      "group_9ab6ad38-1655-4693-a096-9b07f6199c5d" : "Status",
       "status" : "Status"
     },
     "en" : {
@@ -28,7 +27,7 @@
       "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Responsible regulatory authority",
       "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Representation within the EU",
       "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Representation of the responsible body",
-      "group_4dc9f9a4-cf11-42dd-8c94-b75b768aed4e" : "Status",
+      "group_9ab6ad38-1655-4693-a096-9b07f6199c5d" : "Status",
       "status" : "Status"
     }
   },
@@ -90,7 +89,7 @@
         "type" : "Layout",
         "options" : {
           "format" : "group",
-          "label" : "#lang/group_4dc9f9a4-cf11-42dd-8c94-b75b768aed4e"
+          "label" : "#lang/group_9ab6ad38-1655-4693-a096-9b07f6199c5d"
         },
         "elements" : [
           {
@@ -573,5 +572,6 @@
         ]
       }
     ]
-  }
+  },
+  "sorting" : "c300"
 }

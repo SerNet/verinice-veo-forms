@@ -5,7 +5,6 @@
   },
   "modelType" : "scope",
   "subType" : "SCP_ResponsibleBody",
-  "sorting" : "c100",
   "translation" : {
     "de" : {
       "group_d52c447b-4b62-40e6-a998-48e74d169283" : "Allgemeine Angaben",
@@ -16,8 +15,10 @@
       "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Zuständige Aufsichtsbehörde",
       "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Vertretung innerhalb der EU",
       "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Vertretung der Verantwortlichen Stelle",
-      "group_57f70364-2930-432b-969f-bfc749ee2571" : "Status",
-      "status" : "Status"
+      "group_9ab6ad38-1655-4693-a096-9b07f6199c5d" : "Status",
+      "status" : "Status",
+      "group_e7959877-e1c1-436f-9dd9-7a82f3e8f44e" : "TOM",
+      "group_21455374-9b9c-454f-a428-0cd4cc9267c9" : "Beurteilung der TOM"
     },
     "en" : {
       "group_d52c447b-4b62-40e6-a998-48e74d169283" : "General information",
@@ -28,8 +29,10 @@
       "group_63ec9a48-41e9-4806-ae96-9a0290e20009" : "Responsible regulatory authority",
       "group_fbde1606-f433-486d-ac53-15b8f0ecf3a8" : "Representation within the EU",
       "group_50dd391c-a84f-4c7c-a5f0-6b3df4202a4f" : "Representation of the responsible body",
-      "group_57f70364-2930-432b-969f-bfc749ee2571" : "Status",
-      "status" : "Status"
+      "group_9ab6ad38-1655-4693-a096-9b07f6199c5d" : "Status",
+      "status" : "Status",
+      "group_e7959877-e1c1-436f-9dd9-7a82f3e8f44e" : "TOM",
+      "group_21455374-9b9c-454f-a428-0cd4cc9267c9" : "TOM assessment"
     }
   },
   "content" : {
@@ -90,7 +93,7 @@
         "type" : "Layout",
         "options" : {
           "format" : "group",
-          "label" : "#lang/group_57f70364-2930-432b-969f-bfc749ee2571"
+          "label" : "#lang/group_9ab6ad38-1655-4693-a096-9b07f6199c5d"
         },
         "elements" : [
           {
@@ -571,7 +574,71 @@
             "elements" : [ ]
           }
         ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_e7959877-e1c1-436f-9dd9-7a82f3e8f44e"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/links/properties/scope_tom",
+            "options" : {
+              "label" : "#lang/scope_tom"
+            },
+            "elements" : [ ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_21455374-9b9c-454f-a428-0cd4cc9267c9"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_tomAssessment/properties/attributes/properties/scope_tomAssessment_certification",
+            "options" : {
+              "label" : "#lang/scope_tomAssessment_certification"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_tomAssessment/properties/attributes/properties/scope_tomAssessment_certificationStandard",
+            "options" : {
+              "label" : "#lang/scope_tomAssessment_certificationStandard"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_tomAssessment/properties/attributes/properties/scope_tomAssessment_securityConcept",
+            "options" : {
+              "label" : "#lang/scope_tomAssessment_securityConcept"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_tomAssessment/properties/attributes/properties/scope_tomAssessment_comment",
+            "options" : {
+              "label" : "#lang/scope_tomAssessment_comment",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/scope_tomAssessment/properties/attributes/properties/scope_tomAssessment_overallAssessment",
+            "options" : {
+              "label" : "#lang/scope_tomAssessment_overallAssessment",
+              "format" : "multiline"
+            }
+          }
+        ]
       }
     ]
-  }
+  },
+  "sorting" : "c100"
 }

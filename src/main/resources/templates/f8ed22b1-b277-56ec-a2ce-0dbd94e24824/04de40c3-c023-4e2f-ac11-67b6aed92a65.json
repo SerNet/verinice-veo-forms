@@ -5,7 +5,6 @@
   },
   "modelType" : "scope",
   "subType" : "SCP_JointController",
-  "sorting" : "c400",
   "translation" : {
     "de" : {
       "group_d52c447b-4b62-40e6-a998-48e74d169283" : "Allgemeine Angaben",
@@ -573,5 +572,6 @@
         ]
       }
     ]
-  }
+  },
+  "sorting" : "c400"
 }
