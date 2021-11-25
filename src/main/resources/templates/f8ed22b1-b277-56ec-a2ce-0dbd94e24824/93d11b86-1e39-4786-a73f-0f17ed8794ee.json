@@ -5,7 +5,6 @@
   },
   "modelType" : "process",
   "subType" : "PRO_DataTransfer",
-  "sorting" : "f200",
   "translation" : {
     "de" : {
       "group_a07359ba-61d9-49f5-8c8c-504b423d1ba9" : "Allgemeine Angaben",
@@ -106,8 +105,7 @@
             "scope" : "#/properties/customAspects/properties/process_recipient/properties/attributes/properties/process_recipient_type",
             "options" : {
               "label" : "#lang/process_recipient_type",
-              "format" : "radio",
-              "direction" : "vertical"
+              "format" : "radio"
             }
           },
           {
@@ -340,5 +338,6 @@
         ]
       }
     ]
-  }
+  },
+  "sorting" : "f200"
 }

@@ -5,7 +5,6 @@
   },
   "modelType" : "process",
   "subType" : "PRO_DataProcessing",
-  "sorting" : "f100",
   "translation" : {
     "de" : {
       "group_ebc63727-2a95-4a12-98cd-a43fbab33b68" : "Allgemeine Angaben",
@@ -22,11 +21,11 @@
       "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Datenart/Datenkategorie",
       "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Kategorien betroffener Personen",
       "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Erforderliche Anwendungen und IT-Systeme",
-      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
-      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "Beurteilung der TOM",
+      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "Spezifische Maßnahmen",
       "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Verantwortliche Stelle",
       "group_6278f27a-b110-43bd-968a-ec3777522047" : "Status",
-      "status" : "Status"
+      "status" : "Status",
+      "group_7311469a-de4d-482c-800f-9540f5a26e75" : "Stellungnahme der Datenschutzbeauftragten"
     },
     "en" : {
       "group_ebc63727-2a95-4a12-98cd-a43fbab33b68" : "General information",
@@ -43,11 +42,11 @@
       "group_643a33ba-60af-4630-802d-a2aff222ce82" : "Data type/data categorie",
       "group_eae57830-e809-4e61-8c53-7450916ec7fc" : "Categories of data subjects",
       "group_4fb866dc-73d0-4aa0-afdb-04095b08be90" : "Required applications and IT systems",
-      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "TOM",
-      "group_cbc0c679-f0fa-4203-9f84-1c90da2da36e" : "TOM assessment",
+      "group_b7d55550-9e97-4fb1-87a5-0f6729f28157" : "Specific measures",
       "group_e4e4a3e1-7425-4e4a-9ebe-62f5a9aea731" : "Responsible body",
       "group_6278f27a-b110-43bd-968a-ec3777522047" : "Status",
-      "status" : "Status"
+      "status" : "Status",
+      "group_7311469a-de4d-482c-800f-9540f5a26e75" : "Opinion of the data protection officer"
     }
   },
   "content" : {
@@ -338,13 +337,6 @@
               },
               {
                 "type" : "Control",
-                "scope" : "#/properties/attributes/properties/process_dataType_otherDataOrigin",
-                "options" : {
-                  "label" : "#lang/process_dataType_otherDataOrigin"
-                }
-              },
-              {
-                "type" : "Control",
                 "scope" : "#/properties/attributes/properties/process_dataType_comment",
                 "options" : {
                   "label" : "#lang/process_dataType_comment",
@@ -353,17 +345,17 @@
               },
               {
                 "type" : "Control",
-                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriod",
+                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriodCount",
                 "options" : {
-                  "label" : "#lang/process_dataType_deletionPeriod",
-                  "format" : "autocomplete"
+                  "label" : "#lang/process_dataType_deletionPeriodCount"
                 }
               },
               {
                 "type" : "Control",
-                "scope" : "#/properties/attributes/properties/process_dataType_otherDeletionPeriod",
+                "scope" : "#/properties/attributes/properties/process_dataType_deletionPeriod",
                 "options" : {
-                  "label" : "#lang/process_dataType_otherDeletionPeriod"
+                  "label" : "#lang/process_dataType_deletionPeriod",
+                  "format" : "autocomplete"
                 }
               },
               {
@@ -647,28 +639,29 @@
             }
           },
           {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_opinionDPO",
+            "type" : "Layout",
             "options" : {
-              "label" : "#lang/process_opinionDPO_opinionDPO",
-              "format" : "multiline"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_findings",
-            "options" : {
-              "label" : "#lang/process_opinionDPO_findings",
-              "format" : "multiline"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_recommendations",
-            "options" : {
-              "label" : "#lang/process_opinionDPO_recommendations",
-              "format" : "multiline"
-            }
+              "format" : "group",
+              "label" : "#lang/group_7311469a-de4d-482c-800f-9540f5a26e75"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_recommendations",
+                "options" : {
+                  "label" : "#lang/process_opinionDPO_recommendations",
+                  "format" : "multiline"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/process_opinionDPO/properties/attributes/properties/process_opinionDPO_findings",
+                "options" : {
+                  "label" : "#lang/process_opinionDPO_findings",
+                  "format" : "multiline"
+                }
+              }
+            ]
           }
         ]
       },
@@ -713,51 +706,8 @@
             "elements" : [ ]
           }
         ]
-      },
-      {
-        "type" : "Layout",
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_cbc0c679-f0fa-4203-9f84-1c90da2da36e"
-        },
-        "elements" : [
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certification",
-            "options" : {
-              "label" : "#lang/process_tomAssessment_certification"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_certificationStandard",
-            "options" : {
-              "label" : "#lang/process_tomAssessment_certificationStandard"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_securityConcept",
-            "options" : {
-              "label" : "#lang/process_tomAssessment_securityConcept"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_comment",
-            "options" : {
-              "label" : "#lang/process_tomAssessment_comment"
-            }
-          },
-          {
-            "type" : "Control",
-            "scope" : "#/properties/customAspects/properties/process_tomAssessment/properties/attributes/properties/process_tomAssessment_overallAssessment",
-            "options" : {
-              "label" : "#lang/process_tomAssessment_overallAssessment"
-            }
-          }
-        ]
       }
     ]
-  }
+  },
+  "sorting" : "f100"
 }
