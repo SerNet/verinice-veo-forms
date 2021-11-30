@@ -85,7 +85,7 @@
         "elements" : [
           {
             "type" : "Control",
-            "scope" : "#/properties/domains/patternProperties/%5E%5B0-9a-f%5D%7B8%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B4%7D-%5B0-9a-f%5D%7B12%7D%24/properties/status",
+            "scope" : "#/properties/domains/properties/{CURRENT_DOMAIN_ID}/properties/status",
             "options" : {
               "label" : "#lang/status"
             }
