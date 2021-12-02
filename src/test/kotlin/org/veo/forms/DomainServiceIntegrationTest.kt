@@ -20,18 +20,18 @@ package org.veo.forms
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.mvc.AbstractSpringTest
+import java.util.UUID
 
 /**
- * Test [DomainService] using a real database and a real [FormMapper], but mocking the [TemplateProvider] to simulate changing templates.
+ * Test [DomainService] using a real database and a real [FormFactory], but mocking the [TemplateProvider] to simulate changing templates.
  */
 class DomainServiceIntegrationTest : AbstractSpringTest() {
     @Autowired
-    private lateinit var formMapper: FormMapper
+    private lateinit var formFactory: FormFactory
     @Autowired
     private lateinit var domainRepo: DomainRepository
     @Autowired
@@ -45,10 +45,12 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         val domainId = UUID.randomUUID()
         val clientId = UUID.randomUUID()
         val domainTemplateId = UUID.randomUUID()
-        val templates = mutableListOf(mockk<FormDto>(relaxed = true) {
-            every { id } returns UUID.randomUUID()
-            every { name } returns mapOf("en" to "template 1")
-        })
+        val templates = mutableListOf(
+            mockk<FormDto>(relaxed = true) {
+                every { id } returns UUID.randomUUID()
+                every { name } returns mapOf("en" to "template 1")
+            }
+        )
         every { templateProvider.getFormTemplates(domainTemplateId) } returns templates
         every { templateProvider.getHash(domainTemplateId) } returns "oldHash"
 
@@ -68,10 +70,12 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         // when changing the existing form template's name & adding a new form template
         every { templateProvider.getHash(domainTemplateId) } returns "newHash"
         every { templates[0].name } returns mapOf("en" to "template 1 (updated)")
-        templates.add(mockk(relaxed = true) {
-            every { id } returns UUID.randomUUID()
-            every { name } returns mapOf("en" to "template 2")
-        })
+        templates.add(
+            mockk(relaxed = true) {
+                every { id } returns UUID.randomUUID()
+                every { name } returns mapOf("en" to "template 2")
+            }
+        )
         // and reinitializing the service (simulating app restart)
         buildDomainService()
 
@@ -87,5 +91,5 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         }
     }
 
-    private fun buildDomainService(): DomainService = DomainService(domainRepo, templateProvider, formRepo, formMapper)
+    private fun buildDomainService(): DomainService = DomainService(domainRepo, templateProvider, formRepo, formFactory)
 }

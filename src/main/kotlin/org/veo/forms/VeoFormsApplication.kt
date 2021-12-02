@@ -30,17 +30,31 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-@SecurityScheme(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
+@SecurityScheme(
+    name = VeoFormsApplication.SECURITY_SCHEME_OAUTH, type = SecuritySchemeType.OAUTH2,
     `in` = SecuritySchemeIn.HEADER,
-    description = "openidconnect Login", flows = OAuthFlows(implicit = OAuthFlow(
-    authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth")))
+    description = "openidconnect Login",
+    flows = OAuthFlows(
+        implicit = OAuthFlow(
+            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth"
+        )
+    )
+)
 
-@OpenAPIDefinition(info = Info(title = "verinice.veo-forms API",
-    description = "OpenAPI documentation for verinice.veo-forms.",
-    license = License(name = "GNU Lesser General Public License",
-        url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"),
-    contact = Contact(url = "http://verinice.com",
-        email = "verinice@sernet.de")))
+@OpenAPIDefinition(
+    info = Info(
+        title = "verinice.veo-forms API",
+        description = "OpenAPI documentation for verinice.veo-forms.",
+        license = License(
+            name = "GNU Lesser General Public License",
+            url = "https://www.gnu.org/licenses/lgpl-3.0.de.html"
+        ),
+        contact = Contact(
+            url = "http://verinice.com",
+            email = "verinice@sernet.de"
+        )
+    )
+)
 class VeoFormsApplication {
     companion object {
         const val SECURITY_SCHEME_OAUTH = "OAuth2"

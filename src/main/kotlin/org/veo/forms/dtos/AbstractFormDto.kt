@@ -18,17 +18,23 @@
 package org.veo.forms.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
-import java.util.UUID
-import javax.validation.constraints.Size
 import org.veo.forms.ModelType
+import java.util.UUID
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 abstract class AbstractFormDto(
     val domainId: UUID,
     @field:Schema(
         description = "Translated form name. Use keys for language ISO code and values for translated name.",
-        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""")
+        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}"""
+    )
     val name: Map<String, String>,
     val modelType: ModelType,
     @field:Size(min = 1, max = 255)
-    val subType: String?
+    val subType: String?,
+    @field:Schema(description = "ASCII string for sorting, maximum 32 characters.")
+    @field:Size(min = 1, max = 32)
+    @field:Pattern(regexp = "^\\p{ASCII}+$", message = "Only ASCII characters are allowed.")
+    val sorting: String?
 )

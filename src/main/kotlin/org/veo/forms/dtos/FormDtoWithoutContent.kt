@@ -17,13 +17,14 @@
  */
 package org.veo.forms.dtos
 
-import java.util.UUID
 import org.veo.forms.ModelType
+import java.util.UUID
 
 class FormDtoWithoutContent(
     val id: UUID,
     domainId: UUID,
     name: Map<String, String>,
     modelType: ModelType,
-    subType: String?
-) : AbstractFormDto(domainId, name, modelType, subType)
+    subType: String?,
+    sorting: String?
+) : AbstractFormDto(domainId, name, modelType, subType, sorting)

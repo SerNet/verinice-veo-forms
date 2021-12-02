@@ -17,21 +17,21 @@
  */
 package org.veo.forms
 
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.annotation.ControllerAdvice
-import org.springframework.web.bind.annotation.ExceptionHandler
-import javax.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
+import org.veo.forms.dtos.FormDto
+import org.veo.forms.dtos.FormDtoWithoutId
+import java.util.UUID
 
-@ControllerAdvice
-class ExceptionHandler {
-    @ExceptionHandler(HttpMessageNotReadableException::class, MethodArgumentNotValidException::class)
-    fun handleException(
-        exception: Exception,
-        request: HttpServletRequest?
-    ): ResponseEntity<String> {
-        return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
+@Component
+class FormFactory(private val domainRepo: DomainRepository) {
+    fun createForm(clientId: UUID, dto: FormDtoWithoutId): Form {
+        return Form(
+            domainRepo.findClientDomain(dto.domainId, clientId), dto.name, dto.modelType, dto.subType,
+            dto.content, dto.translation, null, dto.sorting
+        )
+    }
+
+    fun createFormByTemplate(it: FormDto, domain: Domain): Form {
+        return Form(domain, it.name, it.modelType, it.subType, it.content, it.translation, it.id, it.sorting)
     }
 }

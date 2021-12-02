@@ -1,253 +1,274 @@
 {
-  "content" : {
-    "elements" : [
-      {
-        "elements" : [
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/abbreviation"
-                },
-                "scope" : "#/properties/abbreviation",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/name"
-                },
-                "scope" : "#/properties/name",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "options" : {
-              "format" : "multiline",
-              "label" : "#lang/description"
-            },
-            "scope" : "#/properties/description",
-            "type" : "Control"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_generalInformation_salutation"
-                },
-                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_salutation",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_generalInformation_title"
-                },
-                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_title",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_generalInformation_givenName"
-                },
-                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_givenName",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_generalInformation_familyName"
-                },
-                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_familyName",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_194f7b1c-2a90-42d6-a2bd-a61b314a7195"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "options" : {
-              "label" : "#lang/person_address_address1"
-            },
-            "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_address1",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/person_address_address2"
-            },
-            "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_address2",
-            "type" : "Control"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_address_postcode"
-                },
-                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_postcode",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_address_city"
-                },
-                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_city",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_address_country"
-                },
-                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_country",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_address_state"
-                },
-                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_state",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_e0ed62cc-4519-4386-bf80-3983f4159f25"
-        },
-        "type" : "Layout"
-      },
-      {
-        "elements" : [
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_contactInformation_office"
-                },
-                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_office",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_contactInformation_mobile"
-                },
-                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_mobile",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "elements" : [
-              {
-                "options" : {
-                  "label" : "#lang/person_contactInformation_private"
-                },
-                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_private",
-                "type" : "Control"
-              },
-              {
-                "options" : {
-                  "label" : "#lang/person_contactInformation_fax"
-                },
-                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_fax",
-                "type" : "Control"
-              }
-            ],
-            "options" : {
-              "direction" : "horizontal",
-              "format" : "group"
-            },
-            "type" : "Layout"
-          },
-          {
-            "options" : {
-              "label" : "#lang/person_contactInformation_email"
-            },
-            "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_email",
-            "type" : "Control"
-          },
-          {
-            "options" : {
-              "label" : "#lang/person_contactInformation_website"
-            },
-            "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_website",
-            "type" : "Control"
-          }
-        ],
-        "options" : {
-          "format" : "group",
-          "label" : "#lang/group_1a7920f6-6035-4ee4-bc5b-8a316bdb8fee"
-        },
-        "type" : "Layout"
-      }
-    ],
-    "options" : {
-      "direction" : "vertical",
-      "format" : "group"
-    },
-    "type" : "Layout"
-  },
-  "modelType" : "person",
   "name" : {
     "de" : "Person",
     "en" : "Person"
   },
+  "modelType" : "person",
   "subType" : "PER_Person",
+  "sorting" : "l200",
   "translation" : {
     "de" : {
       "group_194f7b1c-2a90-42d6-a2bd-a61b314a7195" : "Allgemeine Angaben",
       "group_1a7920f6-6035-4ee4-bc5b-8a316bdb8fee" : "Kontaktinformation",
-      "group_e0ed62cc-4519-4386-bf80-3983f4159f25" : "Adresse"
+      "group_e0ed62cc-4519-4386-bf80-3983f4159f25" : "Adresse",
+      "group_4d6b9125-048d-47ef-b53b-7b2894823eb6" : "Status",
+      "status" : "Status"
     },
     "en" : {
       "group_194f7b1c-2a90-42d6-a2bd-a61b314a7195" : "General Information",
       "group_1a7920f6-6035-4ee4-bc5b-8a316bdb8fee" : "Contact information",
-      "group_e0ed62cc-4519-4386-bf80-3983f4159f25" : "Address"
+      "group_e0ed62cc-4519-4386-bf80-3983f4159f25" : "Address",
+      "group_4d6b9125-048d-47ef-b53b-7b2894823eb6" : "Status",
+      "status" : "Status"
     }
+  },
+  "content" : {
+    "type" : "Layout",
+    "options" : {
+      "format" : "group",
+      "direction" : "vertical"
+    },
+    "elements" : [
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_194f7b1c-2a90-42d6-a2bd-a61b314a7195"
+        },
+        "elements" : [
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/abbreviation",
+                "options" : {
+                  "label" : "#lang/abbreviation"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/name",
+                "options" : {
+                  "label" : "#lang/name"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/description",
+            "options" : {
+              "label" : "#lang/description",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_salutation",
+                "options" : {
+                  "label" : "#lang/person_generalInformation_salutation"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_title",
+                "options" : {
+                  "label" : "#lang/person_generalInformation_title"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_givenName",
+                "options" : {
+                  "label" : "#lang/person_generalInformation_givenName"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_generalInformation/properties/attributes/properties/person_generalInformation_familyName",
+                "options" : {
+                  "label" : "#lang/person_generalInformation_familyName"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_4d6b9125-048d-47ef-b53b-7b2894823eb6"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/domains/properties/{CURRENT_DOMAIN_ID}/properties/status",
+            "options" : {
+              "label" : "#lang/status"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_e0ed62cc-4519-4386-bf80-3983f4159f25"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_address1",
+            "options" : {
+              "label" : "#lang/person_address_address1"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_address2",
+            "options" : {
+              "label" : "#lang/person_address_address2"
+            }
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_postcode",
+                "options" : {
+                  "label" : "#lang/person_address_postcode"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_city",
+                "options" : {
+                  "label" : "#lang/person_address_city"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_country",
+                "options" : {
+                  "label" : "#lang/person_address_country"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_address/properties/attributes/properties/person_address_state",
+                "options" : {
+                  "label" : "#lang/person_address_state"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
+          "label" : "#lang/group_1a7920f6-6035-4ee4-bc5b-8a316bdb8fee"
+        },
+        "elements" : [
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_office",
+                "options" : {
+                  "label" : "#lang/person_contactInformation_office"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_mobile",
+                "options" : {
+                  "label" : "#lang/person_contactInformation_mobile"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Layout",
+            "options" : {
+              "format" : "group",
+              "direction" : "horizontal"
+            },
+            "elements" : [
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_private",
+                "options" : {
+                  "label" : "#lang/person_contactInformation_private"
+                }
+              },
+              {
+                "type" : "Control",
+                "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_fax",
+                "options" : {
+                  "label" : "#lang/person_contactInformation_fax"
+                }
+              }
+            ]
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_email",
+            "options" : {
+              "label" : "#lang/person_contactInformation_email"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/person_contactInformation/properties/attributes/properties/person_contactInformation_website",
+            "options" : {
+              "label" : "#lang/person_contactInformation_website"
+            }
+          }
+        ]
+      }
+    ]
   }
 }

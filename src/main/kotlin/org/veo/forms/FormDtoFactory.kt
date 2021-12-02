@@ -17,21 +17,20 @@
  */
 package org.veo.forms
 
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.annotation.ControllerAdvice
-import org.springframework.web.bind.annotation.ExceptionHandler
-import javax.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
+import org.veo.forms.dtos.FormDto
+import org.veo.forms.dtos.FormDtoWithoutContent
 
-@ControllerAdvice
-class ExceptionHandler {
-    @ExceptionHandler(HttpMessageNotReadableException::class, MethodArgumentNotValidException::class)
-    fun handleException(
-        exception: Exception,
-        request: HttpServletRequest?
-    ): ResponseEntity<String> {
-        return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
+@Component
+class FormDtoFactory {
+    fun createDto(entity: Form): FormDto {
+        return FormDto(
+            entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
+            entity.content, entity.translation
+        )
+    }
+
+    fun createDtoWithoutContent(entity: Form): FormDtoWithoutContent {
+        return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
     }
 }

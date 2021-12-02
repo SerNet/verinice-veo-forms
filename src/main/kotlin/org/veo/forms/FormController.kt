@@ -19,8 +19,6 @@ package org.veo.forms
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import java.util.UUID
-import javax.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -36,35 +34,39 @@ import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
+import java.util.UUID
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/")
 @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
 class FormController(
     private val repo: FormRepository,
-    private val mapper: FormMapper,
+    private val domainRepo: DomainRepository,
+    private val formFactory: FormFactory,
+    private val formDtoFactory: FormDtoFactory,
     private val authService: AuthService
 ) {
 
-    @Operation(description = "Get all forms (metadata only).")
+    @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting.")
     @GetMapping
     fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?): List<FormDtoWithoutContent> {
         return repo.findAll(authService.getClientId(auth), domainId).map {
-            mapper.toDtoWithoutContent(it)
+            formDtoFactory.createDtoWithoutContent(it)
         }
     }
 
     @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
     fun getForm(auth: Authentication, @PathVariable("id") id: UUID): FormDto {
-        return mapper.toDto(repo.findClientForm(authService.getClientId(auth), id))
+        return formDtoFactory.createDto(repo.findClientForm(authService.getClientId(auth), id))
     }
 
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createForm(auth: Authentication, @Valid @RequestBody dto: FormDtoWithoutId): UUID {
-        mapper.toEntity(authService.getClientId(auth), dto).let {
+        formFactory.createForm(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
     }
@@ -75,7 +77,7 @@ class FormController(
     fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @Valid @RequestBody dto: FormDtoWithoutId) {
         val clientId = authService.getClientId(auth)
         repo.findClientForm(clientId, id).let {
-            mapper.updateEntity(it, dto, clientId)
+            it.update(dto, domainRepo.findClientDomain(dto.domainId, clientId))
             repo.save(it)
         }
     }

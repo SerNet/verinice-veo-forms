@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2021  Jonas Jordan
+ * Copyright (C) 2021 Daniel Murygin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,21 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.migrations
 
-import org.hibernate.annotations.Proxy
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.Id
+import org.flywaydb.core.api.migration.BaseJavaMigration
+import org.flywaydb.core.api.migration.Context
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null
-) {
-    /** Currently used for template hash. Use for actual template version number in later releases). */
-    var domainTemplateVersion: String? = null
+class V2__addColumnSorting : BaseJavaMigration() {
+    override fun migrate(context: Context) {
+        context.connection.createStatement().use {
+            it.execute(
+                """
+                alter table if exists form 
+                    add column sorting varchar(32);
+                """
+            )
+        }
+    }
 }

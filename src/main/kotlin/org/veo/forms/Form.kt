@@ -15,9 +15,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
+@file:Suppress("DEPRECATION")
+
 package org.veo.forms
 
 import com.vladmihalcea.hibernate.type.json.JsonType
+import org.hibernate.annotations.Proxy
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.veo.forms.dtos.FormDto
+import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -25,9 +33,6 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import org.hibernate.annotations.Proxy
-import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 
 @Entity
 @Proxy(lazy = false)
@@ -42,8 +47,29 @@ open class Form(
     var subType: String?,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
-    var formTemplateId: UUID? = null
+    var formTemplateId: UUID? = null,
+    @Column(length = 32) var sorting: String? = null
 ) {
     @Id
     var id: UUID = UUID.randomUUID()
+
+    fun update(dto: FormDtoWithoutId, domain: Domain) {
+        this.domain = domain
+        name = dto.name
+        modelType = dto.modelType
+        subType = dto.subType
+        sorting = dto.sorting
+        content = dto.content
+        translation = dto.translation
+    }
+
+    fun updateByTemplate(templateDto: FormDto) {
+        name = templateDto.name
+        modelType = templateDto.modelType
+        subType = templateDto.subType
+        sorting = templateDto.sorting
+        content = templateDto.content
+        translation = templateDto.translation
+        formTemplateId = templateDto.id
+    }
 }

@@ -1,24 +1,26 @@
 {
   "name" : {
-    "de" : "Dokument",
-    "en" : "Document"
+    "de" : "Vertrag",
+    "en" : "Contract"
   },
   "modelType" : "document",
-  "subType" : "DOC_Document",
+  "subType" : "DOC_Contract",
   "translation" : {
     "de" : {
       "group_548008f6-a13a-4033-a095-1d089d6a7a64" : "Allgemeine Angaben",
       "group_8288dbee-f293-4f08-b0a4-ea58b00b5733" : "Details",
       "group_78dbe00f-4df6-4da9-9684-03ae912b9433" : "Revision",
       "group_ff907286-fb15-4c34-b8b3-2f857e72c08f" : "Status",
-      "status" : "Status"
+      "status" : "Status",
+      "group_e6b7114b-2bef-46f0-bc23-62634657da67" : "Vertragsangaben"
     },
     "en" : {
       "group_548008f6-a13a-4033-a095-1d089d6a7a64" : "General Information",
       "group_8288dbee-f293-4f08-b0a4-ea58b00b5733" : "Details",
       "group_78dbe00f-4df6-4da9-9684-03ae912b9433" : "Revision",
       "group_ff907286-fb15-4c34-b8b3-2f857e72c08f" : "Status",
-      "status" : "Status"
+      "status" : "Status",
+      "group_e6b7114b-2bef-46f0-bc23-62634657da67" : "Contract details"
     }
   },
   "content" : {
@@ -152,6 +154,53 @@
         "type" : "Layout",
         "options" : {
           "format" : "group",
+          "label" : "#lang/group_e6b7114b-2bef-46f0-bc23-62634657da67"
+        },
+        "elements" : [
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/document_contract/properties/attributes/properties/document_contract_type",
+            "options" : {
+              "label" : "#lang/document_contract_type",
+              "format" : "radio"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/document_contract/properties/attributes/properties/document_contract_description",
+            "options" : {
+              "label" : "#lang/document_contract_description",
+              "format" : "multiline"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/document_contract/properties/attributes/properties/document_contract_location",
+            "options" : {
+              "label" : "#lang/document_contract_location",
+              "format" : "radio"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/document_contract/properties/attributes/properties/document_contract_thirdCountry",
+            "options" : {
+              "label" : "#lang/document_contract_thirdCountry"
+            }
+          },
+          {
+            "type" : "Control",
+            "scope" : "#/properties/customAspects/properties/document_contract/properties/attributes/properties/document_contract_subcontractor",
+            "options" : {
+              "label" : "#lang/document_contract_subcontractor"
+            }
+          }
+        ]
+      },
+      {
+        "type" : "Layout",
+        "options" : {
+          "format" : "group",
           "label" : "#lang/group_78dbe00f-4df6-4da9-9684-03ae912b9433"
         },
         "elements" : [
@@ -190,5 +239,5 @@
       }
     ]
   },
-  "sorting" : "u200"
+  "sorting" : "u100"
 }

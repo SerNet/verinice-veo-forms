@@ -2,21 +2,19 @@ import com.diffplug.spotless.FormatterStep
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS
-import java.util.Calendar
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Calendar
 
 plugins {
-    id("org.springframework.boot") version "2.5.3"
+    id("org.springframework.boot") version "2.6.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    val ktVersion = "1.5.21"
-    kotlin("jvm") version ktVersion
-    kotlin("plugin.spring") version ktVersion
-    id("org.jetbrains.kotlin.plugin.noarg") version ktVersion
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.spring") version "1.6.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 
-    id("com.diffplug.spotless") version "5.14.2"
+    id("com.diffplug.spotless") version "6.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
     jacoco
     id("com.gorylenko.gradle-git-properties") version "2.3.1"
@@ -38,29 +36,29 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.security:spring-security-test")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.2.23")
-    implementation("com.vladmihalcea:hibernate-types-52:2.12.1")
-    implementation("org.flywaydb:flyway-core:6.5.7")
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
-    implementation("io.mockk:mockk:1.12.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.5")
+    implementation("org.postgresql:postgresql:42.3.1")
+    implementation("com.vladmihalcea:hibernate-types-52:2.14.0")
+    implementation("org.flywaydb:flyway-core:8.2.0")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
+    implementation("io.mockk:mockk:1.12.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-    val kotestVersion = "4.6.1"
+    val kotestVersion = "5.0.1"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-property-jvm:$kotestVersion")
 
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.8")
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.9")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 
-    val testcontainersVersion = "1.16.0"
+    val testcontainersVersion = "1.16.2"
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
@@ -101,7 +99,7 @@ spotless {
         addStep(object : FormatterStep {
             override fun getName() = "format json"
             override fun format(rawUnix: String, file: File): String {
-                val om = ObjectMapper().enable(ORDER_MAP_ENTRIES_BY_KEYS)
+                val om = ObjectMapper()
                 return om.writer()
                     .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
                     .writeValueAsString(om.readValue(rawUnix, Map::class.java))
@@ -115,9 +113,11 @@ license {
     newLine.set(false)
     skipExistingHeaders.set(true)
     exclude("**/*.properties")
-    style(closureOf<HeaderFormatRegistry> {
-        put("kt", "JAVADOC")
-    })
+    style(
+        closureOf<HeaderFormatRegistry> {
+            put("kt", "JAVADOC")
+        }
+    )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
     ext["author"] = ProcessBuilder("git", "config", "user.name").start()
         .inputStream.bufferedReader().readText().trim()

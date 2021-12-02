@@ -19,12 +19,12 @@ package org.veo.forms
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldEndWith
+import org.junit.jupiter.api.Test
+import org.veo.forms.dtos.FormDto
 import java.util.UUID
 import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
-import org.junit.jupiter.api.Test
-import org.veo.forms.dtos.FormDto
 
 class FormDtoValidationTest {
     private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
@@ -55,9 +55,10 @@ class FormDtoValidationTest {
         name: Map<String, String> = emptyMap(),
         modelType: ModelType = ModelType.Document,
         subType: String? = null,
+        sorting: String? = null,
         content: Map<String, *> = emptyMap<String, Any>(),
         translation: Map<String, *>? = null
     ): Set<ConstraintViolation<FormDto>> {
-        return validator.validate(FormDto(id, domainId, name, modelType, subType, content, translation))
+        return validator.validate(FormDto(id, domainId, name, modelType, subType, sorting, content, translation))
     }
 }

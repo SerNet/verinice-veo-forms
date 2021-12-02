@@ -23,17 +23,19 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
+import java.util.UUID
 
 class FormControllerUnitTest {
-    private val repo = mockk<FormRepository>()
-    private val mapper = mockk<FormMapper>()
+    private val formRepo = mockk<FormRepository>()
+    private val domainRepo = mockk<DomainRepository>()
+    private val formFactory = mockk<FormFactory>()
+    private val dtoFactory = mockk<FormDtoFactory>()
     private val authService = mockk<AuthService>()
-    private val sut = FormController(repo, mapper, authService)
+    private val sut = FormController(formRepo, domainRepo, formFactory, dtoFactory, authService)
 
     private val auth = mockk<org.springframework.security.core.Authentication>()
     private val authClientId = UUID.randomUUID()
@@ -51,9 +53,9 @@ class FormControllerUnitTest {
         val clientFormADto = mockk<FormDtoWithoutContent>()
         val clientFormBDto = mockk<FormDtoWithoutContent>()
 
-        every { repo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
-        every { mapper.toDtoWithoutContent(clientFormA) } returns clientFormADto
-        every { mapper.toDtoWithoutContent(clientFormB) } returns clientFormBDto
+        every { formRepo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
+        every { dtoFactory.createDtoWithoutContent(clientFormA) } returns clientFormADto
+        every { dtoFactory.createDtoWithoutContent(clientFormB) } returns clientFormBDto
 
         // when getting all forms
         val clientForms = sut.getForms(auth, domainId)
@@ -72,8 +74,8 @@ class FormControllerUnitTest {
         val entity = mockk<Form>()
         val dto = mockk<FormDto>()
 
-        every { repo.findClientForm(authClientId, formId) } returns entity
-        every { mapper.toDto(entity) } returns dto
+        every { formRepo.findClientForm(authClientId, formId) } returns entity
+        every { dtoFactory.createDto(entity) } returns dto
 
         // when requesting the form
         val form = sut.getForm(auth, formId)
@@ -87,18 +89,22 @@ class FormControllerUnitTest {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
         val entity = mockk<Form> ()
-        val dto = mockk<FormDtoWithoutId>()
+        val dto = mockk<FormDtoWithoutId> {
+            every { domainId } returns UUID.randomUUID()
+        }
+        val domain = mockk<Domain>()
 
-        every { repo.findClientForm(authClientId, formId) } returns entity
-        every { mapper.updateEntity(entity, dto, authClientId) } just Runs
-        every { repo.save(entity) } returns mockk()
+        every { formRepo.findClientForm(authClientId, formId) } returns entity
+        every { domainRepo.findClientDomain(dto.domainId, authClientId) } returns domain
+        every { entity.update(dto, domain) } just Runs
+        every { formRepo.save(entity) } returns mockk()
 
         // when updating the form
         sut.updateForm(auth, formId, dto)
 
         // then the form is updated by the mapper and persisted.
-        verify { mapper.updateEntity(entity, dto, authClientId) }
-        verify { repo.save(entity) }
+        verify { entity.update(dto, domain) }
+        verify { formRepo.save(entity) }
     }
 
     @Test
@@ -111,8 +117,8 @@ class FormControllerUnitTest {
         }
         val dto = mockk<FormDtoWithoutId>()
 
-        every { mapper.toEntity(authClientId, dto) } returns mappedEntity
-        every { repo.save(mappedEntity) } returns savedEntity
+        every { formFactory.createForm(authClientId, dto) } returns mappedEntity
+        every { formRepo.save(mappedEntity) } returns savedEntity
 
         // when creating the form
         val uuid = sut.createForm(auth, dto)
