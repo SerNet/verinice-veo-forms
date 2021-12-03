@@ -24,7 +24,6 @@ import com.vladmihalcea.hibernate.type.json.JsonType
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
-import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 import javax.persistence.Column
@@ -61,15 +60,5 @@ open class Form(
         sorting = dto.sorting
         content = dto.content
         translation = dto.translation
-    }
-
-    fun updateByTemplate(templateDto: FormDto) {
-        name = templateDto.name
-        modelType = templateDto.modelType
-        subType = templateDto.subType
-        sorting = templateDto.sorting
-        content = templateDto.content
-        translation = templateDto.translation
-        formTemplateId = templateDto.id
     }
 }

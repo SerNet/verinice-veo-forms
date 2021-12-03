@@ -20,7 +20,6 @@ package org.veo.forms
 import mu.KotlinLogging
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
-import org.veo.forms.dtos.FormDto
 import java.util.UUID
 
 private val log = KotlinLogging.logger {}
@@ -32,9 +31,6 @@ class DomainService(
     private val formRepo: FormRepository,
     private val formFactory: FormFactory
 ) {
-    init {
-        domainRepo.findAll().forEach { updateByTemplate(it) }
-    }
 
     /**
      * Persists new domain. Incarnates form templates that exist for given domain template ID (if applicable).
@@ -53,38 +49,6 @@ class DomainService(
                 log.debug { "Incarnating form template ${it.id} in domain $domainId" }
                 formRepo.save(formFactory.createFormByTemplate(it, domain))
             }
-        }
-    }
-
-    /**
-     * Provisional update mechanism: Update all forms in the domain so they match the new version of their template, and
-     * create a new incarnation for each new form template. This will recklessly overwrite all modifications made by the
-     * user (which is OK in Veo < 2.0 because user customized forms aren't officially supported yet).
-     */
-    private fun updateByTemplate(domain: Domain) {
-        domain.domainTemplateId?.let { templateId ->
-            val templateHash = templateProvider.getHash(templateId)
-            if (domain.domainTemplateVersion != templateHash) {
-                log.info { "Updating domain ${domain.id} to new version of domain template ${domain.domainTemplateId}" }
-                val formTemplates = templateProvider.getFormTemplates(templateId).toMutableList()
-                val existingForms = formRepo.findAll(domain.clientId, domain.id)
-                formTemplates.forEach {
-                    applyFormTemplate(it, domain, existingForms)
-                }
-                domain.domainTemplateVersion = templateHash
-            }
-        }
-    }
-
-    private fun applyFormTemplate(template: FormDto, domain: Domain, existingForms: List<Form>) {
-        val existingForm = existingForms.find { it.formTemplateId == template.id }
-        if (existingForm != null) {
-            log.debug { "Updating existing form ${existingForm.id} to new version of form template ${template.id}" }
-            existingForm.updateByTemplate(template)
-            formRepo.save(existingForm)
-        } else {
-            log.debug { "Incarnating new form template ${template.id}" }
-            formRepo.save(formFactory.createFormByTemplate(template, domain))
         }
     }
 }

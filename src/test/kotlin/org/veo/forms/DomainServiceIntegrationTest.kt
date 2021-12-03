@@ -20,6 +20,7 @@ package org.veo.forms
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.veo.forms.dtos.FormDto
@@ -38,9 +39,15 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
     private lateinit var formRepo: FormRepository
 
     private val templateProvider: TemplateProvider = mockk()
+    private lateinit var domainService: DomainService
+
+    @BeforeEach
+    fun setup() {
+        domainService = DomainService(domainRepo, templateProvider, formRepo, formFactory)
+    }
 
     @Test
-    fun `initializes and updates domain`() {
+    fun `initializes domain`() {
         // given a domain id, client id and a domain template with one form template in it
         val domainId = UUID.randomUUID()
         val clientId = UUID.randomUUID()
@@ -55,7 +62,7 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         every { templateProvider.getHash(domainTemplateId) } returns "oldHash"
 
         // when initializing the domain
-        buildDomainService().initializeDomain(domainId, clientId, domainTemplateId)
+        domainService.initializeDomain(domainId, clientId, domainTemplateId)
 
         // then the form template has been incarnated in the domain
         formRepo.findAll(clientId, domainId).apply {
@@ -76,20 +83,5 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
                 every { name } returns mapOf("en" to "template 2")
             }
         )
-        // and reinitializing the service (simulating app restart)
-        buildDomainService()
-
-        // then the existing form template incarnation has been overwritten and the new template has been incarnated
-        formRepo.findAll(clientId, domainId).sortedBy { it.name["en"] }.apply {
-            size shouldBe 2
-            get(0).name["en"] shouldBe "template 1 (updated)"
-            get(1).name["en"] shouldBe "template 2"
-        }
-        // and the new hash been saved as the domain template version
-        domainRepo.findAll().first().apply {
-            domainTemplateVersion shouldBe "newHash"
-        }
     }
-
-    private fun buildDomainService(): DomainService = DomainService(domainRepo, templateProvider, formRepo, formFactory)
 }
