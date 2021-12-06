@@ -49,7 +49,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and retrieve`() {
         // when adding a new form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "name" to mapOf("en" to "form one"),
                 "domainId" to domain1Id,
@@ -75,7 +75,7 @@ class FormMvcTest : AbstractMvcTest() {
         formUuid.length shouldBe 36
 
         // when querying all forms
-        result = request(HttpMethod.GET, "/")
+        result = request(HttpMethod.GET, "/forms")
 
         // then the new form is returned without content
         result.response.status shouldBe 200
@@ -91,7 +91,7 @@ class FormMvcTest : AbstractMvcTest() {
         )
 
         // when querying the new form
-        result = request(HttpMethod.GET, "/$formUuid")
+        result = request(HttpMethod.GET, "/forms/$formUuid")
 
         // then it is returned with content
         result.response.status shouldBe 200
@@ -118,7 +118,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and update`() {
         // when adding a form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -140,7 +140,7 @@ class FormMvcTest : AbstractMvcTest() {
 
         // when updating the form
         result = request(
-            HttpMethod.PUT, "/$formUuid",
+            HttpMethod.PUT, "/forms/$formUuid",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "new name"),
@@ -162,7 +162,7 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 204
 
         // when querying the updated form
-        result = request(HttpMethod.GET, "/$formUuid")
+        result = request(HttpMethod.GET, "/forms/$formUuid")
 
         // then the changes have been applied
         result.response.status shouldBe 200
@@ -188,7 +188,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and delete`() {
         // when adding a form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -202,13 +202,13 @@ class FormMvcTest : AbstractMvcTest() {
         result.response.status shouldBe 201
 
         // when deleting the form
-        result = request(HttpMethod.DELETE, "/$formUuid")
+        result = request(HttpMethod.DELETE, "/forms/$formUuid")
 
         // then the response is ok
         result.response.status shouldBe 204
 
         // when querying the deleted form
-        result = request(HttpMethod.GET, "/$formUuid")
+        result = request(HttpMethod.GET, "/forms/$formUuid")
 
         // then the resource is not found
         result.response.status shouldBe 404
@@ -218,7 +218,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `retrieve by domain ID`() {
         // given four forms from different domains
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "three"),
@@ -227,7 +227,7 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "two"),
@@ -237,7 +237,7 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "one"),
@@ -247,7 +247,7 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "four"),
@@ -257,7 +257,7 @@ class FormMvcTest : AbstractMvcTest() {
         )
 
         // when requesting only forms from the second domain
-        val result = parseBody(request(HttpMethod.GET, "/?domainId=$domain2Id"))
+        val result = parseBody(request(HttpMethod.GET, "/forms?domainId=$domain2Id"))
 
         // then only three forms with the second domain are returned
         with(result as List<*>) {
@@ -277,7 +277,7 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `can't create form with invalid name structure`() {
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("foo" to mapOf("bar" to "star")),
@@ -291,7 +291,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `gives JSON parsing error details`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
@@ -307,7 +307,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `empty sub type is not allowed`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -325,7 +325,7 @@ class FormMvcTest : AbstractMvcTest() {
     fun `special characters in sorting is not allowed`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST, "/forms",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "John Doe"),

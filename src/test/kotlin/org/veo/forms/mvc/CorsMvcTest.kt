@@ -33,7 +33,7 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when getting from the correct origin
         val result = request(
-            HttpMethod.GET, "/", headers = mapOf("Origin" to listOf(origin))
+            HttpMethod.GET, "/forms", headers = mapOf("Origin" to listOf(origin))
         )
 
         // the request was successful
