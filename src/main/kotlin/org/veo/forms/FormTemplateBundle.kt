@@ -15,24 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
+@file:Suppress("DEPRECATION")
+
 package org.veo.forms
 
-import org.hibernate.annotations.Proxy
+import com.vladmihalcea.hibernate.type.json.JsonType
+import net.swiftzer.semver.SemVer
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import java.util.UUID
+import java.util.UUID.randomUUID
+import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 
 @Entity
-@Proxy(lazy = false)
-class Domain(
+@TypeDef(name = "json", typeClass = JsonType::class)
+class FormTemplateBundle(
+    val domainTemplateId: UUID,
+    val version: SemVer,
+    @Type(type = "json") @Column(columnDefinition = "jsonb") val templates: Map<UUID, FormTemplate>
+) {
     @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
-)
+    val id: UUID = randomUUID()
+}

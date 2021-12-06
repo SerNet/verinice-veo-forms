@@ -27,7 +27,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class DomainService(
     private val domainRepo: DomainRepository,
-    private val templateProvider: TemplateProvider,
+    private val domainTemplateBundleRepo: FormTemplateBundleRepository,
     private val formRepo: FormRepository,
     private val formFactory: FormFactory
 ) {
@@ -38,17 +38,13 @@ class DomainService(
      */
     fun initializeDomain(domainId: UUID, clientId: UUID, domainTemplateId: UUID?) {
         log.info { "initializing domain $domainId with domain template ID $domainTemplateId" }
-        val domain = Domain(domainId, clientId, domainTemplateId)
-        if (domainTemplateId != null) {
-            domain.domainTemplateVersion = templateProvider.getHash(domainTemplateId)
-        }
+        val templateBundle = domainTemplateId?.let { domainTemplateBundleRepo.getLatest(it) }
+        val domain = Domain(domainId, clientId, domainTemplateId, templateBundle)
         domainRepo.addDomain(domain)
 
-        domainTemplateId?.let { templateId ->
-            templateProvider.getFormTemplates(templateId).forEach {
-                log.debug { "Incarnating form template ${it.id} in domain $domainId" }
-                formRepo.save(formFactory.createFormByTemplate(it, domain))
-            }
+        templateBundle?.templates?.forEach {
+            log.debug { "Incarnating form template ${it.key} in domain $domainId" }
+            formRepo.save(formFactory.createForm(it.key, it.value, domain))
         }
     }
 }

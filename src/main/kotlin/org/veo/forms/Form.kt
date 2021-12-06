@@ -21,6 +21,7 @@
 package org.veo.forms
 
 import com.vladmihalcea.hibernate.type.json.JsonType
+import net.swiftzer.semver.SemVer
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
@@ -46,14 +47,38 @@ open class Form(
     var subType: String?,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
-    var formTemplateId: UUID? = null,
-    @Column(length = 32) var sorting: String? = null,
-    @Column(name = "revision") private var _revision: UInt = 0u
+    @Column(length = 32) var sorting: String?,
 ) {
+
+    constructor(
+        domain: Domain,
+        name: Map<String, String>,
+        modelType: ModelType,
+        subType: String?,
+        content: Map<String, *>,
+        translation: Map<String, *>?,
+        sorting: String?,
+        formTemplateId: UUID,
+        formTemplateVersion: SemVer,
+    ) : this(domain, name, modelType, subType, content, translation, sorting) {
+        _formTemplateId = formTemplateId
+        _formTemplateVersion = formTemplateVersion
+    }
+
     @Id
     var id: UUID = UUID.randomUUID()
 
+    @Column(name = "revision")
+    private var _revision: UInt = 0u
     val revision: UInt get() = _revision
+
+    @Column(name = "form_template_id")
+    private var _formTemplateId: UUID? = null
+    val formTemplateId: UUID? get() = _formTemplateId
+
+    @Column(name = "form_template_version")
+    private var _formTemplateVersion: SemVer? = null
+    val formTemplateVersion: SemVer? get() = _formTemplateVersion
 
     fun update(dto: FormDtoWithoutId, domain: Domain) {
         this.domain = domain
@@ -64,5 +89,35 @@ open class Form(
         content = dto.content
         translation = dto.translation
         _revision++
+    }
+
+    /**
+     * Creates a new form template from this form and links this form to that new template.
+     * @return pair of template ID (first) & template (second)
+     */
+    fun toTemplate(): Pair<UUID, FormTemplate> {
+        val newTemplateId = formTemplateId ?: UUID.randomUUID()
+        val newTemplate = FormTemplate(
+            getNewTemplateVersion(formTemplateVersion, revision),
+            name,
+            modelType,
+            subType,
+            content,
+            translation,
+            sorting
+        )
+
+        _formTemplateId = newTemplateId
+        _formTemplateVersion = newTemplate.version
+        _revision = 0u
+
+        return newTemplateId to newTemplate
+    }
+
+    private fun getNewTemplateVersion(oldTemplateVersion: SemVer?, formRevision: UInt): SemVer {
+        if (oldTemplateVersion == null) {
+            return SemVer(1)
+        }
+        return if (formRevision > 0u) oldTemplateVersion.newPatch() else oldTemplateVersion
     }
 }

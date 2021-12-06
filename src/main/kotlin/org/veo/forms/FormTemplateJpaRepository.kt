@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2021  Jonas Jordan
+ * Copyright (C) 2020  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,22 +17,15 @@
  */
 package org.veo.forms
 
-import org.hibernate.annotations.Proxy
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import javax.transaction.Transactional
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
-)
+@Repository
+@Transactional
+interface FormTemplateJpaRepository : JpaRepository<FormTemplateBundle, UUID> {
+    @Query("SELECT * FROM form_template_bundle WHERE domain_template_id = :domainTemplateId ORDER BY version DESC LIMIT 1", nativeQuery = true)
+    fun getLatest(domainTemplateId: UUID): FormTemplateBundle?
+}

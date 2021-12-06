@@ -17,22 +17,22 @@
  */
 package org.veo.forms
 
-import org.hibernate.annotations.Proxy
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.stereotype.Component
 import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
-)
+@Component
+class FormTemplateBundleRepository(
+    private val jpaRepo: FormTemplateJpaRepository
+) {
+    fun add(bundle: FormTemplateBundle): FormTemplateBundle {
+        if (jpaRepo.existsById(bundle.id)) {
+            throw DuplicateKeyException("Form template bundle ${bundle.id} already exists.")
+        }
+        return jpaRepo.save(bundle)
+    }
+
+    fun getLatest(domainTemplateId: UUID): FormTemplateBundle? {
+        return jpaRepo.getLatest(domainTemplateId)
+    }
+}

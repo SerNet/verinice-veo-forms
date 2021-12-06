@@ -15,24 +15,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.exceptions
 
-import org.hibernate.annotations.Proxy
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import org.veo.forms.Domain
+import org.veo.forms.FormTemplateBundle
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
+/**
+ * Thrown when trying to create a new form template bundle from a domain that's not based on the latest template bundle.
+ */
+class OutdatedDomainException(
+    domain: Domain,
+    latestTemplateBundle: FormTemplateBundle
+) : IllegalStateException(
+    "Cannot create form template bundle from domain ${domain.id} (domain template " +
+        "${domain.domainTemplateId}). Domain is still based on template bundle version " +
+        "${domain.formTemplateBundle?.version}, but latest version is ${latestTemplateBundle.version}."
 )

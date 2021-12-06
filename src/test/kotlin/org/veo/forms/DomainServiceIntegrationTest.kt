@@ -18,48 +18,51 @@
 package org.veo.forms
 
 import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.BeforeEach
+import net.swiftzer.semver.SemVer
+import org.junit.Ignore
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.veo.forms.dtos.FormDto
 import org.veo.forms.mvc.AbstractSpringTest
-import java.util.UUID
+import java.util.UUID.randomUUID
 
 /**
- * Test [DomainService] using a real database and a real [FormFactory], but mocking the [TemplateProvider] to simulate changing templates.
+ * Test [DomainService] using a real database and real components.
  */
+@Ignore
 class DomainServiceIntegrationTest : AbstractSpringTest() {
-    @Autowired
-    private lateinit var formFactory: FormFactory
     @Autowired
     private lateinit var domainRepo: DomainRepository
     @Autowired
     private lateinit var formRepo: FormRepository
+    @Autowired
+    private lateinit var formTemplateBundleRepo: FormTemplateBundleRepository
 
-    private val templateProvider: TemplateProvider = mockk()
+    @Autowired
     private lateinit var domainService: DomainService
 
-    @BeforeEach
-    fun setup() {
-        domainService = DomainService(domainRepo, templateProvider, formRepo, formFactory)
-    }
-
     @Test
-    fun `initializes domain`() {
+    fun `initializes domain with form templates`() {
         // given a domain id, client id and a domain template with one form template in it
-        val domainId = UUID.randomUUID()
-        val clientId = UUID.randomUUID()
-        val domainTemplateId = UUID.randomUUID()
-        val templates = mutableListOf(
-            mockk<FormDto>(relaxed = true) {
-                every { id } returns UUID.randomUUID()
-                every { name } returns mapOf("en" to "template 1")
-            }
+        val domainId = randomUUID()
+        val clientId = randomUUID()
+        val domainTemplateId = randomUUID()
+        val assetFormTemplateId = randomUUID()
+
+        val formTemplateBundle = FormTemplateBundle(
+            domainTemplateId, SemVer(1),
+            mapOf(
+                assetFormTemplateId to FormTemplate(
+                    SemVer(1, 0, 16),
+                    mapOf("en" to "template 1"),
+                    ModelType.Asset,
+                    null,
+                    mapOf<String, Any>(),
+                    null,
+                    null
+                )
+            )
         )
-        every { templateProvider.getFormTemplates(domainTemplateId) } returns templates
-        every { templateProvider.getHash(domainTemplateId) } returns "oldHash"
+        formTemplateBundleRepo.add(formTemplateBundle)
 
         // when initializing the domain
         domainService.initializeDomain(domainId, clientId, domainTemplateId)
@@ -67,21 +70,17 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         // then the form template has been incarnated in the domain
         formRepo.findAll(clientId, domainId).apply {
             size shouldBe 1
-            get(0).name["en"] shouldBe "template 1"
-        }
-        // and the hash been saved as the domain template version
-        domainRepo.findAll().first().apply {
-            domainTemplateVersion shouldBe "oldHash"
-        }
-
-        // when changing the existing form template's name & adding a new form template
-        every { templateProvider.getHash(domainTemplateId) } returns "newHash"
-        every { templates[0].name } returns mapOf("en" to "template 1 (updated)")
-        templates.add(
-            mockk(relaxed = true) {
-                every { id } returns UUID.randomUUID()
-                every { name } returns mapOf("en" to "template 2")
+            get(0).apply {
+                name["en"] shouldBe "template 1"
+                formTemplateId shouldBe assetFormTemplateId
+                formTemplateVersion shouldBe SemVer(1, 0, 16)
             }
-        )
+        }
+        // and the domain has all the references
+        domainRepo.findAll().first().let {
+            it.clientId shouldBe clientId
+            it.domainTemplateId shouldBe domainTemplateId
+            it.formTemplateBundle?.id shouldBe formTemplateBundle.id
+        }
     }
 }

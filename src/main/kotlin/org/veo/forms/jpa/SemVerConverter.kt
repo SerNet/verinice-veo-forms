@@ -15,24 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.jpa
 
-import org.hibernate.annotations.Proxy
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import net.swiftzer.semver.SemVer
+import javax.persistence.AttributeConverter
+import javax.persistence.Converter
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
-)
+@Converter(autoApply = true)
+class SemVerConverter : AttributeConverter<SemVer, String> {
+    override fun convertToDatabaseColumn(semVer: SemVer?) = semVer?.toString()
+
+    override fun convertToEntityAttribute(string: String?) = string?.let { SemVer.parse(it) }
+}

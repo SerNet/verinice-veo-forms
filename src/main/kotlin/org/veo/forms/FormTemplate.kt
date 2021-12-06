@@ -17,22 +17,14 @@
  */
 package org.veo.forms
 
-import org.hibernate.annotations.Proxy
-import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import net.swiftzer.semver.SemVer
 
-@Entity
-@Proxy(lazy = false)
-class Domain(
-    @Id
-    var id: UUID,
-    var clientId: UUID,
-    var domainTemplateId: UUID? = null,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
+class FormTemplate(
+    val version: SemVer,
+    val name: Map<String, String>,
+    val modelType: ModelType,
+    val subType: String?,
+    val content: Map<String, *>,
+    val translation: Map<String, *>?,
+    val sorting: String?
 )

@@ -38,7 +38,7 @@ class FormJpaTest : AbstractSpringTest() {
 
         // when saving form content and retrieving all forms
         formRepo.save(
-            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, content2k, null)
+            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, content2k, null, null)
         )
         val allForms = formRepo.findAll()
 
@@ -54,7 +54,7 @@ class FormJpaTest : AbstractSpringTest() {
 
         // when saving form content and retrieving all forms
         formRepo.save(
-            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, emptyMap<String, Any>(), null, null, sorting)
+            Form(createDomain(UUID.randomUUID()), emptyMap(), ModelType.Document, null, emptyMap<String, Any>(), null, sorting)
         )
         val allForms = formRepo.findAll()
 
@@ -160,7 +160,7 @@ class FormJpaTest : AbstractSpringTest() {
         return formRepo.save(
             Form(
                 domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
-                null, null, sorting
+                null, sorting
             )
         )
     }
