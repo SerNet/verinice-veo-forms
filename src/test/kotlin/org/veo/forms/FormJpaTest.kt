@@ -20,6 +20,7 @@ package org.veo.forms
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.veo.forms.dtos.FormDtoWithoutId
 import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID
 
@@ -132,12 +133,31 @@ class FormJpaTest : AbstractSpringTest() {
         clientForms.size shouldBe 0
     }
 
+    @Test
+    fun `revision number is managed`() {
+        // when creating and retrieving a new form
+        val domain = createDomain(UUID.randomUUID())
+        val formId = createForm("my little form", domain).id
+        var form = formRepo.getById(formId)
+
+        // then the revision number starts at 0
+        form.revision shouldBe 0u
+
+        // when updating and retrieving the DTO.
+        form.update(FormDtoWithoutId(form.content, form.translation, domain.id, mapOf("en" to "my new little form"), form.modelType, form.subType, form.sorting), domain)
+        formRepo.save(form)
+        form = formRepo.getById(formId)
+
+        // then the revision number has been incremented
+        form.revision shouldBe 1u
+    }
+
     private fun createDomain(clientId: UUID): Domain {
         return domainRepo.save(Domain(UUID.randomUUID(), clientId))
     }
 
-    private fun createForm(englishName: String, domain: Domain, sorting: String? = null) {
-        formRepo.save(
+    private fun createForm(englishName: String, domain: Domain, sorting: String? = null): Form {
+        return formRepo.save(
             Form(
                 domain, mapOf("en" to englishName), ModelType.Document, null, emptyMap<String, Any>(),
                 null, null, sorting

@@ -47,10 +47,13 @@ open class Form(
     @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
     @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
     var formTemplateId: UUID? = null,
-    @Column(length = 32) var sorting: String? = null
+    @Column(length = 32) var sorting: String? = null,
+    @Column(name = "revision") private var _revision: UInt = 0u
 ) {
     @Id
     var id: UUID = UUID.randomUUID()
+
+    val revision: UInt get() = _revision
 
     fun update(dto: FormDtoWithoutId, domain: Domain) {
         this.domain = domain
@@ -60,5 +63,6 @@ open class Form(
         sorting = dto.sorting
         content = dto.content
         translation = dto.translation
+        _revision++
     }
 }
