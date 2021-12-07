@@ -38,7 +38,7 @@ import java.util.UUID
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/forms")
+@RequestMapping("/")
 @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
 class FormController(
     private val repo: FormRepository,

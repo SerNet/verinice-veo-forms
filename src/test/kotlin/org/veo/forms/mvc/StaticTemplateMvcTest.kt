@@ -47,7 +47,7 @@ class StaticTemplateMvcTest : AbstractMvcTest() {
     @Test
     fun `retrieve templates`() {
         // when requesting all forms
-        val result = parseBody(request(HttpMethod.GET, "/forms"))
+        val result = parseBody(request(HttpMethod.GET, "/"))
 
         // all forms from static templates are returned
         with(result as List<*>) {

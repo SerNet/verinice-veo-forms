@@ -27,25 +27,25 @@ import org.springframework.http.HttpMethod
 class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     fun `regular API calls are forbidden without authorization`() = listOf(
-        testStatus(HttpMethod.GET, "/forms", 401),
-        testStatus(HttpMethod.POST, "/forms", 401),
-        testStatus(HttpMethod.GET, "/forms/a", 401),
-        testStatus(HttpMethod.PUT, "/forms/a", 401),
-        testStatus(HttpMethod.DELETE, "/forms/a", 401)
+        testStatus(HttpMethod.GET, "/", 401),
+        testStatus(HttpMethod.POST, "/", 401),
+        testStatus(HttpMethod.GET, "/a", 401),
+        testStatus(HttpMethod.PUT, "/a", 401),
+        testStatus(HttpMethod.DELETE, "/a", 401)
     )
 
     @TestFactory
     @WithMockAuth
     fun `read API calls are allowed for normal users`() = listOf(
-        testStatus(HttpMethod.GET, "/forms", 200),
+        testStatus(HttpMethod.GET, "/", 200),
     )
 
     @TestFactory
     @WithMockAuth
     fun `write API calls are forbidden for normal users`() = listOf(
-        testStatus(HttpMethod.POST, "/forms", 403),
-        testStatus(HttpMethod.PUT, "/forms/a", 403),
-        testStatus(HttpMethod.DELETE, "/forms/a", 403)
+        testStatus(HttpMethod.POST, "/", 403),
+        testStatus(HttpMethod.PUT, "/a", 403),
+        testStatus(HttpMethod.DELETE, "/a", 403)
     )
 
     @TestFactory
