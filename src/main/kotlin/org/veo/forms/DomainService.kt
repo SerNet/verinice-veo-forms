@@ -27,24 +27,20 @@ private val log = KotlinLogging.logger {}
 @Component
 class DomainService(
     private val domainRepo: DomainRepository,
-    private val domainTemplateBundleRepo: FormTemplateBundleRepository,
-    private val formRepo: FormRepository,
-    private val formFactory: FormFactory
+    private val formTemplateBundleRepo: FormTemplateBundleRepository,
+    private val formTemplateBundleApplier: FormTemplateBundleApplier
 ) {
 
     /**
-     * Persists new domain. Incarnates form templates that exist for given domain template ID (if applicable).
+     * Persists new domain and applies the latest form template bundle for the domain's template (if any).
      * @throws DuplicateKeyException if the domain already exists
      */
-    fun initializeDomain(domainId: UUID, clientId: UUID, domainTemplateId: UUID?) {
+    fun initializeDomain(domainId: UUID, clientId: UUID, domainTemplateId: UUID?): Domain {
         log.info { "initializing domain $domainId with domain template ID $domainTemplateId" }
-        val templateBundle = domainTemplateId?.let { domainTemplateBundleRepo.getLatest(it) }
-        val domain = Domain(domainId, clientId, domainTemplateId, templateBundle)
-        domainRepo.addDomain(domain)
-
-        templateBundle?.templates?.forEach {
-            log.debug { "Incarnating form template ${it.key} in domain $domainId" }
-            formRepo.save(formFactory.createForm(it.key, it.value, domain))
+        return domainRepo.addDomain(Domain(domainId, clientId, domainTemplateId)).also { domain ->
+            domainTemplateId
+                ?.let { formTemplateBundleRepo.getLatest(it) }
+                ?.let { formTemplateBundleApplier.apply(it, domain) }
         }
     }
 }

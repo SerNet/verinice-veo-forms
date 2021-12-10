@@ -35,6 +35,7 @@ import java.util.UUID.randomUUID
 class TemplatingMvcTest : AbstractMvcTest() {
 
     private val domainId = randomUUID()
+    private val domainTemplateId = randomUUID()
 
     @Autowired
     private lateinit var domainRepo: DomainRepository
@@ -44,7 +45,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        domainRepo.addDomain(Domain(domainId, UUID.fromString(mockClientUuid)))
+        domainRepo.addDomain(Domain(domainId, UUID.fromString(mockClientUuid), domainTemplateId))
     }
 
     @Test
@@ -70,11 +71,10 @@ class TemplatingMvcTest : AbstractMvcTest() {
         ).response.status shouldBe 201
 
         // and creating a form template bundle from the existing domain
-        val domainTemplateId = randomUUID()
         request(POST, "/form-template-bundles?domainId=$domainId&domainTemplateId=$domainTemplateId")
             .response.status shouldBe 201
 
-        // and creating a new domain using the same domain template for which we just created the form template bundle
+        // and creating a new domain using the same domain template
         val newDomainId = randomUUID()
         domainService.initializeDomain(newDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
 
@@ -101,7 +101,15 @@ class TemplatingMvcTest : AbstractMvcTest() {
         request(POST, "/form-template-bundles?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
             .response.status shouldBe 201
 
-        // and creating yet another new domain using the same domain template.
+        // then the forms in the original domain have been updated
+        request(GET, "/?domainId=$domainId")
+            .also { it.response.status shouldBe 200 }
+            .let { parseBody(it) as List<*> }
+            .map { it as Map<*, *> }
+            .map { it["name"] as Map<*, *> }
+            .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
+
+        // when creating yet another new domain using the same domain template.
         val thirdDomainId = randomUUID()
         domainService.initializeDomain(thirdDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
 

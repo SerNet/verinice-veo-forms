@@ -15,17 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.exceptions
 
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
-import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
-
-@Repository
-@Transactional(readOnly = true)
-interface DomainJpaRepository : JpaRepository<Domain, UUID> {
-    @Query("SELECT d FROM Domain as d WHERE d.domainTemplateId = :domainTemplateId AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle != :latestFormTemplateBundle)")
-    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle, domainTemplateId: UUID): Set<Domain>
-}
+class IncompatibleFormTemplateBundleException(msg: String) : Exception(msg)

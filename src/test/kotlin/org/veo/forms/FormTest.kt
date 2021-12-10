@@ -152,4 +152,51 @@ class FormTest {
         form.formTemplateVersion shouldBe templatePair.second.version
         form.revision shouldBe 0u
     }
+
+    @Test
+    fun `update form by template`() {
+        // given an asset form
+        val originalDomain = mockk<Domain>()
+        val originalTemplateId = randomUUID()
+        val form = Form(
+            domain = originalDomain,
+            name = mapOf("en" to "asset form"),
+            modelType = ModelType.Asset,
+            subType = "AST_Application",
+            content = mapOf("layout" to "column"),
+            translation = mapOf("en" to mapOf("title" to "Application")),
+            sorting = "ast",
+            formTemplateId = originalTemplateId,
+            formTemplateVersion = SemVer(1, 2, 4)
+        )
+        val originalId = form.id
+
+        // when turning it into a document form by applying a form template
+        form.update(
+            FormTemplate(
+                version = SemVer(1, 2, 5),
+                name = mapOf("en" to "document form"),
+                modelType = ModelType.Document,
+                subType = "DOC_Contract",
+                content = mapOf("layout" to "centered"),
+                translation = mapOf("en" to mapOf("title" to "Contract")),
+                sorting = "doc",
+            )
+        )
+
+        // then it should have all the correct values
+        form.apply {
+            id shouldBe originalId
+            formTemplateId shouldBe originalTemplateId
+            formTemplateVersion shouldBe SemVer(1, 2, 5)
+            name["en"] shouldBe "document form"
+            modelType shouldBe ModelType.Document
+            subType shouldBe "DOC_Contract"
+            content shouldBe mapOf("layout" to "centered")
+            translation shouldBe mapOf("en" to mapOf("title" to "Contract"))
+            sorting shouldBe "doc"
+            domain shouldBe originalDomain
+            revision shouldBe 0u
+        }
+    }
 }

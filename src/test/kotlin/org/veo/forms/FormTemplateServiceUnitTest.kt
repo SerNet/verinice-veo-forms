@@ -51,7 +51,8 @@ class FormTemplateServiceUnitTest {
     private val formTemplateBundleFactory: FormTemplateBundleFactory = mockk {
         every { createBundle(any(), any(), any()) } returns newBundleFromFactory
     }
-    private val sut = FormTemplateService(domainRepo, formRepo, formTemplateBundleRepo, formTemplateBundleFactory)
+    private val formTemplateBundleApplier: FormTemplateBundleApplier = mockk(relaxed = true)
+    private val sut = FormTemplateService(domainRepo, formRepo, formTemplateBundleRepo, formTemplateBundleFactory, formTemplateBundleApplier)
 
     @Test
     fun `creates initial template version`() {
@@ -68,6 +69,9 @@ class FormTemplateServiceUnitTest {
 
         // and the domain is now linked to the new template bundle
         verify { domain.formTemplateBundle = newBundleFromFactory }
+
+        // and other domains are updated to the new template bundle
+        verify { formTemplateBundleApplier.applyToAllDomains(newBundleFromFactory) }
     }
 
     @Test
@@ -89,6 +93,9 @@ class FormTemplateServiceUnitTest {
 
         // and the domain is now linked to the new template bundle
         verify { domain.formTemplateBundle = newBundleFromFactory }
+
+        // and other domains are updated to the new template bundle
+        verify { formTemplateBundleApplier.applyToAllDomains(newBundleFromFactory) }
     }
 
     @Test
@@ -111,6 +118,9 @@ class FormTemplateServiceUnitTest {
 
         // and the domain is now linked to the new template bundle
         verify { domain.formTemplateBundle = newBundleFromFactory }
+
+        // and other domains are updated to the new template bundle
+        verify { formTemplateBundleApplier.applyToAllDomains(newBundleFromFactory) }
     }
 
     @Test

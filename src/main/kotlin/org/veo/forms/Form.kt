@@ -114,6 +114,17 @@ open class Form(
         return newTemplateId to newTemplate
     }
 
+    fun update(template: FormTemplate) {
+        _formTemplateVersion = template.version
+        _revision = 0u
+        name = template.name
+        modelType = template.modelType
+        subType = template.subType
+        content = template.content
+        translation = template.translation
+        sorting = template.sorting
+    }
+
     private fun getNewTemplateVersion(oldTemplateVersion: SemVer?, formRevision: UInt): SemVer {
         if (oldTemplateVersion == null) {
             return SemVer(1)

@@ -27,7 +27,8 @@ class FormTemplateService(
     private val domainRepo: DomainRepository,
     private val formRepo: FormRepository,
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
-    private val formTemplateBundleFactory: FormTemplateBundleFactory
+    private val formTemplateBundleFactory: FormTemplateBundleFactory,
+    private val formTemplateBundleApplier: FormTemplateBundleApplier
 ) {
     fun createBundle(domainId: UUID, domainTemplateId: UUID, clientId: UUID) {
         val domain = domainRepo.findClientDomain(domainId, clientId)
@@ -36,7 +37,7 @@ class FormTemplateService(
             throw OutdatedDomainException(domain, latestTemplateBundle)
         }
 
-        domain.formTemplateBundle = formTemplateBundleRepo.add(
+        val newBundle = formTemplateBundleRepo.add(
             formTemplateBundleFactory.createBundle(
                 domainTemplateId,
                 version = latestTemplateBundle?.version?.nextPatch()
@@ -45,5 +46,8 @@ class FormTemplateService(
                 forms = formRepo.findAll(clientId, domainId)
             )
         )
+        domain.formTemplateBundle = newBundle
+
+        formTemplateBundleApplier.applyToAllDomains(newBundle)
     }
 }

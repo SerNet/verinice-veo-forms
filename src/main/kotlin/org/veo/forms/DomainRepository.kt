@@ -29,11 +29,11 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
      * Persists new domain
      * @throws DuplicateKeyException if the domain ID is already present
      */
-    fun addDomain(domain: Domain) {
+    fun addDomain(domain: Domain): Domain {
         if (jpaRepo.existsById(domain.id)) {
             throw DuplicateKeyException("Domain already exists")
         }
-        jpaRepo.save(domain)
+        return jpaRepo.save(domain)
     }
 
     fun findClientDomain(domainId: UUID, clientId: UUID): Domain {
@@ -47,4 +47,8 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
     }
 
     fun findAll(): MutableList<Domain> = jpaRepo.findAll()
+
+    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle): Set<Domain> {
+        return jpaRepo.findOutdatedDomains(latestFormTemplateBundle, latestFormTemplateBundle.domainTemplateId)
+    }
 }
