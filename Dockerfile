@@ -1,6 +1,5 @@
-FROM openjdk:11-jre-slim
+FROM gcr.io/distroless/java11-debian11:nonroot
 
-RUN apt-get update
 ARG VEO_FORMS_VERSION
 
 LABEL org.opencontainers.image.title="vernice.veo forms"
@@ -11,11 +10,10 @@ LABEL org.opencontainers.image.authors=verinice@sernet.de
 LABEL org.opencontainers.image.licenses=AGPL-3.0
 LABEL org.opencontainers.image.source=https://github.com/verinice/verinice-veo-forms
 
-RUN adduser --home /app --disabled-password --gecos '' veo
-USER veo
+USER nonroot
+
+COPY --chown=nonroot:nonroot build/libs/veo-forms-${VEO_FORMS_VERSION}.jar /app/veo-forms.jar
+
 WORKDIR /app
-
-COPY build/libs/veo-forms-${VEO_FORMS_VERSION}.jar veo-forms.jar
-
 EXPOSE 8080
-CMD ["java", "-jar", "veo-forms.jar"]
+CMD ["veo-forms.jar"]
