@@ -29,11 +29,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
 import java.util.UUID
+import javax.transaction.Transactional
 
 private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnProperty(value = ["veo.forms.rabbitmq.subscribe"], havingValue = "true")
+@Transactional
 class EventSubscriber(private val domainService: DomainService) {
     private val mapper = ObjectMapper()
 
