@@ -39,8 +39,8 @@ class FormTemplateService(
         domain.formTemplateBundle = formTemplateBundleRepo.add(
             formTemplateBundleFactory.createBundle(
                 domainTemplateId,
-                version = latestTemplateBundle?.version?.newPatch()
-                    ?: domain.formTemplateBundle?.version?.newMinor()
+                version = latestTemplateBundle?.version?.nextPatch()
+                    ?: domain.formTemplateBundle?.version?.nextMinor()
                     ?: SemVer(1),
                 forms = formRepo.findAll(clientId, domainId)
             )

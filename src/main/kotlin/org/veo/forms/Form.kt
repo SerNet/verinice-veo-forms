@@ -118,6 +118,6 @@ open class Form(
         if (oldTemplateVersion == null) {
             return SemVer(1)
         }
-        return if (formRevision > 0u) oldTemplateVersion.newPatch() else oldTemplateVersion
+        return if (formRevision > 0u) oldTemplateVersion.nextPatch() else oldTemplateVersion
     }
 }
