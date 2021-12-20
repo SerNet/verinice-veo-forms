@@ -44,7 +44,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.2")
     implementation("io.mockk:mockk:1.12.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
-    implementation("net.swiftzer.semver:semver:1.1.2")
+    implementation("net.swiftzer.semver:semver:1.2.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
