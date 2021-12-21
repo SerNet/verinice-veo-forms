@@ -20,11 +20,12 @@ package org.veo.forms
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Propagation.MANDATORY
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
-import javax.transaction.Transactional
 
 @Repository
-@Transactional
+@Transactional(propagation = MANDATORY, readOnly = true)
 interface FormJpaRepository : JpaRepository<Form, UUID> {
     @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId ORDER BY f.sorting ASC")
     fun findAllByClient(clientId: UUID): List<Form>
