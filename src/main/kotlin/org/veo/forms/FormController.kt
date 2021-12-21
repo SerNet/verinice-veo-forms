@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -40,6 +41,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/")
 @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
+@Transactional(readOnly = true)
 class FormController(
     private val repo: FormRepository,
     private val domainRepo: DomainRepository,
@@ -65,6 +67,7 @@ class FormController(
     @Operation(description = "Create a form.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional
     fun createForm(auth: Authentication, @Valid @RequestBody dto: FormDtoWithoutId): UUID {
         formFactory.createForm(authService.getClientId(auth), dto).let {
             return repo.save(it).id
@@ -74,6 +77,7 @@ class FormController(
     @Operation(description = "Update a form.")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @Valid @RequestBody dto: FormDtoWithoutId) {
         val clientId = authService.getClientId(auth)
         repo.findClientForm(clientId, id).let {
@@ -85,6 +89,7 @@ class FormController(
     @Operation(description = "Delete a form.")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun deleteForm(auth: Authentication, @PathVariable("id") id: UUID) {
         repo.delete(repo.findClientForm(authService.getClientId(auth), id))
     }

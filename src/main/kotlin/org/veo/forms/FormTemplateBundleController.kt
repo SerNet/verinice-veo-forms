@@ -20,6 +20,7 @@ package org.veo.forms
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.security.core.Authentication
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -30,12 +31,14 @@ import java.util.UUID
 @RestController
 @RequestMapping("/form-template-bundles")
 @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
+@Transactional(readOnly = true)
 class FormTemplateBundleController(
     private val authService: AuthService,
     private val formTemplateService: FormTemplateService
 ) {
     @PostMapping
     @ResponseStatus(CREATED)
+    @Transactional
     fun createBundle(auth: Authentication, @RequestParam domainId: UUID, @RequestParam domainTemplateId: UUID) {
         formTemplateService.createBundle(domainId, domainTemplateId, authService.getClientId(auth))
     }
