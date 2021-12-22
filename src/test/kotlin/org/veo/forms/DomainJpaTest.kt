@@ -30,7 +30,7 @@ class DomainJpaTest : AbstractSpringTest() {
     private lateinit var domainJpaRepo: DomainJpaRepository
 
     @Autowired
-    private lateinit var formTemplateBundleJpaRepo: FormTemplateJpaRepository
+    private lateinit var formTemplateBundleJpaRepo: FormTemplateBundleJpaRepository
 
     @Test
     fun `queries outdated domains`() {

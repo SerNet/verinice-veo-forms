@@ -25,7 +25,7 @@ import javax.transaction.Transactional
 
 @Repository
 @Transactional
-interface FormTemplateJpaRepository : JpaRepository<FormTemplateBundle, UUID> {
+interface FormTemplateBundleJpaRepository : JpaRepository<FormTemplateBundle, UUID> {
     @Query("SELECT * FROM form_template_bundle WHERE domain_template_id = :domainTemplateId ORDER BY version DESC LIMIT 1", nativeQuery = true)
     fun getLatest(domainTemplateId: UUID): FormTemplateBundle?
 }
