@@ -26,12 +26,12 @@ import org.springframework.http.HttpMethod.POST
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
 import org.veo.forms.DomainService
-import org.veo.forms.ROLE_ADMIN
+import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
 import java.util.UUID
 import java.util.UUID.randomUUID
 
-@WithMockAuth(roles = [ROLE_USER, ROLE_ADMIN])
+@WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class TemplatingMvcTest : AbstractMvcTest() {
 
     private val domainId = randomUUID()

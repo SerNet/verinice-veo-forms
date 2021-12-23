@@ -33,7 +33,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import java.time.Duration
 
-const val ROLE_ADMIN = "veo-admin"
+const val ROLE_CONTENT_CREATOR = "veo-content-creator"
 const val ROLE_USER = "veo-user"
 
 /**
@@ -67,7 +67,7 @@ class WebSecurity : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.GET)
             .hasRole(ROLE_USER)
             .anyRequest()
-            .hasRole(ROLE_ADMIN)
+            .hasRole(ROLE_CONTENT_CREATOR)
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
