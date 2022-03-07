@@ -17,8 +17,7 @@
  */
 package org.veo.forms.mvc
 
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpMethod
@@ -30,12 +29,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @EnableAsync
 @AutoConfigureMockMvc
 abstract class AbstractMvcTest : AbstractSpringTest() {
+    private val objectMapper = jacksonObjectMapper()
 
     @Autowired
     protected lateinit var mvc: MockMvc
 
     protected fun parseBody(result: MvcResult): Any {
-        return JsonSlurper().parseText(result.response.contentAsString)
+        return objectMapper.readValue(result.response.contentAsString, Object::class.java)
     }
 
     protected fun request(
@@ -49,7 +49,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         if (body != null) {
             request
                 .contentType("application/json")
-                .content((JsonOutput.toJson(body)))
+                .content(objectMapper.writer().writeValueAsString(body))
         }
         return mvc
             .perform(request)
