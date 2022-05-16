@@ -64,6 +64,8 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 }
 
+extra["kotlin-coroutines.version"] = "1.5.2"
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
