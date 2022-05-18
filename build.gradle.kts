@@ -14,14 +14,14 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.21"
 
-    id("com.diffplug.spotless") version "6.5.1"
+    id("com.diffplug.spotless") version "6.6.1"
     id("org.cadixdev.licenser") version "0.6.1"
     jacoco
-    id("com.gorylenko.gradle-git-properties") version "2.4.0"
+    id("com.gorylenko.gradle-git-properties") version "2.4.1"
 }
 
 group = "org.veo"
-version = "0.10"
+version = "0.11"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -38,12 +38,12 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.3.4")
-    implementation("com.vladmihalcea:hibernate-types-52:2.16.1")
-    implementation("org.flywaydb:flyway-core:8.5.10")
+    implementation("org.postgresql:postgresql:42.3.5")
+    implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
+    implementation("org.flywaydb:flyway-core:8.5.11")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.8")
-    implementation("io.mockk:mockk:1.12.3")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
+    implementation("io.mockk:mockk:1.12.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
     implementation("net.swiftzer.semver:semver:1.2.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
@@ -63,6 +63,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 }
+
+extra["kotlin-coroutines.version"] = "1.6.0"
 
 tasks.withType<Test> {
     useJUnitPlatform()
