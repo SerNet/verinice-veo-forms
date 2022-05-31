@@ -38,7 +38,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.3.5")
+    implementation("org.postgresql:postgresql:42.3.6")
     implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
     implementation("org.flywaydb:flyway-core:8.5.11")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.8")
