@@ -7,21 +7,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Calendar
 
 plugins {
-    id("org.springframework.boot") version "2.6.7"
+    id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.21"
+    kotlin("jvm") version "1.7.0"
+    kotlin("plugin.spring") version "1.7.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.7.0"
 
-    id("com.diffplug.spotless") version "6.7.0"
+    id("com.diffplug.spotless") version "6.7.2"
     id("org.cadixdev.licenser") version "0.6.1"
     jacoco
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
 }
 
 group = "org.veo"
-version = "0.12"
+version = "0.13-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -38,7 +38,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.3.6")
+    implementation("org.postgresql:postgresql:42.4.0")
     implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
     implementation("org.flywaydb:flyway-core:8.5.12")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
@@ -48,7 +48,7 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-    val kotestVersion = "5.3.0"
+    val kotestVersion = "5.3.1"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")

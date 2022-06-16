@@ -138,7 +138,7 @@ class FormJpaTest : AbstractSpringTest() {
         // when creating and retrieving a new form
         val domain = createDomain(UUID.randomUUID())
         val formId = createForm("my little form", domain).id
-        var form = formRepo.getById(formId)
+        var form = formRepo.getReferenceById(formId)
 
         // then the revision number starts at 0
         form.revision shouldBe 0u
@@ -146,7 +146,7 @@ class FormJpaTest : AbstractSpringTest() {
         // when updating and retrieving the DTO.
         form.update(FormDtoWithoutId(form.content, form.translation, domain.id, mapOf("en" to "my new little form"), form.modelType, form.subType, form.sorting), domain)
         formRepo.save(form)
-        form = formRepo.getById(formId)
+        form = formRepo.getReferenceById(formId)
 
         // then the revision number has been incremented
         form.revision shouldBe 1u
