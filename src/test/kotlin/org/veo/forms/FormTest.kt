@@ -89,7 +89,7 @@ class FormTest {
             translation = mapOf("en" to mapOf("title" to "Application")),
             sorting = "ast",
             formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5),
+            formTemplateVersion = SemVer(3, 0, 5)
         )
 
         // when creating a new template from the form
@@ -122,7 +122,7 @@ class FormTest {
             translation = mapOf("en" to mapOf("title" to "Application")),
             sorting = "ast",
             formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5),
+            formTemplateVersion = SemVer(3, 0, 5)
         )
 
         // when updating the form with a new sorting value and creating a new template from it
@@ -180,7 +180,7 @@ class FormTest {
                 subType = "DOC_Contract",
                 content = mapOf("layout" to "centered"),
                 translation = mapOf("en" to mapOf("title" to "Contract")),
-                sorting = "doc",
+                sorting = "doc"
             )
         )
 

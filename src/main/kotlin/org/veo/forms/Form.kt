@@ -42,12 +42,15 @@ open class Form(
     @JoinColumn(name = "domain_id")
     var domain: Domain,
 
-    @Type(type = "json") @Column(columnDefinition = "jsonb") var name: Map<String, String>,
+    @Type(type = "json") @Column(columnDefinition = "jsonb")
+    var name: Map<String, String>,
     var modelType: ModelType,
     var subType: String?,
-    @Type(type = "json") @Column(columnDefinition = "jsonb") var content: Map<String, *>,
-    @Type(type = "json") @Column(columnDefinition = "jsonb") var translation: Map<String, *>?,
-    @Column(length = 32) var sorting: String?,
+    @Type(type = "json") @Column(columnDefinition = "jsonb")
+    var content: Map<String, *>,
+    @Type(type = "json") @Column(columnDefinition = "jsonb")
+    var translation: Map<String, *>?,
+    @Column(length = 32) var sorting: String?
 ) {
 
     constructor(
@@ -59,7 +62,7 @@ open class Form(
         translation: Map<String, *>?,
         sorting: String?,
         formTemplateId: UUID,
-        formTemplateVersion: SemVer,
+        formTemplateVersion: SemVer
     ) : this(domain, name, modelType, subType, content, translation, sorting) {
         _formTemplateId = formTemplateId
         _formTemplateVersion = formTemplateVersion

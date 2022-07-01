@@ -25,8 +25,14 @@ import org.veo.forms.dtos.FormDtoWithoutContent
 class FormDtoFactory {
     fun createDto(entity: Form): FormDto {
         return FormDto(
-            entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting,
-            entity.content, entity.translation
+            entity.id,
+            entity.domain.id,
+            entity.name,
+            entity.modelType,
+            entity.subType,
+            entity.sorting,
+            entity.content,
+            entity.translation
         )
     }
 

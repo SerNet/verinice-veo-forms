@@ -68,7 +68,12 @@ class FormController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
-    fun createForm(auth: Authentication, @Valid @RequestBody dto: FormDtoWithoutId): UUID {
+    fun createForm(
+        auth: Authentication,
+        @Valid
+        @RequestBody
+        dto: FormDtoWithoutId
+    ): UUID {
         formFactory.createForm(authService.getClientId(auth), dto).let {
             return repo.save(it).id
         }
@@ -78,7 +83,13 @@ class FormController(
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun updateForm(auth: Authentication, @PathVariable("id") id: UUID, @Valid @RequestBody dto: FormDtoWithoutId) {
+    fun updateForm(
+        auth: Authentication,
+        @PathVariable("id") id: UUID,
+        @Valid
+        @RequestBody
+        dto: FormDtoWithoutId
+    ) {
         val clientId = authService.getClientId(auth)
         repo.findClientForm(clientId, id).let {
             it.update(dto, domainRepo.findClientDomain(dto.domainId, clientId))

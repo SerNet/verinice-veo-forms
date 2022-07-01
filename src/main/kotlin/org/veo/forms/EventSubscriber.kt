@@ -43,7 +43,10 @@ class EventSubscriber(private val domainService: DomainService) {
         bindings = [
             QueueBinding(
                 value = Queue(
-                    value = "\${veo.forms.rabbitmq.queue}", exclusive = "false", durable = "true", autoDelete = "false",
+                    value = "\${veo.forms.rabbitmq.queue}",
+                    exclusive = "false",
+                    durable = "true",
+                    autoDelete = "false",
                     arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")]
                 ),
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),

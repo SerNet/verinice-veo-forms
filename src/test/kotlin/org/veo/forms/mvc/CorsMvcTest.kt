@@ -33,7 +33,9 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when getting from the correct origin
         val result = request(
-            HttpMethod.GET, "/", headers = mapOf("Origin" to listOf(origin))
+            HttpMethod.GET,
+            "/",
+            headers = mapOf("Origin" to listOf(origin))
         )
 
         // the request was successful
@@ -46,7 +48,9 @@ class CorsMvcTest : AbstractMvcTest() {
     fun `get forms with wrong origin header`() {
         // when getting from the wrong origin
         val result = request(
-            HttpMethod.GET, "/", headers = mapOf("Origin" to listOf("https://invalid.notverinice.example"))
+            HttpMethod.GET,
+            "/",
+            headers = mapOf("Origin" to listOf("https://invalid.notverinice.example"))
         )
 
         // then an error is returned
@@ -62,7 +66,8 @@ class CorsMvcTest : AbstractMvcTest() {
 
         // when making a pre-flight request
         val result = request(
-            HttpMethod.OPTIONS, "/",
+            HttpMethod.OPTIONS,
+            "/",
             headers = mapOf(
                 "Origin" to listOf(origin),
                 "Access-Control-Request-Method" to listOf("GET"),

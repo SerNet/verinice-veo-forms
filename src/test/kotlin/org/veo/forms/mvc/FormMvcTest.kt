@@ -49,7 +49,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and retrieve`() {
         // when adding a new form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "name" to mapOf("en" to "form one"),
                 "domainId" to domain1Id,
@@ -118,7 +119,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and update`() {
         // when adding a form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -140,7 +142,8 @@ class FormMvcTest : AbstractMvcTest() {
 
         // when updating the form
         result = request(
-            HttpMethod.PUT, "/$formUuid",
+            HttpMethod.PUT,
+            "/$formUuid",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "new name"),
@@ -188,7 +191,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `add form and delete`() {
         // when adding a form
         var result = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -218,7 +222,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `retrieve by domain ID`() {
         // given four forms from different domains
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "three"),
@@ -227,7 +232,8 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "two"),
@@ -237,7 +243,8 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "one"),
@@ -247,7 +254,8 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "four"),
@@ -277,7 +285,8 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `can't create form with invalid name structure`() {
         request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("foo" to mapOf("bar" to "star")),
@@ -291,7 +300,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `gives JSON parsing error details`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
@@ -307,7 +317,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `empty sub type is not allowed`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
@@ -325,7 +336,8 @@ class FormMvcTest : AbstractMvcTest() {
     fun `special characters in sorting is not allowed`() {
         // when adding a form without a domainId
         val response = request(
-            HttpMethod.POST, "/",
+            HttpMethod.POST,
+            "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "John Doe"),

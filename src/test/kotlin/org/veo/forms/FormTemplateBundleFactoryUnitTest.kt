@@ -35,7 +35,8 @@ class FormTemplateBundleFactoryUnitTest {
         val formTemplateB = randomUUID() to mockk<FormTemplate>()
 
         val result = sut.createBundle(
-            domainTemplateId, bundleVersion,
+            domainTemplateId,
+            bundleVersion,
             forms = listOf(
                 mockk {
                     every { toTemplate() } returns formTemplateA

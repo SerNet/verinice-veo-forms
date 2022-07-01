@@ -38,7 +38,7 @@ class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     @WithMockAuth
     fun `read API calls are allowed for normal users`() = listOf(
-        testStatus(HttpMethod.GET, "/", 200),
+        testStatus(HttpMethod.GET, "/", 200)
     )
 
     @TestFactory

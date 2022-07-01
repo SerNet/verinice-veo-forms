@@ -52,7 +52,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
     fun `create, update and apply templates`() {
         //  When creating two new forms in the existing domain
         request(
-            POST, "/",
+            POST,
+            "/",
             mapOf(
                 "name" to mapOf("en" to "asset form"),
                 "domainId" to domainId,
@@ -61,7 +62,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
             )
         ).response.status shouldBe 201
         request(
-            POST, "/",
+            POST,
+            "/",
             mapOf(
                 "name" to mapOf("en" to "document form"),
                 "domainId" to domainId,
@@ -88,7 +90,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
 
         // When adding a third form to the new domain
         request(
-            POST, "/",
+            POST,
+            "/",
             mapOf(
                 "name" to mapOf("en" to "person form"),
                 "domainId" to newDomainId,

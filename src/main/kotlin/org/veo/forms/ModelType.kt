@@ -20,12 +20,27 @@ package org.veo.forms
 import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class ModelType {
-    @JsonProperty("asset") Asset,
-    @JsonProperty("control") Control,
-    @JsonProperty("document") Document,
-    @JsonProperty("incident") Incident,
-    @JsonProperty("person") Person,
-    @JsonProperty("process") Process,
-    @JsonProperty("scenario") Scenario,
-    @JsonProperty("scope") Scope
+    @JsonProperty("asset")
+    Asset,
+
+    @JsonProperty("control")
+    Control,
+
+    @JsonProperty("document")
+    Document,
+
+    @JsonProperty("incident")
+    Incident,
+
+    @JsonProperty("person")
+    Person,
+
+    @JsonProperty("process")
+    Process,
+
+    @JsonProperty("scenario")
+    Scenario,
+
+    @JsonProperty("scope")
+    Scope
 }

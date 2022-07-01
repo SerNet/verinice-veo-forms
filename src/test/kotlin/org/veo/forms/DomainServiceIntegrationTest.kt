@@ -32,8 +32,10 @@ import java.util.UUID.randomUUID
 class DomainServiceIntegrationTest : AbstractSpringTest() {
     @Autowired
     private lateinit var domainRepo: DomainRepository
+
     @Autowired
     private lateinit var formRepo: FormRepository
+
     @Autowired
     private lateinit var formTemplateBundleRepo: FormTemplateBundleRepository
 
@@ -49,7 +51,8 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         val assetFormTemplateId = randomUUID()
 
         val formTemplateBundle = FormTemplateBundle(
-            domainTemplateId, SemVer(1),
+            domainTemplateId,
+            SemVer(1),
             mapOf(
                 assetFormTemplateId to FormTemplate(
                     SemVer(1, 0, 16),

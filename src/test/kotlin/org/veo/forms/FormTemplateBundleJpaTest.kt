@@ -41,7 +41,7 @@ class FormTemplateBundleJpaTest : AbstractSpringTest() {
                 FormTemplateBundle(domainTemplateId, SemVer(1, 13, 0), emptyMap()),
                 FormTemplateBundle(domainTemplateId, SemVer(1, 13, 1), emptyMap()),
                 FormTemplateBundle(domainTemplateId, SemVer(0, 45, 5), emptyMap()),
-                FormTemplateBundle(randomUUID(), SemVer(2, 60, 7), emptyMap()),
+                FormTemplateBundle(randomUUID(), SemVer(2, 60, 7), emptyMap())
             )
         )
 
