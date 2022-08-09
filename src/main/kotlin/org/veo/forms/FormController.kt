@@ -20,6 +20,7 @@ package org.veo.forms
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.context.request.WebRequest
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
@@ -47,7 +49,8 @@ class FormController(
     private val domainRepo: DomainRepository,
     private val formFactory: FormFactory,
     private val formDtoFactory: FormDtoFactory,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val eTagGenerator: ETagGenerator
 ) {
 
     @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting.")
@@ -60,8 +63,20 @@ class FormController(
 
     @Operation(description = "Get a single form with its contents.")
     @GetMapping("{id}")
-    fun getForm(auth: Authentication, @PathVariable("id") id: UUID): FormDto {
-        return formDtoFactory.createDto(repo.findClientForm(authService.getClientId(auth), id))
+    fun getForm(auth: Authentication, @PathVariable("id") id: UUID, request: WebRequest): ResponseEntity<FormDto> {
+        val ifNoneMatchHeader = request.getHeader("If-None-Match")
+        val clientId = authService.getClientId(auth)
+        if (ifNoneMatchHeader != null) {
+            val eTagParameters = repo.getETagParameterById(id, clientId)
+            val eTag = eTagGenerator.generateETag(eTagParameters.formTemplateVersion, eTagParameters.revision, id)
+            if (request.checkNotModified(eTag)) {
+                return ResponseEntity.status(304).build()
+            }
+        }
+        val form = repo.findClientForm(clientId, id)
+        return ResponseEntity.ok()
+            .eTag(eTagGenerator.generateETag(form.formTemplateVersion, form.revision, form.id))
+            .body(formDtoFactory.createDto(form))
     }
 
     @Operation(description = "Create a form.")

@@ -17,9 +17,11 @@
  */
 package org.veo.forms
 
+import net.swiftzer.semver.SemVer
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
+import org.veo.forms.jpa.FormETagParameterView
 import java.util.UUID
 
 @Component
@@ -41,4 +43,15 @@ class FormRepository(private val jpaRepo: FormJpaRepository) {
     }
 
     fun save(form: Form): Form = jpaRepo.save(form)
+
+    fun getETagParameterById(id: UUID, clientId: UUID): FormETagParameterView =
+        jpaRepo.findETagParametersById(id, clientId)
+            .firstOrNull()
+            ?.run {
+                FormETagParameterView(
+                    (this[0] as String?)?.let { SemVer.parse(it) },
+                    (this[1] as Int).toUInt()
+                )
+            }
+            ?: throw ResourceNotFoundException()
 }

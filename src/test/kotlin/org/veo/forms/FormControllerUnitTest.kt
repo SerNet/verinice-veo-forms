@@ -23,7 +23,10 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import net.swiftzer.semver.SemVer
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus.OK
+import org.springframework.web.context.request.WebRequest
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
@@ -35,7 +38,8 @@ class FormControllerUnitTest {
     private val formFactory = mockk<FormFactory>()
     private val dtoFactory = mockk<FormDtoFactory>()
     private val authService = mockk<AuthService>()
-    private val sut = FormController(formRepo, domainRepo, formFactory, dtoFactory, authService)
+    private val eTagGenerator = mockk<ETagGenerator>()
+    private val sut = FormController(formRepo, domainRepo, formFactory, dtoFactory, authService, eTagGenerator)
 
     private val auth = mockk<org.springframework.security.core.Authentication>()
     private val authClientId = UUID.randomUUID()
@@ -71,24 +75,38 @@ class FormControllerUnitTest {
     fun `retrieves single form`() {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
-        val entity = mockk<Form>()
+        val templateVersion = SemVer(1, 2, 3)
+        val request = mockk<WebRequest>() {
+            every { getHeader("If-None-Match") } returns null
+        }
+        val entity = mockk<Form> {
+            every { formTemplateVersion } returns templateVersion
+            every { revision } returns 5u
+            every { id } returns formId
+        }
         val dto = mockk<FormDto>()
+        val mockETag = "GxueQgmVYhI2IDlDNrprWCfgUwIOpXsvOEfUzHc0PQjLcV8pvlCYDuDhFzsGFiT4"
 
         every { formRepo.findClientForm(authClientId, formId) } returns entity
         every { dtoFactory.createDto(entity) } returns dto
+        every { eTagGenerator.generateETag(templateVersion, 5u, formId) } returns mockETag
 
         // when requesting the form
-        val form = sut.getForm(auth, formId)
+        val apiResponse = sut.getForm(auth, formId, request)
 
-        // then the DTO from the mapper is returned.
-        form shouldBe dto
+        // then the response holds dto from the mapper and ETag
+        apiResponse.apply {
+            statusCode shouldBe OK
+            body shouldBe dto
+            headers.eTag shouldBe "\"$mockETag\""
+        }
     }
 
     @Test
     fun `updates form`() {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
-        val entity = mockk<Form> ()
+        val entity = mockk<Form>()
         val dto = mockk<FormDtoWithoutId> {
             every { domainId } returns UUID.randomUUID()
         }
