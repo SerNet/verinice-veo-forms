@@ -22,6 +22,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
+import java.util.UUID.randomUUID
 
 @SpringBootTest(properties = ["management.endpoint.health.probes.enabled=true"])
 class SecurityMvcTest : AbstractMvcTest() {
@@ -32,7 +33,7 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(HttpMethod.GET, "/a", 401),
         testStatus(HttpMethod.PUT, "/a", 401),
         testStatus(HttpMethod.DELETE, "/a", 401),
-        testStatus(HttpMethod.POST, "/form-template-bundles", 401)
+        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 401)
     )
 
     @TestFactory
@@ -47,7 +48,7 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(HttpMethod.POST, "/", 403),
         testStatus(HttpMethod.PUT, "/a", 403),
         testStatus(HttpMethod.DELETE, "/a", 403),
-        testStatus(HttpMethod.POST, "/form-template-bundles", 403)
+        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403)
     )
 
     @TestFactory

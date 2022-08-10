@@ -73,7 +73,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         ).response.status shouldBe 201
 
         // and creating a form template bundle from the existing domain
-        request(POST, "/form-template-bundles?domainId=$domainId&domainTemplateId=$domainTemplateId")
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
             .response.status shouldBe 201
 
         // and creating a new domain using the same domain template
@@ -101,7 +101,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         )
 
         // and creating yet another new template bundle from the new domain
-        request(POST, "/form-template-bundles?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
             .response.status shouldBe 201
 
         // then the forms in the original domain have been updated

@@ -36,10 +36,10 @@ class FormTemplateBundleController(
     private val authService: AuthService,
     private val formTemplateService: FormTemplateService
 ) {
-    @PostMapping
+    @PostMapping("/create-from-domain")
     @ResponseStatus(CREATED)
     @Transactional
-    fun createBundle(auth: Authentication, @RequestParam domainId: UUID, @RequestParam domainTemplateId: UUID) {
+    fun createBundleFromDomain(auth: Authentication, @RequestParam domainId: UUID, @RequestParam domainTemplateId: UUID) {
         formTemplateService.createBundle(domainId, domainTemplateId, authService.getClientId(auth))
     }
 }
