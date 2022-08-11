@@ -33,7 +33,8 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(HttpMethod.GET, "/a", 401),
         testStatus(HttpMethod.PUT, "/a", 401),
         testStatus(HttpMethod.DELETE, "/a", 401),
-        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 401)
+        testStatus(HttpMethod.POST, "/form-template-bundles", 401),
+        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401)
     )
 
     @TestFactory
@@ -48,7 +49,14 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(HttpMethod.POST, "/", 403),
         testStatus(HttpMethod.PUT, "/a", 403),
         testStatus(HttpMethod.DELETE, "/a", 403),
+        testStatus(HttpMethod.POST, "/form-template-bundles", 403),
         testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403)
+    )
+
+    @TestFactory
+    @WithMockAuth
+    fun `content export is forbidden for normal users`() = listOf(
+        testStatus(HttpMethod.GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403)
     )
 
     @TestFactory

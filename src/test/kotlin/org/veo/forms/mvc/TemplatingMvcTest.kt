@@ -18,6 +18,7 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,9 @@ import org.veo.forms.DomainRepository
 import org.veo.forms.DomainService
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
+import org.veo.forms.asListOfMaps
+import org.veo.forms.asMap
+import org.veo.forms.asNestedMap
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -51,26 +55,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
     @Test
     fun `create, update and apply templates`() {
         //  When creating two new forms in the existing domain
-        request(
-            POST,
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "asset form"),
-                "domainId" to domainId,
-                "modelType" to "asset",
-                "content" to emptyMap<String, Any>()
-            )
-        ).response.status shouldBe 201
-        request(
-            POST,
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "document form"),
-                "domainId" to domainId,
-                "modelType" to "document",
-                "content" to emptyMap<String, Any>()
-            )
-        ).response.status shouldBe 201
+        postFormsInDomain()
 
         // and creating a form template bundle from the existing domain
         request(POST, "/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
@@ -123,5 +108,77 @@ class TemplatingMvcTest : AbstractMvcTest() {
             .map { it as Map<*, *> }
             .map { it["name"] as Map<*, *> }
             .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
+    }
+
+    @Test
+    fun `export and import templates`() {
+        // Given a persisted form template bundle with some forms
+        postFormsInDomain()
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+
+        // when requesting the latest form template bundle
+        val bundle =
+            parseBody(
+                request(
+                    GET,
+                    "/form-template-bundles/latest?domainTemplateId=$domainTemplateId"
+                )
+            ).asMap()
+
+        // then the bundle has been exported
+        bundle["id"] shouldNotBe null
+        bundle["domainTemplateId"] shouldBe domainTemplateId.toString()
+        bundle["version"] shouldBe "1.0.0"
+        bundle["templates"]
+            .asNestedMap()
+            .values
+            .map { it["modelType"] } shouldBe setOf("asset", "document")
+
+        // when modifying the bundle
+        bundle["version"] = "1.0.1"
+        bundle["templates"]
+            .asNestedMap()
+            .values
+            .first { it["modelType"] == "asset" }
+            .apply { set("version", "1.0.1") }
+            .apply { set("subType", "IT system") }
+
+        // and importing it as a new bundle
+        request(POST, "/form-template-bundles", bundle)
+
+        // then it can be retrieved
+        parseBody(request(GET, "/form-template-bundles/latest?domainTemplateId=$domainTemplateId"))
+            .asMap()
+            .apply { get("id") shouldNotBe bundle["id"] }
+            .apply { get("version") shouldBe "1.0.1" }
+
+        // and the new bundle has been applied to the domain
+        parseBody(request(GET, "/?domainId=$domainId"))
+            .asListOfMaps()
+            .first { it["modelType"] == "asset" }
+            .apply { get("subType") shouldBe "IT system" }
+    }
+
+    private fun postFormsInDomain() {
+        request(
+            POST,
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "asset form"),
+                "domainId" to domainId,
+                "modelType" to "asset",
+                "content" to emptyMap<String, Any>()
+            )
+        ).response.status shouldBe 201
+        request(
+            POST,
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "document form"),
+                "domainId" to domainId,
+                "modelType" to "document",
+                "content" to emptyMap<String, Any>()
+            )
+        ).response.status shouldBe 201
     }
 }

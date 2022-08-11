@@ -19,7 +19,7 @@ package org.veo.forms
 
 import net.swiftzer.semver.SemVer
 
-class FormTemplate(
+data class FormTemplate(
     val version: SemVer,
     val name: Map<String, String>,
     val modelType: ModelType,

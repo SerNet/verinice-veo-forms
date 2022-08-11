@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import io.kotest.assertions.throwables.shouldThrowWithMessage
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.veo.forms.exceptions.OutdatedDomainException
 import org.veo.forms.exceptions.ResourceNotFoundException
+import org.veo.forms.exceptions.SemVerTooLowException
 import java.util.UUID.randomUUID
 
 class FormTemplateServiceUnitTest {
@@ -147,6 +149,135 @@ class FormTemplateServiceUnitTest {
 
         assertThrows<ResourceNotFoundException> {
             sut.createBundle(domainId, domainTemplateId, clientId)
+        }
+    }
+
+    @Test
+    fun `initial bundle import succeeds`() {
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns null
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { templates } returns mapOf(
+                randomUUID() to formTemplate(),
+                randomUUID() to formTemplate()
+            )
+        }
+        sut.importBundle(newBundle)
+
+        verify { formTemplateBundleRepo.add(newBundle) }
+        verify { formTemplateBundleApplier.applyToAllDomains(newBundle) }
+    }
+
+    @Test
+    fun `new bundle version import succeeds`() {
+        val unmodifiedTemplateId = randomUUID()
+        val modifiedTemplateId = randomUUID()
+        val addedTemplateId = randomUUID()
+        val obsoleteTemplateId = randomUUID()
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
+            every { version } returns SemVer(1, 0, 0)
+            every { templates } returns mapOf(
+                unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
+                modifiedTemplateId to formTemplate(SemVer(4, 10, 3), subType = "special"),
+                obsoleteTemplateId to formTemplate(SemVer(9, 0, 0), subType = "boring")
+            )
+        }
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { version } returns SemVer(1, 1, 0)
+            every { templates } returns mapOf(
+                unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
+                modifiedTemplateId to formTemplate(SemVer(4, 11, 0), subType = "superSpecial"),
+                addedTemplateId to formTemplate(SemVer(1, 0, 0), subType = "exciting")
+            )
+        }
+        sut.importBundle(newBundle)
+
+        verify { formTemplateBundleRepo.add(newBundle) }
+        verify { formTemplateBundleApplier.applyToAllDomains(newBundle) }
+    }
+
+    @Test
+    fun `bundle import fails with same old version number`() {
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
+            every { version } returns SemVer(2, 3, 0)
+        }
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { version } returns SemVer(2, 3, 0)
+        }
+        shouldThrowWithMessage<SemVerTooLowException>(
+            "New form template bundle version number must be higher than current version 2.3.0"
+        ) {
+            sut.importBundle(newBundle)
+        }
+    }
+
+    @Test
+    fun `bundle import fails with lower version number`() {
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
+            every { version } returns SemVer(2, 3, 0)
+        }
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { version } returns SemVer(2, 2, 5)
+        }
+        shouldThrowWithMessage<SemVerTooLowException>(
+            "New form template bundle version number must be higher than current version 2.3.0"
+        ) {
+            sut.importBundle(newBundle)
+        }
+    }
+
+    @Test
+    fun `bundle import fails with a lower template version number`() {
+        val templateId = randomUUID()
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
+            every { version } returns SemVer(2, 3, 0)
+            every { templates } returns mapOf(
+                templateId to formTemplate(SemVer(2, 0, 1))
+            )
+        }
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { version } returns SemVer(2, 4, 0)
+            every { templates } returns mapOf(
+                templateId to formTemplate(SemVer(2, 0, 0))
+            )
+        }
+        shouldThrowWithMessage<SemVerTooLowException>(
+            "New version number of form template $templateId must not be lower than current version 2.0.1"
+        ) {
+            sut.importBundle(newBundle)
+        }
+    }
+
+    @Test
+    fun `bundle import fails with a modified template that has the same old version number`() {
+        val templateId = randomUUID()
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
+            every { version } returns SemVer(3, 0, 0)
+            every { templates } returns mapOf(
+                templateId to formTemplate(SemVer(2, 0, 0), subType = "oldSubType")
+            )
+        }
+
+        val newBundle = mockk<FormTemplateBundle> {
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { version } returns SemVer(3, 0, 1)
+            every { templates } returns mapOf(
+                templateId to formTemplate(SemVer(2, 0, 0), subType = "newSubType")
+            )
+        }
+        shouldThrowWithMessage<SemVerTooLowException>(
+            "Form template $templateId differs from current version 2.0.0 but uses the same version number"
+        ) {
+            sut.importBundle(newBundle)
         }
     }
 }

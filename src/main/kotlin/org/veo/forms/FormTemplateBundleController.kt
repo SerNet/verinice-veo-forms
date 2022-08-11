@@ -21,11 +21,16 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.security.core.Authentication
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.veo.forms.dtos.FormTemplateBundleDto
+import org.veo.forms.dtos.FormTemplateBundleDtoWithoutId
+import org.veo.forms.exceptions.ResourceNotFoundException
 import java.util.UUID
 
 @RestController
@@ -34,8 +39,25 @@ import java.util.UUID
 @Transactional(readOnly = true)
 class FormTemplateBundleController(
     private val authService: AuthService,
-    private val formTemplateService: FormTemplateService
+    private val formTemplateService: FormTemplateService,
+    private val dtoFactory: FormTemplateBundleDtoFactory,
+    private val bundleFactory: FormTemplateBundleFactory,
+    private val repo: FormTemplateBundleRepository
+
 ) {
+    @GetMapping("latest")
+    fun getLastest(@RequestParam(required = true) domainTemplateId: UUID): FormTemplateBundleDto =
+        repo.getLatest(domainTemplateId)
+            ?.let(dtoFactory::createDto)
+            ?: throw ResourceNotFoundException("No form template bundle exists for domain template $domainTemplateId")
+
+    @PostMapping
+    @ResponseStatus(CREATED)
+    @Transactional
+    fun importBundle(@RequestBody bundle: FormTemplateBundleDtoWithoutId): Unit = bundle
+        .let(bundleFactory::createBundle)
+        .let(formTemplateService::importBundle)
+
     @PostMapping("/create-from-domain")
     @ResponseStatus(CREATED)
     @Transactional

@@ -64,6 +64,8 @@ class WebSecurity {
             .authorizeRequests()
             .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
             .permitAll()
+            .antMatchers("/form-template-bundles/**")
+            .hasRole(ROLE_CONTENT_CREATOR)
             // TODO VEO-842 re-enable form manipulation for normal users.
             .antMatchers(HttpMethod.GET)
             .hasRole(ROLE_USER)

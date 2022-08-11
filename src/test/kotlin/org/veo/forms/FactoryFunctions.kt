@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import net.swiftzer.semver.SemVer
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -35,6 +36,24 @@ fun form(
     sorting: String?
 ) = Form(
     domain,
+    name,
+    modelType,
+    subType,
+    content,
+    translations,
+    sorting
+)
+
+fun formTemplate(
+    version: SemVer = SemVer(1),
+    name: Map<String, String> = emptyMap(),
+    modelType: ModelType = ModelType.Document,
+    subType: String? = null,
+    content: Map<String, Any> = emptyMap(),
+    translations: Map<String, Any> = emptyMap(),
+    sorting: String? = null
+) = FormTemplate(
+    version,
     name,
     modelType,
     subType,
