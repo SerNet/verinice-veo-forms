@@ -68,10 +68,9 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // Then our two form templates have been incarnated in the new domain
         request(GET, "/?domainId=$newDomainId")
             .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form")
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form")
 
         // When adding a third form to the new domain
         request(
@@ -92,10 +91,9 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // then the forms in the original domain have been updated
         request(GET, "/?domainId=$domainId")
             .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
 
         // when creating yet another new domain using the same domain template.
         val thirdDomainId = randomUUID()
@@ -104,10 +102,9 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // Then our three form templates have been incarnated in the new domain
         request(GET, "/?domainId=$thirdDomainId")
             .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
     }
 
     @Test
