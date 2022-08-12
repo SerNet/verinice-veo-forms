@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.security.core.Authentication
@@ -45,12 +46,14 @@ class FormTemplateBundleController(
     private val repo: FormTemplateBundleRepository
 
 ) {
+    @Operation(description = "Get the latest form template bundle for given domain template. Use this to export the bundle to another instance of veo-forms.")
     @GetMapping("latest")
     fun getLastest(@RequestParam(required = true) domainTemplateId: UUID): FormTemplateBundleDto =
         repo.getLatest(domainTemplateId)
             ?.let(dtoFactory::createDto)
             ?: throw ResourceNotFoundException("No form template bundle exists for domain template $domainTemplateId")
 
+    @Operation(description = "Creates a form template bundle from the request body. Use this to import a bundle from another instance of veo-forms.")
     @PostMapping
     @ResponseStatus(CREATED)
     @Transactional
@@ -58,6 +61,7 @@ class FormTemplateBundleController(
         .let(bundleFactory::createBundle)
         .let(formTemplateService::importBundle)
 
+    @Operation(description = "Creates a form template bundle from the forms in given domain.")
     @PostMapping("/create-from-domain")
     @ResponseStatus(CREATED)
     @Transactional
