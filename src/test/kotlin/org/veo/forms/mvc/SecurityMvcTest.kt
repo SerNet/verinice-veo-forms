@@ -22,51 +22,55 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpMethod.DELETE
+import org.springframework.http.HttpMethod.GET
+import org.springframework.http.HttpMethod.POST
+import org.springframework.http.HttpMethod.PUT
 import java.util.UUID.randomUUID
 
 @SpringBootTest(properties = ["management.endpoint.health.probes.enabled=true"])
 class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     fun `regular API calls are forbidden without authorization`() = listOf(
-        testStatus(HttpMethod.GET, "/", 401),
-        testStatus(HttpMethod.POST, "/", 401),
-        testStatus(HttpMethod.GET, "/a", 401),
-        testStatus(HttpMethod.PUT, "/a", 401),
-        testStatus(HttpMethod.DELETE, "/a", 401),
-        testStatus(HttpMethod.POST, "/form-template-bundles", 401),
-        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401)
+        testStatus(GET, "/", 401),
+        testStatus(POST, "/", 401),
+        testStatus(GET, "/a", 401),
+        testStatus(PUT, "/a", 401),
+        testStatus(DELETE, "/a", 401),
+        testStatus(POST, "/form-template-bundles", 401),
+        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401)
     )
 
     @TestFactory
     @WithMockAuth
     fun `read API calls are allowed for normal users`() = listOf(
-        testStatus(HttpMethod.GET, "/", 200)
+        testStatus(GET, "/", 200)
     )
 
     @TestFactory
     @WithMockAuth
     fun `write API calls are forbidden for normal users`() = listOf(
-        testStatus(HttpMethod.POST, "/", 403),
-        testStatus(HttpMethod.PUT, "/a", 403),
-        testStatus(HttpMethod.DELETE, "/a", 403),
-        testStatus(HttpMethod.POST, "/form-template-bundles", 403),
-        testStatus(HttpMethod.POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403)
+        testStatus(POST, "/", 403),
+        testStatus(PUT, "/a", 403),
+        testStatus(DELETE, "/a", 403),
+        testStatus(POST, "/form-template-bundles", 403),
+        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403)
     )
 
     @TestFactory
     @WithMockAuth
     fun `content export is forbidden for normal users`() = listOf(
-        testStatus(HttpMethod.GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403)
+        testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403)
     )
 
     @TestFactory
     fun `documentation is accessible`() = listOf(
-        testStatus(HttpMethod.GET, "/actuator/health/readiness", 200),
-        testStatus(HttpMethod.GET, "/actuator/health/liveness", 200),
-        testStatus(HttpMethod.GET, "/actuator/info", 200),
-        testStatus(HttpMethod.GET, "/swagger-ui.html", 302),
-        testStatus(HttpMethod.GET, "/swagger-ui/index.html", 200),
-        testStatus(HttpMethod.GET, "/v3/api-docs", 200)
+        testStatus(GET, "/actuator/health/readiness", 200),
+        testStatus(GET, "/actuator/health/liveness", 200),
+        testStatus(GET, "/actuator/info", 200),
+        testStatus(GET, "/swagger-ui.html", 302),
+        testStatus(GET, "/swagger-ui/index.html", 200),
+        testStatus(GET, "/v3/api-docs", 200)
     )
 
     private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {

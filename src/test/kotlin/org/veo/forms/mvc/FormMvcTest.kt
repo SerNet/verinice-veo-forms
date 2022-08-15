@@ -28,12 +28,13 @@ import org.veo.forms.DomainRepository
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
 import java.util.UUID
+import java.util.UUID.randomUUID
 
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class FormMvcTest : AbstractMvcTest() {
 
-    private val domain1Id = UUID.randomUUID().toString()
-    private val domain2Id = UUID.randomUUID().toString()
+    private val domain1Id = randomUUID().toString()
+    private val domain2Id = randomUUID().toString()
 
     @Autowired
     private lateinit var domainRepo: DomainRepository
