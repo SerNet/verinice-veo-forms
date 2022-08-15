@@ -18,9 +18,8 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldStartWith
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpMethod
 import org.veo.forms.ROLE_USER
 
 @WithMockAuth(roles = [ROLE_USER])
@@ -32,31 +31,28 @@ class CorsMvcTest : AbstractMvcTest() {
         val origin = "https://valid.verinice.example"
 
         // when getting from the correct origin
-        val result = request(
-            HttpMethod.GET,
+        val result = get(
             "/",
             headers = mapOf("Origin" to listOf(origin))
         )
 
         // the request was successful
-        result.response.status shouldBe 200
-        result.response.contentAsString shouldStartWith "["
-        result.response.getHeader("Access-Control-Allow-Origin") shouldBe origin
+        result.bodyAsListOfMaps shouldNotBe null
+        result.getHeader("Access-Control-Allow-Origin") shouldBe origin
     }
 
     @Test
     fun `get forms with wrong origin header`() {
         // when getting from the wrong origin
-        val result = request(
-            HttpMethod.GET,
+        val result = get(
             "/",
-            headers = mapOf("Origin" to listOf("https://invalid.notverinice.example"))
+            403,
+            mapOf("Origin" to listOf("https://invalid.notverinice.example"))
         )
 
         // then an error is returned
-        result.response.status shouldBe 403
-        result.response.contentAsString shouldBe "Invalid CORS request"
-        result.response.getHeader("Access-Control-Allow-Origin") shouldBe null
+        result.rawBody shouldBe "Invalid CORS request"
+        result.getHeader("Access-Control-Allow-Origin") shouldBe null
     }
 
     @Test
@@ -65,8 +61,7 @@ class CorsMvcTest : AbstractMvcTest() {
         val origin = "https://valid.verinice.example"
 
         // when making a pre-flight request
-        val result = request(
-            HttpMethod.OPTIONS,
+        val result = options(
             "/",
             headers = mapOf(
                 "Origin" to listOf(origin),
@@ -76,9 +71,9 @@ class CorsMvcTest : AbstractMvcTest() {
         )
 
         // then CORS headers are returned
-        result.response.getHeader("Access-Control-Allow-Origin") shouldBe origin
-        result.response.getHeader("Access-Control-Allow-Methods") shouldBe "GET,POST,PUT,DELETE,OPTIONS"
-        result.response.getHeader("Access-Control-Allow-Headers") shouldBe "Content-Type, Authorization, X-Ample, X-Custom-Header"
-        result.response.getHeader("Access-Control-Max-Age") shouldBe "1800"
+        result.getHeader("Access-Control-Allow-Origin") shouldBe origin
+        result.getHeader("Access-Control-Allow-Methods") shouldBe "GET,POST,PUT,DELETE,OPTIONS"
+        result.getHeader("Access-Control-Allow-Headers") shouldBe "Content-Type, Authorization, X-Ample, X-Custom-Header"
+        result.getHeader("Access-Control-Max-Age") shouldBe "1800"
     }
 }

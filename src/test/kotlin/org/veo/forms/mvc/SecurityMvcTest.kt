@@ -17,7 +17,6 @@
  */
 package org.veo.forms.mvc
 
-import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.springframework.boot.test.context.SpringBootTest
@@ -75,7 +74,7 @@ class SecurityMvcTest : AbstractMvcTest() {
 
     private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {
         return DynamicTest.dynamicTest("$method $url results in $status") {
-            request(method, url).response.status shouldBe status
+            request(method, url, expectedStatus = status)
         }
     }
 }

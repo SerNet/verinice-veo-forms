@@ -24,18 +24,17 @@ import io.kotest.matchers.string.shouldHaveMinLength
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
-import org.veo.forms.asMap
-import java.util.*
+import java.util.UUID
+import java.util.UUID.randomUUID
 
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class FormETagTest : AbstractMvcTest() {
 
-    private val domainId = UUID.randomUUID().toString()
+    private val domainId = randomUUID().toString()
 
     @Autowired
     private lateinit var domainRepo: DomainRepository
@@ -47,33 +46,27 @@ class FormETagTest : AbstractMvcTest() {
 
     @Test
     fun `add form with ETag and retrieve`() {
-        val formUuid = parseBody(
-            request(
-                HttpMethod.POST,
-                "/",
-                mapOf(
-                    "name" to mapOf("en" to "form one"),
-                    "domainId" to domainId,
-                    "modelType" to "person",
-                    "content" to mapOf(
-                        "prop1" to "val1",
-                        "prop2" to listOf("ok")
-                    )
+        val formUuid = post(
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "form one"),
+                "domainId" to domainId,
+                "modelType" to "person",
+                "content" to mapOf(
+                    "prop1" to "val1",
+                    "prop2" to listOf("ok")
                 )
             )
-        )
+        ).bodyAsString
 
-        val eTagHeader = request(HttpMethod.GET, "/$formUuid").response.getHeader("ETag")!!
+        val eTagHeader = get("/$formUuid").getHeader("ETag")!!
 
         eTagHeader shouldHaveMinLength 4
 
-        request(HttpMethod.GET, "/$formUuid", headers = mapOf("If-None-Match" to listOf(eTagHeader))).response.apply {
-            status shouldBe 304
-            contentAsString.shouldHaveLength(0)
-        }
+        get("/$formUuid", 304, mapOf("If-None-Match" to listOf(eTagHeader)))
+            .rawBody shouldHaveLength 0
 
-        request(
-            HttpMethod.PUT,
+        put(
             "/$formUuid",
             mapOf(
                 "name" to mapOf("en" to "form one"),
@@ -86,14 +79,12 @@ class FormETagTest : AbstractMvcTest() {
             )
         )
 
-        request(HttpMethod.GET, "/$formUuid").response.getHeader("ETag") shouldNotBe eTagHeader
+        get("/$formUuid").getHeader("ETag") shouldNotBe eTagHeader
 
-        request(HttpMethod.GET, "/$formUuid", headers = mapOf("If-None-Match" to listOf(eTagHeader))).apply {
-            response.status shouldBe 200
-            parseBody(this).asMap()["modelType"] shouldBe "asset"
-        }
+        get("/$formUuid", headers = mapOf("If-None-Match" to listOf(eTagHeader)))
+            .bodyAsMap["modelType"] shouldBe "asset"
 
-        val randomFormUuid = UUID.randomUUID()
-        request(HttpMethod.GET, "/$randomFormUuid", headers = mapOf("If-None-Match" to listOf(eTagHeader))).response.status shouldBe 404
+        val randomFormUuid = randomUUID()
+        get("/$randomFormUuid", 404, mapOf("If-None-Match" to listOf(eTagHeader)))
     }
 }

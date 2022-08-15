@@ -22,11 +22,11 @@ import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
+import org.veo.forms.asMap
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -49,8 +49,7 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `add form and retrieve`() {
         // when adding a new form
-        var result = request(
-            HttpMethod.POST,
+        val formUuid = post(
             "/",
             mapOf(
                 "name" to mapOf("en" to "form one"),
@@ -68,20 +67,13 @@ class FormMvcTest : AbstractMvcTest() {
                     )
                 )
             )
-        )
-        val formUuid = parseBody(result)
+        ).bodyAsString
 
-        // then its UUID is returned
-        result.response.status shouldBe 201
-        require(formUuid is String)
+        // then a valid UUID is returned
         formUuid.length shouldBe 36
 
-        // when querying all forms
-        result = request(HttpMethod.GET, "/")
-
-        // then the new form is returned without content
-        result.response.status shouldBe 200
-        parseBody(result) shouldBe listOf(
+        // and the form is contained in the list of forms
+        get("/").bodyAsListOfMaps shouldBe listOf(
             mapOf(
                 "id" to formUuid,
                 "domainId" to domain1Id,
@@ -92,12 +84,8 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
 
-        // when querying the new form
-        result = request(HttpMethod.GET, "/$formUuid")
-
-        // then it is returned with content
-        result.response.status shouldBe 200
-        parseBody(result) shouldBe mapOf(
+        // and the complete form can be retrieved
+        get("/$formUuid").bodyAsMap shouldBe mapOf(
             "id" to formUuid,
             "domainId" to domain1Id,
             "name" to mapOf("en" to "form one"),
@@ -119,8 +107,7 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `add form and update`() {
         // when adding a form
-        var result = request(
-            HttpMethod.POST,
+        val formUuid = post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
@@ -135,15 +122,10 @@ class FormMvcTest : AbstractMvcTest() {
                     )
                 )
             )
-        )
-        val formUuid = parseBody(result) as String
+        ).bodyAsString
 
-        // then the response is ok
-        result.response.status shouldBe 201
-
-        // when updating the form
-        result = request(
-            HttpMethod.PUT,
+        // and updating the form
+        put(
             "/$formUuid",
             mapOf(
                 "domainId" to domain1Id,
@@ -162,15 +144,8 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
 
-        // then the response is ok
-        result.response.status shouldBe 204
-
-        // when querying the updated form
-        result = request(HttpMethod.GET, "/$formUuid")
-
         // then the changes have been applied
-        result.response.status shouldBe 200
-        parseBody(result) shouldBe mapOf(
+        get("/$formUuid").bodyAsMap shouldBe mapOf(
             "id" to formUuid,
             "domainId" to domain1Id,
             "modelType" to "process",
@@ -191,8 +166,7 @@ class FormMvcTest : AbstractMvcTest() {
     @Test
     fun `add form and delete`() {
         // when adding a form
-        var result = request(
-            HttpMethod.POST,
+        val formUuid = post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
@@ -200,30 +174,19 @@ class FormMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "content" to emptyMap<String, Any>()
             )
-        )
-        val formUuid = parseBody(result) as String
+        ).bodyAsString
 
-        // then the response is ok
-        result.response.status shouldBe 201
-
-        // when deleting the form
-        result = request(HttpMethod.DELETE, "/$formUuid")
-
-        // then the response is ok
-        result.response.status shouldBe 204
-
-        // when querying the deleted form
-        result = request(HttpMethod.GET, "/$formUuid")
+        // and deleting the form
+        delete("/$formUuid")
 
         // then the resource is not found
-        result.response.status shouldBe 404
+        get("/$formUuid", 404)
     }
 
     @Test
     fun `retrieve by domain ID`() {
         // given four forms from different domains
-        request(
-            HttpMethod.POST,
+        post(
             "/",
             mapOf(
                 "domainId" to domain2Id,
@@ -232,8 +195,7 @@ class FormMvcTest : AbstractMvcTest() {
                 "content" to emptyMap<String, Any>()
             )
         )
-        request(
-            HttpMethod.POST,
+        post(
             "/",
             mapOf(
                 "domainId" to domain2Id,
@@ -243,8 +205,7 @@ class FormMvcTest : AbstractMvcTest() {
                 "sorting" to "a2"
             )
         )
-        request(
-            HttpMethod.POST,
+        post(
             "/",
             mapOf(
                 "domainId" to domain2Id,
@@ -254,8 +215,7 @@ class FormMvcTest : AbstractMvcTest() {
                 "sorting" to "a11"
             )
         )
-        request(
-            HttpMethod.POST,
+        post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
@@ -265,60 +225,43 @@ class FormMvcTest : AbstractMvcTest() {
             )
         )
 
-        // when requesting only forms from the second domain
-        val result = parseBody(request(HttpMethod.GET, "/?domainId=$domain2Id"))
-
-        // then only three forms with the second domain are returned
-        with(result as List<*>) {
-            size shouldBe 3
-            with(get(0) as Map<*, *>) {
-                get("name") shouldBe mapOf("en" to "one")
-            }
-            with(get(1) as Map<*, *>) {
-                get("name") shouldBe mapOf("en" to "two")
-            }
-            with(get(2) as Map<*, *>) {
-                get("name") shouldBe mapOf("en" to "three")
-            }
-        }
+        // expect that the forms can be filtered by domain
+        get("/?domainId=$domain2Id").bodyAsListOfMaps
+            .map { it["name"].asMap()["en"] } shouldBe setOf("one", "two", "three")
     }
 
     @Test
     fun `can't create form with invalid name structure`() {
-        request(
-            HttpMethod.POST,
+        post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("foo" to mapOf("bar" to "star")),
                 "modelType" to "person",
                 "content" to emptyMap<String, Any>()
-            )
-        ).response.status shouldBe 400
+            ),
+            400
+        )
     }
 
     @Test
     fun `gives JSON parsing error details`() {
-        // when adding a form without a domainId
-        val response = request(
-            HttpMethod.POST,
+        // expect adding a form without a domainId to result in an error
+        post(
             "/",
             mapOf(
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
                 "content" to emptyMap<String, Any>()
-            )
-        ).response
-
-        response.status shouldBe 400
-        response.contentAsString shouldContain "missing (therefore NULL) value for creator parameter domainId which is a non-nullable type"
+            ),
+            400
+        ).rawBody shouldContain "missing (therefore NULL) value for creator parameter domainId which is a non-nullable type"
     }
 
     @Test
     fun `empty sub type is not allowed`() {
-        // when adding a form without a domainId
-        val response = request(
-            HttpMethod.POST,
+        // expect adding a form with an empty subtype to result in an error
+        post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
@@ -326,18 +269,15 @@ class FormMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "subType" to "",
                 "content" to emptyMap<String, Any>()
-            )
-        ).response
-
-        response.status shouldBe 400
-        response.contentAsString shouldContain "size must be between 1 and 255"
+            ),
+            400
+        ).rawBody shouldContain "size must be between 1 and 255"
     }
 
     @Test
     fun `special characters in sorting is not allowed`() {
-        // when adding a form without a domainId
-        val response = request(
-            HttpMethod.POST,
+        // expect using a sorting with an non-ASCII char to result in an error
+        post(
             "/",
             mapOf(
                 "domainId" to domain1Id,
@@ -346,10 +286,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "subType" to "PER_Person",
                 "sorting" to "ä1",
                 "content" to emptyMap<String, Any>()
-            )
-        ).response
-
-        response.status shouldBe 400
-        response.contentAsString shouldContain "Only ASCII characters are allowed"
+            ),
+            400
+        ).rawBody shouldContain "Only ASCII characters are allowed"
     }
 }
