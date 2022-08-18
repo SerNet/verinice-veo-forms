@@ -19,6 +19,7 @@ package org.veo.forms
 
 import net.swiftzer.semver.SemVer
 import org.springframework.stereotype.Component
+import org.veo.forms.dtos.FormTemplateBundleDtoWithoutId
 import java.util.UUID
 
 @Component
@@ -28,4 +29,8 @@ class FormTemplateBundleFactory {
         version = version,
         templates = forms.associate { it.toTemplate() }
     )
+
+    fun createBundle(dto: FormTemplateBundleDtoWithoutId): FormTemplateBundle = dto.run {
+        FormTemplateBundle(domainTemplateId, version, templates)
+    }
 }

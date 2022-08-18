@@ -17,6 +17,8 @@
  */
 package org.veo.forms
 
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
@@ -28,6 +30,8 @@ import io.swagger.v3.oas.annotations.security.OAuthFlows
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 
 @SpringBootApplication
 @SecurityScheme(
@@ -59,6 +63,11 @@ class VeoFormsApplication {
     companion object {
         const val SECURITY_SCHEME_OAUTH = "OAuth2"
     }
+
+    @Bean
+    @Primary
+    fun objectMapper(): ObjectMapper = CustomObjectMapper()
+        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 }
 
 fun main(args: Array<String>) {

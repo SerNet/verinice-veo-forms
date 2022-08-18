@@ -20,6 +20,7 @@ package org.veo.forms
 import net.swiftzer.semver.SemVer
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.OutdatedDomainException
+import org.veo.forms.exceptions.SemVerTooLowException
 import java.util.UUID
 
 @Component
@@ -49,5 +50,40 @@ class FormTemplateService(
         domain.formTemplateBundle = newBundle
 
         formTemplateBundleApplier.applyToAllDomains(newBundle)
+    }
+
+    fun importBundle(bundle: FormTemplateBundle) = bundle
+        .also(this::validate)
+        .let(formTemplateBundleRepo::add)
+        .let(formTemplateBundleApplier::applyToAllDomains)
+
+    private fun validate(newBundle: FormTemplateBundle) {
+        formTemplateBundleRepo.getLatest(newBundle.domainTemplateId)?.let { currentBundle ->
+            validate(newBundle, currentBundle)
+        }
+    }
+
+    private fun validate(newBundle: FormTemplateBundle, currentBundle: FormTemplateBundle) {
+        if (newBundle.version <= currentBundle.version) {
+            throw SemVerTooLowException("New form template bundle version number must be higher than current version ${currentBundle.version}")
+        }
+        newBundle.templates.forEach { (templateId, newTemplate) ->
+            currentBundle.templates[templateId]?.let { currentTemplate ->
+                validate(newTemplate, currentTemplate, templateId)
+            }
+        }
+    }
+
+    private fun validate(
+        newTemplate: FormTemplate,
+        currentTemplate: FormTemplate,
+        templateId: UUID
+    ) {
+        if (newTemplate.version < currentTemplate.version) {
+            throw SemVerTooLowException("New version number of form template $templateId must not be lower than current version ${currentTemplate.version}")
+        }
+        if (newTemplate.version == currentTemplate.version && newTemplate != currentTemplate) {
+            throw SemVerTooLowException("Form template $templateId differs from current version ${currentTemplate.version} but uses the same version number")
+        }
     }
 }

@@ -153,20 +153,9 @@ class FormJpaTest : AbstractSpringTest() {
     }
 
     private fun createDomain(clientId: UUID): Domain {
-        return domainRepo.save(Domain(UUID.randomUUID(), clientId))
+        return domainRepo.save(domain(clientId = clientId))
     }
 
-    private fun createForm(englishName: String, domain: Domain, sorting: String? = null): Form {
-        return formRepo.save(
-            Form(
-                domain,
-                mapOf("en" to englishName),
-                ModelType.Document,
-                null,
-                emptyMap<String, Any>(),
-                null,
-                sorting
-            )
-        )
-    }
+    private fun createForm(englishName: String, domain: Domain, sorting: String? = null) =
+        formRepo.save(form(domain, mapOf("en" to englishName), sorting = sorting))
 }

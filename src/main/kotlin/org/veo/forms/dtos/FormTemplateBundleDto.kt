@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2022  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,12 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms.exceptions
+package org.veo.forms.dtos
 
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.ResponseStatus
+import net.swiftzer.semver.SemVer
+import org.veo.forms.FormTemplate
+import java.util.UUID
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class ResourceNotFoundException(message: String) : Exception(message) {
-    constructor() : this("Resource not found")
-}
+class FormTemplateBundleDto(val id: UUID, domainTemplateId: UUID, version: SemVer, template: Map<UUID, FormTemplate>) :
+    FormTemplateBundleDtoWithoutId(domainTemplateId, version, template)

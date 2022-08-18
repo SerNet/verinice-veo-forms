@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2022  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,12 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms.exceptions
+@file:Suppress("UNCHECKED_CAST")
 
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.ResponseStatus
+package org.veo.forms
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class ResourceNotFoundException(message: String) : Exception(message) {
-    constructor() : this("Resource not found")
+// Convenience functions for casting things in deserialized JSON response bodies.
+
+fun Any?.asMap(): MutableMap<String, Any> {
+    return this as MutableMap<String, Any>
+}
+
+fun Any?.asNestedMap(): MutableMap<String, MutableMap<String, Any>> {
+    return this as MutableMap<String, MutableMap<String, Any>>
+}
+
+fun Any?.asListOfMaps(): MutableList<MutableMap<String, Any>> {
+    return this as MutableList<MutableMap<String, Any>>
 }

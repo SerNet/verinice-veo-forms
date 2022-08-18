@@ -18,6 +18,7 @@
 package org.veo.forms.mvc
 
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,9 @@ import org.veo.forms.DomainRepository
 import org.veo.forms.DomainService
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
+import org.veo.forms.asListOfMaps
+import org.veo.forms.asMap
+import org.veo.forms.asNestedMap
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -51,6 +55,108 @@ class TemplatingMvcTest : AbstractMvcTest() {
     @Test
     fun `create, update and apply templates`() {
         //  When creating two new forms in the existing domain
+        postFormsInDomain()
+
+        // and creating a form template bundle from the existing domain
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+            .response.status shouldBe 201
+
+        // and creating a new domain using the same domain template
+        val newDomainId = randomUUID()
+        domainService.initializeDomain(newDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
+
+        // Then our two form templates have been incarnated in the new domain
+        request(GET, "/?domainId=$newDomainId")
+            .also { it.response.status shouldBe 200 }
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form")
+
+        // When adding a third form to the new domain
+        request(
+            POST,
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "person form"),
+                "domainId" to newDomainId,
+                "modelType" to "person",
+                "content" to emptyMap<String, Any>()
+            )
+        )
+
+        // and creating yet another new template bundle from the new domain
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
+            .response.status shouldBe 201
+
+        // then the forms in the original domain have been updated
+        request(GET, "/?domainId=$domainId")
+            .also { it.response.status shouldBe 200 }
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
+
+        // when creating yet another new domain using the same domain template.
+        val thirdDomainId = randomUUID()
+        domainService.initializeDomain(thirdDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
+
+        // Then our three form templates have been incarnated in the new domain
+        request(GET, "/?domainId=$thirdDomainId")
+            .also { it.response.status shouldBe 200 }
+            .let { parseBody(it) }
+            .asListOfMaps()
+            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
+    }
+
+    @Test
+    fun `export and import templates`() {
+        // Given a persisted form template bundle with some forms
+        postFormsInDomain()
+        request(POST, "/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+
+        // when requesting the latest form template bundle
+        val bundle =
+            parseBody(
+                request(
+                    GET,
+                    "/form-template-bundles/latest?domainTemplateId=$domainTemplateId"
+                )
+            ).asMap()
+
+        // then the bundle has been exported
+        bundle["id"] shouldNotBe null
+        bundle["domainTemplateId"] shouldBe domainTemplateId.toString()
+        bundle["version"] shouldBe "1.0.0"
+        bundle["templates"]
+            .asNestedMap()
+            .values
+            .map { it["modelType"] } shouldBe setOf("asset", "document")
+
+        // when modifying the bundle
+        bundle["version"] = "1.0.1"
+        bundle["templates"]
+            .asNestedMap()
+            .values
+            .first { it["modelType"] == "asset" }
+            .apply { set("version", "1.0.1") }
+            .apply { set("subType", "IT system") }
+
+        // and importing it as a new bundle
+        request(POST, "/form-template-bundles", bundle)
+
+        // then it can be retrieved
+        parseBody(request(GET, "/form-template-bundles/latest?domainTemplateId=$domainTemplateId"))
+            .asMap()
+            .apply { get("id") shouldNotBe bundle["id"] }
+            .apply { get("version") shouldBe "1.0.1" }
+
+        // and the new bundle has been applied to the domain
+        parseBody(request(GET, "/?domainId=$domainId"))
+            .asListOfMaps()
+            .first { it["modelType"] == "asset" }
+            .apply { get("subType") shouldBe "IT system" }
+    }
+
+    private fun postFormsInDomain() {
         request(
             POST,
             "/",
@@ -71,57 +177,5 @@ class TemplatingMvcTest : AbstractMvcTest() {
                 "content" to emptyMap<String, Any>()
             )
         ).response.status shouldBe 201
-
-        // and creating a form template bundle from the existing domain
-        request(POST, "/form-template-bundles?domainId=$domainId&domainTemplateId=$domainTemplateId")
-            .response.status shouldBe 201
-
-        // and creating a new domain using the same domain template
-        val newDomainId = randomUUID()
-        domainService.initializeDomain(newDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
-
-        // Then our two form templates have been incarnated in the new domain
-        request(GET, "/?domainId=$newDomainId")
-            .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form")
-
-        // When adding a third form to the new domain
-        request(
-            POST,
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "person form"),
-                "domainId" to newDomainId,
-                "modelType" to "person",
-                "content" to emptyMap<String, Any>()
-            )
-        )
-
-        // and creating yet another new template bundle from the new domain
-        request(POST, "/form-template-bundles?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
-            .response.status shouldBe 201
-
-        // then the forms in the original domain have been updated
-        request(GET, "/?domainId=$domainId")
-            .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
-
-        // when creating yet another new domain using the same domain template.
-        val thirdDomainId = randomUUID()
-        domainService.initializeDomain(thirdDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
-
-        // Then our three form templates have been incarnated in the new domain
-        request(GET, "/?domainId=$thirdDomainId")
-            .also { it.response.status shouldBe 200 }
-            .let { parseBody(it) as List<*> }
-            .map { it as Map<*, *> }
-            .map { it["name"] as Map<*, *> }
-            .map { it["en"] } shouldBe listOf("asset form", "document form", "person form")
     }
 }
