@@ -63,6 +63,7 @@ class SecurityMvcTest : AbstractMvcTest() {
     fun `documentation is accessible`() = listOf(
         testStatus(HttpMethod.GET, "/actuator/health/readiness", 200),
         testStatus(HttpMethod.GET, "/actuator/health/liveness", 200),
+        testStatus(HttpMethod.GET, "/actuator/info", 200),
         testStatus(HttpMethod.GET, "/swagger-ui.html", 302),
         testStatus(HttpMethod.GET, "/swagger-ui/index.html", 200),
         testStatus(HttpMethod.GET, "/v3/api-docs", 200)
