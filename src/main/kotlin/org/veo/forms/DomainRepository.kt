@@ -19,7 +19,6 @@ package org.veo.forms
 
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
-import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 import java.util.UUID
 
@@ -36,15 +35,9 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
         return jpaRepo.save(domain)
     }
 
-    fun findClientDomain(domainId: UUID, clientId: UUID): Domain {
-        return jpaRepo.findById(domainId)
-            .orElseThrow { ResourceNotFoundException() }
-            .also {
-                if (it.clientId != clientId) {
-                    throw AccessDeniedException()
-                }
-            }
-    }
+    fun findClientDomain(domainId: UUID, clientId: UUID): Domain =
+        jpaRepo.findClientDomain(domainId, clientId)
+            ?: throw ResourceNotFoundException()
 
     fun findAll(): MutableList<Domain> = jpaRepo.findAll()
 

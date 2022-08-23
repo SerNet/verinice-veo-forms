@@ -27,6 +27,9 @@ import java.util.UUID
 @Repository
 @Transactional(propagation = MANDATORY, readOnly = true)
 interface FormJpaRepository : JpaRepository<Form, UUID> {
+    @Query("SELECT f FROM Form f WHERE f.id = :formId AND f.domain.clientId = :clientId")
+    fun findClientForm(formId: UUID, clientId: UUID): Form?
+
     @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId ORDER BY f.sorting ASC")
     fun findAllByClient(clientId: UUID): List<Form>
 

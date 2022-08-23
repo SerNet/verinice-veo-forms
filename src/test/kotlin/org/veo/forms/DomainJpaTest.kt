@@ -33,6 +33,24 @@ class DomainJpaTest : AbstractSpringTest() {
     private lateinit var formTemplateBundleJpaRepo: FormTemplateBundleJpaRepository
 
     @Test
+    fun `finds domain by id and client`() {
+        // Given two domains from two different clients
+        val client1Id = randomUUID()
+        val client2Id = randomUUID()
+
+        val client1Domain = domainJpaRepo.save(domain(clientId = client1Id))
+        val client2Domain = domainJpaRepo.save(domain(clientId = client2Id))
+
+        // expect the domains to be retrievable with the correct client IDs
+        domainJpaRepo.findClientDomain(client1Domain.id, client1Id) shouldBe client1Domain
+        domainJpaRepo.findClientDomain(client2Domain.id, client2Id) shouldBe client2Domain
+
+        // and irretrievable with the wrong client IDs
+        domainJpaRepo.findClientDomain(client1Domain.id, client2Id) shouldBe null
+        domainJpaRepo.findClientDomain(client2Domain.id, client1Id) shouldBe null
+    }
+
+    @Test
     fun `queries outdated domains`() {
         // Given an old and a current form template bundle.
         val domainTemplateId = randomUUID()

@@ -88,6 +88,24 @@ class FormJpaTest : AbstractSpringTest() {
     }
 
     @Test
+    fun `finds form by id and client`() {
+        // Given two forms from two different clients
+        val client1Id = UUID.randomUUID()
+        val client2Id = UUID.randomUUID()
+
+        val client1Form = createForm("form one", createDomain(client1Id))
+        val client2Form = createForm("form two", createDomain(client2Id))
+
+        // expect the forms to be retrievable with the correct client IDs
+        formRepo.findClientForm(client1Form.id, client1Id) shouldBe client1Form
+        formRepo.findClientForm(client2Form.id, client2Id) shouldBe client2Form
+
+        // and irretrievable with the wrong client IDs
+        formRepo.findClientForm(client1Form.id, client2Id) shouldBe null
+        formRepo.findClientForm(client2Form.id, client1Id) shouldBe null
+    }
+
+    @Test
     fun `finds all forms by client and domain`() {
         // Given four forms from two different domains of the same client
         val clientId = UUID.randomUUID()

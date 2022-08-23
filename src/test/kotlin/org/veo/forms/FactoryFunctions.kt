@@ -28,12 +28,12 @@ fun domain(
 
 fun form(
     domain: Domain,
-    name: Map<String, String>,
+    name: Map<String, String> = emptyMap(),
     modelType: ModelType = ModelType.Document,
     subType: String? = null,
     content: Map<String, Any> = emptyMap(),
     translations: Map<String, Any> = emptyMap(),
-    sorting: String?
+    sorting: String? = null
 ) = Form(
     domain,
     name,

@@ -25,7 +25,6 @@ import io.mockk.runs
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 import java.util.Optional
 import java.util.UUID
@@ -75,36 +74,20 @@ class FormRepositoryUnitTest {
             }
         }
 
-        every { jpaRepo.findById(formId) } returns Optional.of(entity)
+        every { jpaRepo.findClientForm(formId, formClientId) } returns Optional.of(entity)
 
         sut.findClientForm(formClientId, formId) shouldBe entity
     }
 
     @Test
-    fun `accessing other client's form throws exception`() {
-        // Given a form that belongs to another client
-        val otherClientUuid = UUID.randomUUID()
-        val formId = UUID.randomUUID()
-        val entity = mockk<Form> {
-            every { domain } returns mockk {
-                every { clientId } returns otherClientUuid
-            }
-        }
-
-        every { jpaRepo.findById(formId) } returns Optional.of(entity)
-
-        // when trying to access the form then an exception is thrown.
-        assertThrows<AccessDeniedException> { sut.findClientForm(UUID.randomUUID(), formId) }
-    }
-
-    @Test
     fun `accessing non-existing form throws exception`() {
         // Given a repo that doesn't have the form
+        val clientId = UUID.randomUUID()
         val formId = UUID.randomUUID()
-        every { jpaRepo.findById(formId) } returns Optional.empty()
+        every { jpaRepo.findClientForm(formId, clientId) } returns Optional.empty()
 
         // when trying to access the form then an exception is thrown.
-        assertThrows<ResourceNotFoundException> { sut.findClientForm(UUID.randomUUID(), formId) }
+        assertThrows<ResourceNotFoundException> { sut.findClientForm(clientId, formId) }
     }
 
     @Test

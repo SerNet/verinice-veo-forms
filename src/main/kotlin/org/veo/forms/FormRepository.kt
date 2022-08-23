@@ -19,7 +19,6 @@ package org.veo.forms
 
 import net.swiftzer.semver.SemVer
 import org.springframework.stereotype.Component
-import org.veo.forms.exceptions.AccessDeniedException
 import org.veo.forms.exceptions.ResourceNotFoundException
 import org.veo.forms.jpa.FormETagParameterView
 import java.util.UUID
@@ -32,15 +31,9 @@ class FormRepository(private val jpaRepo: FormJpaRepository) {
             ?: jpaRepo.findAllByClient(clientId)
     }
 
-    fun findClientForm(clientId: UUID, formId: UUID): Form {
-        return jpaRepo.findById(formId)
-            .orElseThrow { ResourceNotFoundException() }
-            .also {
-                if (it.domain.clientId != clientId) {
-                    throw AccessDeniedException()
-                }
-            }
-    }
+    fun findClientForm(clientId: UUID, formId: UUID): Form =
+        jpaRepo.findClientForm(formId, clientId)
+            ?: throw ResourceNotFoundException()
 
     fun save(form: Form): Form = jpaRepo.save(form)
 
