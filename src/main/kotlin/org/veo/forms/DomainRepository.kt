@@ -35,7 +35,7 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
         return jpaRepo.save(domain)
     }
 
-    fun findClientDomain(domainId: UUID, clientId: UUID): Domain =
+    fun getClientDomain(domainId: UUID, clientId: UUID): Domain =
         jpaRepo.findClientDomain(domainId, clientId)
             ?: throw ResourceNotFoundException()
 

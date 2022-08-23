@@ -76,7 +76,7 @@ class FormRepositoryUnitTest {
 
         every { jpaRepo.findClientForm(formId, formClientId) } returns Optional.of(entity)
 
-        sut.findClientForm(formClientId, formId) shouldBe entity
+        sut.getClientForm(formClientId, formId) shouldBe entity
     }
 
     @Test
@@ -87,7 +87,7 @@ class FormRepositoryUnitTest {
         every { jpaRepo.findClientForm(formId, clientId) } returns Optional.empty()
 
         // when trying to access the form then an exception is thrown.
-        assertThrows<ResourceNotFoundException> { sut.findClientForm(clientId, formId) }
+        assertThrows<ResourceNotFoundException> { sut.getClientForm(clientId, formId) }
     }
 
     @Test

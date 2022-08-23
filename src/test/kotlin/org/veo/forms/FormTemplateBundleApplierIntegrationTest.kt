@@ -95,7 +95,7 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
         formTemplateBundleApplier.applyToAllDomains(newTemplateBundle)
 
         // then the vanilla outdated domain has been updated
-        domainRepository.findClientDomain(oldDomain.id, oldDomain.clientId).apply {
+        domainRepository.getClientDomain(oldDomain.id, oldDomain.clientId).apply {
             formTemplateBundle?.id shouldBe newTemplateBundle.id
             formRepository.findAll(clientId, id).apply {
                 size shouldBe 2
@@ -121,7 +121,7 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
         }
 
         // and the extended outdated domain has been updated
-        domainRepository.findClientDomain(oldExtendedDomain.id, oldExtendedDomain.clientId).apply {
+        domainRepository.getClientDomain(oldExtendedDomain.id, oldExtendedDomain.clientId).apply {
             formTemplateBundle?.id shouldBe newTemplateBundle.id
             formRepository.findAll(clientId, id).apply {
                 size shouldBe 3

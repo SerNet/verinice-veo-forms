@@ -32,7 +32,7 @@ class FormTemplateService(
     private val formTemplateBundleApplier: FormTemplateBundleApplier
 ) {
     fun createBundle(domainId: UUID, domainTemplateId: UUID, clientId: UUID) {
-        val domain = domainRepo.findClientDomain(domainId, clientId)
+        val domain = domainRepo.getClientDomain(domainId, clientId)
         val latestTemplateBundle = formTemplateBundleRepo.getLatest(domainTemplateId)
         if (latestTemplateBundle != null && latestTemplateBundle != domain.formTemplateBundle) {
             throw OutdatedDomainException(domain, latestTemplateBundle)

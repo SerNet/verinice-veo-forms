@@ -25,7 +25,7 @@ import java.util.UUID
 class FormFactory(private val domainRepo: DomainRepository) {
     fun createForm(clientId: UUID, dto: FormDtoWithoutId): Form {
         return Form(
-            domainRepo.findClientDomain(dto.domainId, clientId),
+            domainRepo.getClientDomain(dto.domainId, clientId),
             dto.name,
             dto.modelType,
             dto.subType,

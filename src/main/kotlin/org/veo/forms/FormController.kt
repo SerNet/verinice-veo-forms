@@ -73,7 +73,7 @@ class FormController(
                 return ResponseEntity.status(304).build()
             }
         }
-        val form = repo.findClientForm(clientId, id)
+        val form = repo.getClientForm(clientId, id)
         return ResponseEntity.ok()
             .eTag(eTagGenerator.generateETag(form.formTemplateVersion, form.revision, form.id))
             .body(formDtoFactory.createDto(form))
@@ -106,8 +106,8 @@ class FormController(
         dto: FormDtoWithoutId
     ) {
         val clientId = authService.getClientId(auth)
-        repo.findClientForm(clientId, id).let {
-            it.update(dto, domainRepo.findClientDomain(dto.domainId, clientId))
+        repo.getClientForm(clientId, id).let {
+            it.update(dto, domainRepo.getClientDomain(dto.domainId, clientId))
             repo.save(it)
         }
     }
@@ -117,6 +117,6 @@ class FormController(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     fun deleteForm(auth: Authentication, @PathVariable("id") id: UUID) {
-        repo.delete(repo.findClientForm(authService.getClientId(auth), id))
+        repo.delete(repo.getClientForm(authService.getClientId(auth), id))
     }
 }

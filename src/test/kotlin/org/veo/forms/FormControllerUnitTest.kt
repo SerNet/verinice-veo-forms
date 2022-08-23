@@ -87,7 +87,7 @@ class FormControllerUnitTest {
         val dto = mockk<FormDto>()
         val mockETag = "GxueQgmVYhI2IDlDNrprWCfgUwIOpXsvOEfUzHc0PQjLcV8pvlCYDuDhFzsGFiT4"
 
-        every { formRepo.findClientForm(authClientId, formId) } returns entity
+        every { formRepo.getClientForm(authClientId, formId) } returns entity
         every { dtoFactory.createDto(entity) } returns dto
         every { eTagGenerator.generateETag(templateVersion, 5u, formId) } returns mockETag
 
@@ -112,8 +112,8 @@ class FormControllerUnitTest {
         }
         val domain = mockk<Domain>()
 
-        every { formRepo.findClientForm(authClientId, formId) } returns entity
-        every { domainRepo.findClientDomain(dto.domainId, authClientId) } returns domain
+        every { formRepo.getClientForm(authClientId, formId) } returns entity
+        every { domainRepo.getClientDomain(dto.domainId, authClientId) } returns domain
         every { entity.update(dto, domain) } just Runs
         every { formRepo.save(entity) } returns mockk()
 

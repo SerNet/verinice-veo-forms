@@ -31,7 +31,7 @@ class FormRepository(private val jpaRepo: FormJpaRepository) {
             ?: jpaRepo.findAllByClient(clientId)
     }
 
-    fun findClientForm(clientId: UUID, formId: UUID): Form =
+    fun getClientForm(clientId: UUID, formId: UUID): Form =
         jpaRepo.findClientForm(formId, clientId)
             ?: throw ResourceNotFoundException()
 

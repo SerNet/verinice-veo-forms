@@ -42,7 +42,7 @@ class FormTemplateServiceUnitTest {
     private val newBundleFromFactory = mockk<FormTemplateBundle>()
 
     private val domainRepo: DomainRepository = mockk {
-        every { findClientDomain(domainId, clientId) } returns domain
+        every { getClientDomain(domainId, clientId) } returns domain
     }
     private val formRepo: FormRepository = mockk {
         every { findAll(clientId, domainId) } returns domainForms
@@ -145,7 +145,7 @@ class FormTemplateServiceUnitTest {
 
     @Test
     fun `creation fails for missing domain`() {
-        every { domainRepo.findClientDomain(domainId, clientId) } throws (ResourceNotFoundException())
+        every { domainRepo.getClientDomain(domainId, clientId) } throws (ResourceNotFoundException())
 
         assertThrows<ResourceNotFoundException> {
             sut.createBundle(domainId, domainTemplateId, clientId)
