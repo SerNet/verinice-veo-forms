@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 
 @Component
-class ETagGenerator(@Value("\${veo.etag.salt}") val salt: String) {
+class ETagGenerator(@Value("\${veo.forms.etag.salt}") val salt: String) {
 
     init {
         require(salt.isNotEmpty()) {
