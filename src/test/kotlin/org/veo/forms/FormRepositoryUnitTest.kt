@@ -26,7 +26,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.veo.forms.exceptions.ResourceNotFoundException
-import java.util.Optional
 import java.util.UUID
 
 class FormRepositoryUnitTest {
@@ -74,7 +73,7 @@ class FormRepositoryUnitTest {
             }
         }
 
-        every { jpaRepo.findClientForm(formId, formClientId) } returns Optional.of(entity)
+        every { jpaRepo.findClientForm(formId, formClientId) } returns entity
 
         sut.getClientForm(formClientId, formId) shouldBe entity
     }
@@ -84,7 +83,7 @@ class FormRepositoryUnitTest {
         // Given a repo that doesn't have the form
         val clientId = UUID.randomUUID()
         val formId = UUID.randomUUID()
-        every { jpaRepo.findClientForm(formId, clientId) } returns Optional.empty()
+        every { jpaRepo.findClientForm(formId, clientId) } returns null
 
         // when trying to access the form then an exception is thrown.
         assertThrows<ResourceNotFoundException> { sut.getClientForm(clientId, formId) }

@@ -17,11 +17,9 @@
  */
 package org.veo.forms.mvc
 
-import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod.GET
 import org.veo.forms.DomainRepository
 import org.veo.forms.FormRepository
 import org.veo.forms.ROLE_CONTENT_CREATOR
@@ -53,9 +51,9 @@ class ClientSeparationMvcTest : AbstractMvcTest() {
     @Test
     fun `client boundaries are respected`() {
         // Expect our own form to be retrievable
-        request(GET, "/$ownFormId").response.status shouldBe 200
+        get("/$ownFormId", 200)
 
         // and the other client's form to be irretrievable
-        request(GET, "/$otherClientsFormId").response.status shouldBe 404
+        get("/$otherClientsFormId", 404)
     }
 }
