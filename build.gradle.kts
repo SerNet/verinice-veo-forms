@@ -45,7 +45,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.5.0")
     implementation("com.vladmihalcea:hibernate-types-52:2.18.0")
-    implementation("org.flywaydb:flyway-core:9.2.2")
+    implementation("org.flywaydb:flyway-core:9.3.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
     implementation("io.mockk:mockk:1.12.7")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
