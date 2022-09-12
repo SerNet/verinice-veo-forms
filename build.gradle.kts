@@ -44,7 +44,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.5.0")
-    implementation("com.vladmihalcea:hibernate-types-52:2.18.0")
+    implementation("com.vladmihalcea:hibernate-types-52:2.19.1")
     implementation("org.flywaydb:flyway-core:9.3.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
     implementation("io.mockk:mockk:1.12.7")
