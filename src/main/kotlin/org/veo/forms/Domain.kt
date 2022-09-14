@@ -18,7 +18,9 @@
 package org.veo.forms
 
 import org.hibernate.annotations.Proxy
+import java.time.Instant
 import java.util.UUID
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
@@ -35,4 +37,16 @@ class Domain(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "form_template_bundle_id")
     var formTemplateBundle: FormTemplateBundle? = null
-)
+) {
+    @Column(name = "last_form_modification")
+    private var _lastFormModification: Instant = Instant.now()
+
+    /** Last time when a form in this domain was added, updated or removed. */
+    val lastFormModification
+        get() = _lastFormModification
+
+    /** Sets [lastFormModification] to now. */
+    fun updateLastFormModification() {
+        _lastFormModification = Instant.now()
+    }
+}

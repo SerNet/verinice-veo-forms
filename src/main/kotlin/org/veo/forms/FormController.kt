@@ -53,29 +53,41 @@ class FormController(
     private val eTagGenerator: ETagGenerator
 ) {
 
-    @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting.")
+    @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting. Uses If-None-Match header to enable caching of resource.")
     @GetMapping
-    fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?): List<FormDtoWithoutContent> {
-        return repo.findAll(authService.getClientId(auth), domainId).map {
-            formDtoFactory.createDtoWithoutContent(it)
+    fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?, request: WebRequest): ResponseEntity<List<FormDtoWithoutContent>> {
+        val clientId = authService.getClientId(auth)
+        var eTag: String? = null
+        if (domainId != null) {
+            val domain = domainRepo.getClientDomain(domainId, clientId)
+            eTag = eTagGenerator.generateDomainFormsETag(domainId, domain.lastFormModification)
+            if (request.getHeader(("If-None-Match")) != null && request.checkNotModified(eTag)) {
+                return ResponseEntity.status(304).build()
+            }
         }
+        return ResponseEntity.ok()
+            .apply { eTag?.let { eTag(it) } }
+            .body(
+                repo.findAll(clientId, domainId).map {
+                    formDtoFactory.createDtoWithoutContent(it)
+                }
+            )
     }
 
-    @Operation(description = "Get a single form with its contents.")
+    @Operation(description = "Get a single form with its contents. Uses If-None-Match header to enable caching of resource.")
     @GetMapping("{id}")
     fun getForm(auth: Authentication, @PathVariable("id") id: UUID, request: WebRequest): ResponseEntity<FormDto> {
-        val ifNoneMatchHeader = request.getHeader("If-None-Match")
         val clientId = authService.getClientId(auth)
-        if (ifNoneMatchHeader != null) {
+        if (request.getHeader("If-None-Match") != null) {
             val eTagParameters = repo.getETagParameterById(id, clientId)
-            val eTag = eTagGenerator.generateETag(eTagParameters.formTemplateVersion, eTagParameters.revision, id)
+            val eTag = eTagGenerator.generateFormETag(eTagParameters.formTemplateVersion, eTagParameters.revision, id)
             if (request.checkNotModified(eTag)) {
                 return ResponseEntity.status(304).build()
             }
         }
         val form = repo.getClientForm(clientId, id)
         return ResponseEntity.ok()
-            .eTag(eTagGenerator.generateETag(form.formTemplateVersion, form.revision, form.id))
+            .eTag(eTagGenerator.generateFormETag(form.formTemplateVersion, form.revision, form.id))
             .body(formDtoFactory.createDto(form))
     }
 

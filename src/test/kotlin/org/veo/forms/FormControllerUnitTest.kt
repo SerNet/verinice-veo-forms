@@ -30,6 +30,7 @@ import org.springframework.web.context.request.WebRequest
 import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
+import java.time.Instant.now
 import java.util.UUID
 
 class FormControllerUnitTest {
@@ -43,6 +44,7 @@ class FormControllerUnitTest {
 
     private val auth = mockk<org.springframework.security.core.Authentication>()
     private val authClientId = UUID.randomUUID()
+    private val mockETag = "GxueQgmVYhI2IDlDNrprWCfgUwIOpXsvOEfUzHc0PQjLcV8pvlCYDuDhFzsGFiT4"
 
     init {
         every { authService.getClientId(auth) } returns authClientId
@@ -56,19 +58,30 @@ class FormControllerUnitTest {
         val clientFormB = mockk<Form>()
         val clientFormADto = mockk<FormDtoWithoutContent>()
         val clientFormBDto = mockk<FormDtoWithoutContent>()
-
+        val domain = mockk<Domain>()
+        val lastFormModification = now()
+        val request = mockk<WebRequest> {
+            every { getHeader("If-None-Match") } returns null
+        }
         every { formRepo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
         every { dtoFactory.createDtoWithoutContent(clientFormA) } returns clientFormADto
         every { dtoFactory.createDtoWithoutContent(clientFormB) } returns clientFormBDto
+        every { domainRepo.getClientDomain(domainId, authClientId) } returns domain
+        every { domain.lastFormModification } returns lastFormModification
+        every { eTagGenerator.generateDomainFormsETag(domainId, lastFormModification) } returns mockETag
 
         // when getting all forms
-        val clientForms = sut.getForms(auth, domainId)
+        val clientForms = sut.getForms(auth, domainId, request)
 
-        // then the DTOs from the mapper are returned.
-        clientForms shouldBe listOf(
-            clientFormADto,
-            clientFormBDto
-        )
+        // then the DTOs from the mapper and ETag are returned.
+        clientForms.apply {
+            statusCode shouldBe OK
+            body shouldBe listOf(
+                clientFormADto,
+                clientFormBDto
+            )
+            headers.eTag shouldBe "\"$mockETag\""
+        }
     }
 
     @Test
@@ -85,11 +98,10 @@ class FormControllerUnitTest {
             every { id } returns formId
         }
         val dto = mockk<FormDto>()
-        val mockETag = "GxueQgmVYhI2IDlDNrprWCfgUwIOpXsvOEfUzHc0PQjLcV8pvlCYDuDhFzsGFiT4"
 
         every { formRepo.getClientForm(authClientId, formId) } returns entity
         every { dtoFactory.createDto(entity) } returns dto
-        every { eTagGenerator.generateETag(templateVersion, 5u, formId) } returns mockETag
+        every { eTagGenerator.generateFormETag(templateVersion, 5u, formId) } returns mockETag
 
         // when requesting the form
         val apiResponse = sut.getForm(auth, formId, request)

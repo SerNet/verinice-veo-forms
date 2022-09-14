@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.time.Instant
 import java.util.*
 
 @Component
@@ -32,11 +33,17 @@ class ETagGenerator(@Value("\${veo.forms.etag.salt}") val salt: String) {
             "Salt must not be empty."
         }
     }
-    fun generateETag(version: SemVer?, revision: UInt, id: UUID): String {
-        val eTagRawString = "$version $revision $id $salt"
+    fun generateFormETag(version: SemVer?, revision: UInt, formId: UUID): String = hash("$version $revision $formId")
+
+    fun generateDomainFormsETag(domainId: UUID, lastFormModification: Instant): String = hash("$domainId $lastFormModification")
+
+    /**
+     * Hashes ETag.
+     */
+    private fun hash(eTagRawString: String): String {
         try {
             val md: MessageDigest = MessageDigest.getInstance("SHA-256")
-            val bytes: ByteArray = md.digest(eTagRawString.toByteArray())
+            val bytes: ByteArray = md.digest((eTagRawString + salt).toByteArray())
             return Base64.getEncoder().withoutPadding().encodeToString(bytes)
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException("ETag couldn't be generated", e)

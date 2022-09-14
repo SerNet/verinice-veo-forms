@@ -33,6 +33,9 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.PrePersist
+import javax.persistence.PreRemove
+import javax.persistence.PreUpdate
 
 @Entity
 @Proxy(lazy = false)
@@ -133,5 +136,13 @@ open class Form(
             return SemVer(1)
         }
         return if (formRevision > 0u) oldTemplateVersion.nextPatch() else oldTemplateVersion
+    }
+
+    /** Using JPA-Events to set [Domain.lastFormModification] in domain to now */
+    @PrePersist
+    @PreUpdate
+    @PreRemove
+    private fun onChange() {
+        domain.updateLastFormModification()
     }
 }

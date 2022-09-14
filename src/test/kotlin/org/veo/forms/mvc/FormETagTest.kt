@@ -46,6 +46,7 @@ class FormETagTest : AbstractMvcTest() {
 
     @Test
     fun `add form with ETag and retrieve`() {
+        // Given a form
         val formUuid = post(
             "/",
             mapOf(
@@ -59,13 +60,17 @@ class FormETagTest : AbstractMvcTest() {
             )
         ).bodyAsString
 
+        // when requesting the form
         val eTagHeader = get("/$formUuid").getHeader("ETag")!!
 
+        // then form ETag header should exist (which it does, if it's at least 4 characters long),
         eTagHeader shouldHaveMinLength 4
 
+        // expect the unmodified form to not be retransmitted upon subsequent request,
         get("/$formUuid", 304, mapOf("If-None-Match" to listOf(eTagHeader)))
             .rawBody shouldHaveLength 0
 
+        // when updating the form
         put(
             "/$formUuid",
             mapOf(
@@ -79,12 +84,101 @@ class FormETagTest : AbstractMvcTest() {
             )
         )
 
+        // then the ETag should have changed,
         get("/$formUuid").getHeader("ETag") shouldNotBe eTagHeader
 
+        // expect requested form to be the one previously updated,
         get("/$formUuid", headers = mapOf("If-None-Match" to listOf(eTagHeader)))
             .bodyAsMap["modelType"] shouldBe "asset"
 
+        // when requesting form with none-matching UUID
         val randomFormUuid = randomUUID()
+
+        // then no resource should be transmitted.
         get("/$randomFormUuid", 404, mapOf("If-None-Match" to listOf(eTagHeader)))
+    }
+
+    @Test
+    fun `CUD operations on forms update domain header`() {
+        // Given an ETag header for domain
+        var eTagHeader = get("/?domainId=$domainId").getHeader("ETag")!!
+
+        // expect domain ETag header to remain unchanged after being requested,
+        get("/?domainId=$domainId").getHeader("ETag")!! shouldBe eTagHeader
+
+        // when creating a new form
+        val formId = post(
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "form one"),
+                "domainId" to domainId,
+                "modelType" to "person",
+                "content" to mapOf(
+                    "prop1" to "val1",
+                    "prop2" to listOf("ok")
+                )
+            )
+        ).bodyAsString
+
+        // then domain ETag header should change,
+        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+            it shouldNotBe eTagHeader
+            eTagHeader = it
+        }
+
+        // and when updating a form
+        put(
+            "/$formId",
+            mapOf(
+                "name" to mapOf("en" to "form one"),
+                "domainId" to domainId,
+                "modelType" to "asset",
+                "content" to mapOf(
+                    "prop1" to "val1",
+                    "prop2" to listOf("ok")
+                )
+            )
+        )
+
+        // then domain ETag header should change,
+        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+            it shouldNotBe eTagHeader
+            eTagHeader = it
+        }
+
+        // and when deleting a form
+        delete("/$formId", 204)
+
+        // then domain ETag header should change.
+        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+            it shouldNotBe eTagHeader
+            eTagHeader = it
+        }
+    }
+
+    @Test
+    fun `load all cached forms in a domain`() {
+        // Given cached forms with ETag header
+        val eTag = get("/?domainId=$domainId").getHeader("ETag")!!
+
+        // expect no retransmission of requested unmodified resource,
+        get("/?domainId=$domainId", 304, mapOf("If-None-Match" to listOf(eTag)))
+
+        // when a form is modified
+        post(
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "form one"),
+                "domainId" to domainId,
+                "modelType" to "person",
+                "content" to mapOf(
+                    "prop1" to "val1",
+                    "prop2" to listOf("ok")
+                )
+            )
+        ).bodyAsString
+
+        // expect a retransmission of requested resource.
+        get("/?domainId=$domainId", 200, mapOf("If-None-Match" to listOf(eTag)))
     }
 }
