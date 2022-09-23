@@ -35,7 +35,8 @@ import javax.persistence.Id
 class FormTemplateBundle(
     val domainTemplateId: UUID,
     val version: SemVer,
-    @Type(type = "json") @Column(columnDefinition = "jsonb")
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     val templates: Map<UUID, FormTemplate>
 ) {
     @Id
