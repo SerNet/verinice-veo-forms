@@ -21,16 +21,18 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldHaveLength
 import io.kotest.matchers.string.shouldHaveMinLength
+import io.kotest.matchers.string.shouldMatch
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS
 import org.veo.forms.Domain
 import org.veo.forms.DomainRepository
 import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
 import java.util.UUID
 import java.util.UUID.randomUUID
-
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class FormETagTest : AbstractMvcTest() {
 
@@ -39,10 +41,15 @@ class FormETagTest : AbstractMvcTest() {
     @Autowired
     private lateinit var domainRepo: DomainRepository
 
+    private val defaultHeaders = mapOf("Origin" to listOf("https://valid.verinice.example"))
+
     @BeforeEach
     fun setup() {
         domainRepo.addDomain(Domain(UUID.fromString(domainId), UUID.fromString(mockClientUuid)))
     }
+
+    fun getFormsForDomain(domainId: String): Response = get("/?domainId=$domainId", 200, defaultHeaders)
+    fun getFormByUuid(formUuid: String): Response = get("/$formUuid", 200, defaultHeaders)
 
     @Test
     fun `add form with ETag and retrieve`() {
@@ -59,12 +66,19 @@ class FormETagTest : AbstractMvcTest() {
                 )
             )
         ).bodyAsString
+        var response = getFormByUuid(formUuid)
 
         // when requesting the form
-        val eTagHeader = get("/$formUuid").getHeader("ETag")!!
+        val eTagHeader = response.getHeader("ETag")!!
+        val aceHeaders = response.getHeader(ACCESS_CONTROL_EXPOSE_HEADERS)!!
+        val cacheControlHeader = response.getHeader(HttpHeaders.CACHE_CONTROL)!!
 
         // then form ETag header should exist (which it does, if it's at least 4 characters long),
         eTagHeader shouldHaveMinLength 4
+
+        // and other headers should have correct value
+        aceHeaders shouldMatch "ETag"
+        cacheControlHeader shouldMatch "no-cache"
 
         // expect the unmodified form to not be retransmitted upon subsequent request,
         get("/$formUuid", 304, mapOf("If-None-Match" to listOf(eTagHeader)))
@@ -101,10 +115,17 @@ class FormETagTest : AbstractMvcTest() {
     @Test
     fun `CUD operations on forms update domain header`() {
         // Given an ETag header for domain
-        var eTagHeader = get("/?domainId=$domainId").getHeader("ETag")!!
+        var response = getFormsForDomain(domainId)
+
+        var eTagHeader = response.getHeader("ETag")!!
 
         // expect domain ETag header to remain unchanged after being requested,
-        get("/?domainId=$domainId").getHeader("ETag")!! shouldBe eTagHeader
+        response = getFormsForDomain(domainId)
+        response.getHeader("ETag")!! shouldBe eTagHeader
+
+        // and other headers should have correct value
+        response.getHeader(ACCESS_CONTROL_EXPOSE_HEADERS)!! shouldMatch "ETag"
+        response.getHeader(HttpHeaders.CACHE_CONTROL)!! shouldMatch "no-cache"
 
         // when creating a new form
         val formId = post(
@@ -119,9 +140,10 @@ class FormETagTest : AbstractMvcTest() {
                 )
             )
         ).bodyAsString
+        response = getFormsForDomain(domainId)
 
         // then domain ETag header should change,
-        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+        response.getHeader("ETag")!!.also {
             it shouldNotBe eTagHeader
             eTagHeader = it
         }
@@ -139,18 +161,20 @@ class FormETagTest : AbstractMvcTest() {
                 )
             )
         )
+        response = getFormsForDomain(domainId)
 
         // then domain ETag header should change,
-        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+        response.getHeader("ETag")!!.also {
             it shouldNotBe eTagHeader
             eTagHeader = it
         }
 
         // and when deleting a form
         delete("/$formId", 204)
+        response = getFormsForDomain(domainId)
 
         // then domain ETag header should change.
-        get("/?domainId=$domainId").getHeader("ETag")!!.also {
+        response.getHeader("ETag")!!.also {
             it shouldNotBe eTagHeader
             eTagHeader = it
         }
@@ -159,7 +183,7 @@ class FormETagTest : AbstractMvcTest() {
     @Test
     fun `load all cached forms in a domain`() {
         // Given cached forms with ETag header
-        val eTag = get("/?domainId=$domainId").getHeader("ETag")!!
+        val eTag = getFormsForDomain(domainId).getHeader("ETag")!!
 
         // expect no retransmission of requested unmodified resource,
         get("/?domainId=$domainId", 304, mapOf("If-None-Match" to listOf(eTag)))

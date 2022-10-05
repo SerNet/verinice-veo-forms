@@ -19,6 +19,7 @@ package org.veo.forms
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -52,10 +53,13 @@ class FormController(
     private val authService: AuthService,
     private val eTagGenerator: ETagGenerator
 ) {
-
     @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting. Uses If-None-Match header to enable caching of resource.")
     @GetMapping
-    fun getForms(auth: Authentication, @RequestParam(required = false) domainId: UUID?, request: WebRequest): ResponseEntity<List<FormDtoWithoutContent>> {
+    fun getForms(
+        auth: Authentication,
+        @RequestParam(required = false) domainId: UUID?,
+        request: WebRequest
+    ): ResponseEntity<List<FormDtoWithoutContent>> {
         val clientId = authService.getClientId(auth)
         var eTag: String? = null
         if (domainId != null) {
@@ -66,7 +70,12 @@ class FormController(
             }
         }
         return ResponseEntity.ok()
-            .apply { eTag?.let { eTag(it) } }
+            .apply {
+                eTag?.let {
+                    eTag(it)
+                    header(HttpHeaders.CACHE_CONTROL, "no-cache")
+                }
+            }
             .body(
                 repo.findAll(clientId, domainId).map {
                     formDtoFactory.createDtoWithoutContent(it)
@@ -88,6 +97,7 @@ class FormController(
         val form = repo.getClientForm(clientId, id)
         return ResponseEntity.ok()
             .eTag(eTagGenerator.generateFormETag(form.formTemplateVersion, form.revision, form.id))
+            .header(HttpHeaders.CACHE_CONTROL, "no-cache")
             .body(formDtoFactory.createDto(form))
     }
 

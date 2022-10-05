@@ -98,6 +98,8 @@ class WebSecurity {
         // Authorization is always needed, additional headers are configurable:
         corsConfig.addAllowedHeader(HttpHeaders.AUTHORIZATION)
         corsConfig.addAllowedHeader(HttpHeaders.CONTENT_TYPE)
+        corsConfig.addAllowedHeader(HttpHeaders.IF_MATCH)
+        corsConfig.addAllowedHeader(HttpHeaders.IF_NONE_MATCH)
         allowedHeaders
             .onEach { log.debug("Added CORS allowed header: $it") }
             .forEach { corsConfig.addAllowedHeader(it) }
@@ -105,6 +107,7 @@ class WebSecurity {
             .onEach { log.debug("Added CORS origin pattern: $it") }
             .forEach { corsConfig.addAllowedOriginPattern(it) }
         corsConfig.setMaxAge(Duration.ofMinutes(30))
+        corsConfig.addExposedHeader(HttpHeaders.ETAG)
         source.registerCorsConfiguration("/**", corsConfig)
         return source
     }
