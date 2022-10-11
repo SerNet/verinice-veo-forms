@@ -41,7 +41,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.security:spring-security-test")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.5.0")
     implementation("com.vladmihalcea:hibernate-types-52:2.19.2")
