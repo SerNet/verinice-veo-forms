@@ -42,7 +42,7 @@ class FormRepository(private val jpaRepo: FormJpaRepository) {
             .firstOrNull()
             ?.run {
                 FormETagParameterView(
-                    (this[0] as String?)?.let { SemVer.parse(it) },
+                    this[0] as SemVer?,
                     (this[1] as Int).toUInt()
                 )
             }

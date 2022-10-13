@@ -37,6 +37,7 @@ import java.util.UUID.randomUUID
 class FormETagTest : AbstractMvcTest() {
 
     private val domainId = randomUUID().toString()
+    private val domainTemplateId = randomUUID().toString()
 
     @Autowired
     private lateinit var domainRepo: DomainRepository
@@ -110,6 +111,37 @@ class FormETagTest : AbstractMvcTest() {
 
         // then no resource should be transmitted.
         get("/$randomFormUuid", 404, mapOf("If-None-Match" to listOf(eTagHeader)))
+    }
+
+    @Test
+    fun `add form with ETag, create bundle and retrieve`() {
+        // Given a form
+        val formUuid = post(
+            "/",
+            mapOf(
+                "name" to mapOf("en" to "form one"),
+                "domainId" to domainId,
+                "modelType" to "person",
+                "content" to mapOf(
+                    "prop1" to "val1",
+                    "prop2" to listOf("ok")
+                )
+            )
+        ).bodyAsString
+
+        // when creating a form template bundle from the existing domain
+        post("/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+
+        // and requesting the form
+        var response = getFormByUuid(formUuid)
+
+        // then form ETag header should exist (which it does, if it's at least 4 characters long),
+        val eTagHeader = response.getHeader("ETag")!!
+        eTagHeader shouldHaveMinLength 4
+
+        // expect the unmodified form to not be retransmitted upon subsequent request,
+        get("/$formUuid", 304, mapOf("If-None-Match" to listOf(eTagHeader)))
+            .rawBody shouldHaveLength 0
     }
 
     @Test
