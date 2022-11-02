@@ -10,6 +10,8 @@ LABEL org.opencontainers.image.authors=verinice@sernet.de
 LABEL org.opencontainers.image.licenses=AGPL-3.0
 LABEL org.opencontainers.image.source=https://github.com/verinice/verinice-veo-forms
 
+ENV JAVA_TOOL_OPTIONS "-Djdk.serialFilter=maxbytes=0"
+
 USER nonroot
 
 COPY --chown=nonroot:nonroot build/libs/veo-forms-${VEO_FORMS_VERSION}.jar /app/veo-forms.jar
