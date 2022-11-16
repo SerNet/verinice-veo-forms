@@ -17,11 +17,13 @@
  */
 package org.veo.forms
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import net.swiftzer.semver.SemVer
 import org.junit.Ignore
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.veo.forms.exceptions.ResourceNotFoundException
 import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID.randomUUID
 
@@ -85,5 +87,34 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
             it.domainTemplateId shouldBe domainTemplateId
             it.formTemplateBundle?.id shouldBe formTemplateBundle.id
         }
+    }
+
+    @Test
+    fun `deletes client`() {
+        // given a client with multiple domains and forms
+        val clientId = randomUUID()
+        val clientDomain1 = domainRepo.addDomain(domain(clientId = clientId))
+        val clientDomain2 = domainRepo.addDomain(domain(clientId = clientId))
+        formRepo.save(form(clientDomain1))
+        formRepo.save(form(clientDomain1))
+        formRepo.save(form(clientDomain2))
+
+        // and another client
+        val otherClientsId = randomUUID()
+        val otherClientDomain = domainRepo.addDomain(domain(clientId = otherClientsId))
+        formRepo.save(form(otherClientDomain))
+
+        // when deleting the client
+        domainService.deleteClient(clientId)
+
+        // then the client's domains and forms have been deleted
+        shouldThrow<ResourceNotFoundException> { domainRepo.getClientDomain(clientDomain1.id, clientId) }
+        shouldThrow<ResourceNotFoundException> { domainRepo.getClientDomain(clientDomain2.id, clientId) }
+        formRepo.findAll(clientId, clientDomain1.id).size shouldBe 0
+        formRepo.findAll(clientId, clientDomain2.id).size shouldBe 0
+
+        // and the other client's domain and form remain
+        domainRepo.getClientDomain(otherClientDomain.id, otherClientsId).id shouldBe otherClientDomain.id
+        formRepo.findAll(otherClientsId, otherClientDomain.id).size shouldBe 1
     }
 }

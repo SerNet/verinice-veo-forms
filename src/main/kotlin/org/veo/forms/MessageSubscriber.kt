@@ -53,7 +53,10 @@ class MessageSubscriber(
                     arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")]
                 ),
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),
-                key = ["\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event"]
+                key = [
+                    "\${veo.forms.rabbitmq.subscription_routing_key_prefix}client_change",
+                    "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event"
+                ]
             )
         ]
     )
@@ -71,7 +74,6 @@ class MessageSubscriber(
         throw ex
     }
 
-    @Suppress("UNUSED_EXPRESSION")
     private fun handleMessage(content: JsonNode) {
         content
             .get("eventType")
@@ -79,10 +81,17 @@ class MessageSubscriber(
             .let {
                 log.debug { "Received message with '$it' event" }
                 when (it) {
+                    "client_change" -> handleClientChange(content)
                     // TODO VEO-1770 use eventType "domain_creation"
                     else -> handleDomainCreation(content)
                 }
             }
+    }
+
+    private fun handleClientChange(content: JsonNode) {
+        if (content.get("type").asText() == "DELETION") {
+            domainService.deleteClient(content.get("clientId").let { UUID.fromString(it.asText()) })
+        }
     }
 
     private fun handleDomainCreation(content: JsonNode) {

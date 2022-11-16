@@ -27,6 +27,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class DomainService(
     private val domainRepo: DomainRepository,
+    private val formRepo: FormRepository,
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
     private val formTemplateBundleApplier: FormTemplateBundleApplier
 ) {
@@ -41,6 +42,16 @@ class DomainService(
             domainTemplateId
                 ?.let { formTemplateBundleRepo.getLatest(it) }
                 ?.let { formTemplateBundleApplier.apply(it, domain) }
+        }
+    }
+
+    fun deleteClient(clientId: UUID) {
+        log.info { "deleting domains & forms for client $clientId" }
+        domainRepo.findAllClientDomains(clientId).forEach { domain ->
+            formRepo
+                .findAll(clientId, domain.id)
+                .forEach { formRepo.delete(it) }
+            domainRepo.delete(domain)
         }
     }
 }

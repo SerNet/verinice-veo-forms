@@ -101,6 +101,38 @@ class MessageSubscriberTest {
         }
     }
 
+    @Test
+    fun `deletes client`() {
+        sut.handleMessage(
+            message(
+                "eventType" to "client_change",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "type" to "DELETION"
+            )
+        )
+
+        verify {
+            domainServiceMock.deleteClient(
+                UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
+            )
+        }
+    }
+
+    @Test
+    fun `ignores client creation`() {
+        sut.handleMessage(
+            message(
+                "eventType" to "client_change",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "type" to "CREATION"
+            )
+        )
+
+        verify(exactly = 0) {
+            domainServiceMock.deleteClient(any())
+        }
+    }
+
     private fun message(vararg properties: Pair<String, Any>): String =
         mutableMapOf<String, Any>()
             .apply { putAll(properties) }

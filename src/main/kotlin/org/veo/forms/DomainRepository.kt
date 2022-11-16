@@ -44,4 +44,8 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
     fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle): Set<Domain> {
         return jpaRepo.findOutdatedDomains(latestFormTemplateBundle, latestFormTemplateBundle.domainTemplateId)
     }
+
+    fun findAllClientDomains(clientId: UUID): List<Domain> = jpaRepo.findAllClientDomains(clientId)
+
+    fun delete(domain: Domain) = jpaRepo.delete(domain)
 }
