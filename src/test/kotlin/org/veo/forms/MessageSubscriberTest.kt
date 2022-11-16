@@ -27,9 +27,9 @@ import org.springframework.dao.DuplicateKeyException
 import java.io.IOException
 import java.util.UUID
 
-class EventSubscriberTest {
+class MessageSubscriberTest {
     private val domainServiceMock: DomainService = mockk(relaxed = true)
-    private val sut = EventSubscriber(domainServiceMock)
+    private val sut = MessageSubscriber(domainServiceMock)
 
     @Test
     fun `initializes domain with template ID`() {

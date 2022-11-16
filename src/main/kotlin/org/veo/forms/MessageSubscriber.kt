@@ -36,7 +36,7 @@ private val log = KotlinLogging.logger {}
 @Component
 @ConditionalOnProperty(value = ["veo.forms.rabbitmq.subscribe"], havingValue = "true")
 @Transactional
-class EventSubscriber(private val domainService: DomainService) {
+class MessageSubscriber(private val domainService: DomainService) {
     private val mapper = ObjectMapper()
 
     @RabbitListener(
@@ -66,7 +66,7 @@ class EventSubscriber(private val domainService: DomainService) {
                 content.get("domainTemplateId")?.let { UUID.fromString(it.asText()) }
             )
         } catch (ex: DuplicateKeyException) {
-            throw AmqpRejectAndDontRequeueException("Domain already known, ignoring domain creation event.")
+            throw AmqpRejectAndDontRequeueException("Domain already known, ignoring domain creation message.")
         }
     }
 }
