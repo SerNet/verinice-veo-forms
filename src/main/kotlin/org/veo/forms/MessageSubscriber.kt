@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
 import mu.KotlinLogging
@@ -36,7 +37,9 @@ private val log = KotlinLogging.logger {}
 @Component
 @ConditionalOnProperty(value = ["veo.forms.rabbitmq.subscribe"], havingValue = "true")
 @Transactional
-class MessageSubscriber(private val domainService: DomainService) {
+class MessageSubscriber(
+    private val domainService: DomainService
+) {
     private val mapper = ObjectMapper()
 
     @RabbitListener(
@@ -54,11 +57,35 @@ class MessageSubscriber(private val domainService: DomainService) {
             )
         ]
     )
-    fun handleEntityEvent(message: String) {
-        val messageNode = mapper.readTree(message)
-        log.debug { "Received domain event message with ID ${messageNode.get("id").asText()}" }
-        val content = mapper.readTree(messageNode.get("content").asText())
+    fun handleMessage(message: String) = try {
+        mapper
+            .readTree(message)
+            .get("content")
+            .asText()
+            .let(mapper::readTree)
+            .let { handleMessage(it) }
+    } catch (ex: AmqpRejectAndDontRequeueException) {
+        throw ex
+    } catch (ex: Exception) {
+        log.error(ex) { "Handling failed for message: '$message'" }
+        throw ex
+    }
 
+    @Suppress("UNUSED_EXPRESSION")
+    private fun handleMessage(content: JsonNode) {
+        content
+            .get("eventType")
+            ?.asText()
+            .let {
+                log.debug { "Received message with '$it' event" }
+                when (it) {
+                    // TODO VEO-1770 use eventType "domain_creation"
+                    else -> handleDomainCreation(content)
+                }
+            }
+    }
+
+    private fun handleDomainCreation(content: JsonNode) {
         try {
             domainService.initializeDomain(
                 content.get("domainId").let { UUID.fromString(it.asText()) },

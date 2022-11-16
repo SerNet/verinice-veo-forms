@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.every
 import io.mockk.mockk
@@ -27,21 +28,20 @@ import org.springframework.dao.DuplicateKeyException
 import java.io.IOException
 import java.util.UUID
 
+private val om = ObjectMapper()
+
 class MessageSubscriberTest {
     private val domainServiceMock: DomainService = mockk(relaxed = true)
     private val sut = MessageSubscriber(domainServiceMock)
 
     @Test
     fun `initializes domain with template ID`() {
-        sut.handleEntityEvent(
-            """
-        {
-          "routingKey": "veo.develop.message.domain_creation_event",
-          "content": "{\"domainId\":\"a90ac14a-9e91-4c1c-93ef-2e1546c86dab\",\"clientId\":\"21712604-ed85-4f08-aa46-1cf39607ee9e\",\"domainTemplateId\":\"f8ed22b1-b277-56ec-a2ce-0dbd94e24824\"}",
-          "id": 1,
-          "timestamp": "2021-07-16T06:20:23.012369Z"
-        }
-        """
+        sut.handleMessage(
+            message(
+                "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
+            )
         )
 
         verify {
@@ -55,15 +55,11 @@ class MessageSubscriberTest {
 
     @Test
     fun `initializes domain without template ID`() {
-        sut.handleEntityEvent(
-            """
-        {
-          "routingKey": "veo.develop.message.domain_creation_event",
-          "content": "{\"domainId\":\"a90ac14a-9e91-4c1c-93ef-2e1546c86dab\",\"clientId\":\"21712604-ed85-4f08-aa46-1cf39607ee9e\"}",
-          "id": 1,
-          "timestamp": "2021-07-16T06:20:23.012369Z"
-        }
-        """
+        sut.handleMessage(
+            message(
+                "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e"
+            )
         )
 
         verify {
@@ -80,15 +76,12 @@ class MessageSubscriberTest {
         every { domainServiceMock.initializeDomain(any(), any(), any()) } throws DuplicateKeyException("")
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
-            sut.handleEntityEvent(
-                """
-        {
-          "routingKey": "veo.develop.message.domain_creation_event",
-          "content": "{\"domainId\":\"a90ac14a-9e91-4c1c-93ef-2e1546c86dab\",\"clientId\":\"21712604-ed85-4f08-aa46-1cf39607ee9e\",\"domainTemplateId\":\"f8ed22b1-b277-56ec-a2ce-0dbd94e24824\"}",
-          "id": 1,
-          "timestamp": "2021-07-16T06:20:23.012369Z"
-        }
-        """
+            sut.handleMessage(
+                message(
+                    "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
+                    "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
+                )
             )
         }
     }
@@ -98,16 +91,20 @@ class MessageSubscriberTest {
         every { domainServiceMock.initializeDomain(any(), any(), any()) } throws IOException()
 
         shouldThrow<IOException> {
-            sut.handleEntityEvent(
-                """
-        {
-          "routingKey": "veo.develop.message.domain_creation_event",
-          "content": "{\"domainId\":\"a90ac14a-9e91-4c1c-93ef-2e1546c86dab\",\"clientId\":\"21712604-ed85-4f08-aa46-1cf39607ee9e\",\"domainTemplateId\":\"f8ed22b1-b277-56ec-a2ce-0dbd94e24824\"}",
-          "id": 1,
-          "timestamp": "2021-07-16T06:20:23.012369Z"
-        }
-        """
+            sut.handleMessage(
+                message(
+                    "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
+                    "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
+                )
             )
         }
     }
+
+    private fun message(vararg properties: Pair<String, Any>): String =
+        mutableMapOf<String, Any>()
+            .apply { putAll(properties) }
+            .let(om::writeValueAsString)
+            .let { mapOf("content" to it) }
+            .let(om::writeValueAsString)
 }
