@@ -20,10 +20,10 @@ package org.veo.forms
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
@@ -39,7 +39,7 @@ const val ROLE_USER = "veo-user"
 /**
  * This class bundles custom API security configurations.
  */
-@EnableWebSecurity
+@Configuration
 class WebSecurity {
 
     @Value("\${veo.cors.origins}")
@@ -61,13 +61,13 @@ class WebSecurity {
             // Make sure that no critical API can be accessed by an anonymous user!
             // .anonymous()
             //     .disable()
-            .authorizeRequests()
-            .antMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
+            .authorizeHttpRequests()
+            .requestMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
             .permitAll()
-            .antMatchers("/form-template-bundles/**")
+            .requestMatchers("/form-template-bundles/**")
             .hasRole(ROLE_CONTENT_CREATOR)
             // TODO VEO-842 re-enable form manipulation for normal users.
-            .antMatchers(HttpMethod.GET)
+            .requestMatchers(HttpMethod.GET)
             .hasRole(ROLE_USER)
             .anyRequest()
             .hasRole(ROLE_CONTENT_CREATOR)

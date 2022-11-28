@@ -18,6 +18,7 @@
 package org.veo.forms
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.transaction.Transactional
 import mu.KotlinLogging
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.Argument
@@ -29,7 +30,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
 import java.util.UUID
-import javax.transaction.Transactional
 
 private val log = KotlinLogging.logger {}
 

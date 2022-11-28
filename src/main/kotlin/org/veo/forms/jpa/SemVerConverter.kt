@@ -17,9 +17,9 @@
  */
 package org.veo.forms.jpa
 
+import jakarta.persistence.AttributeConverter
+import jakarta.persistence.Converter
 import net.swiftzer.semver.SemVer
-import javax.persistence.AttributeConverter
-import javax.persistence.Converter
 
 @Converter(autoApply = true)
 class SemVerConverter : AttributeConverter<SemVer, String> {

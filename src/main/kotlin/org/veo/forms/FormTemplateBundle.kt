@@ -15,27 +15,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
-@file:Suppress("DEPRECATION")
-
 package org.veo.forms
 
 import com.vladmihalcea.hibernate.type.json.JsonType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
 import net.swiftzer.semver.SemVer
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 import java.util.UUID
 import java.util.UUID.randomUUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
 
 @Entity
-@TypeDef(name = "json", typeClass = JsonType::class)
 class FormTemplateBundle(
     val domainTemplateId: UUID,
     val version: SemVer,
-    @Type(type = "json")
+    @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     val templates: Map<UUID, FormTemplate>
 ) {

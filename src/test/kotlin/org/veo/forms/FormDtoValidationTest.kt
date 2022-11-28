@@ -19,12 +19,12 @@ package org.veo.forms
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldEndWith
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.Validation
+import jakarta.validation.Validator
 import org.junit.jupiter.api.Test
 import org.veo.forms.dtos.FormDto
 import java.util.UUID
-import javax.validation.ConstraintViolation
-import javax.validation.Validation
-import javax.validation.Validator
 
 class FormDtoValidationTest {
     private val validator: Validator = Validation.buildDefaultValidatorFactory().validator

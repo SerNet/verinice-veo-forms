@@ -19,6 +19,7 @@ package org.veo.forms
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -39,7 +40,6 @@ import org.veo.forms.dtos.FormDto
 import org.veo.forms.dtos.FormDtoWithoutContent
 import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
-import javax.validation.Valid
 
 @RestController
 @RequestMapping("/")

@@ -15,45 +15,40 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-// TODO VEO-972 Wait for hibernate 6.0, use new custom type API, remove suppressor
-@file:Suppress("DEPRECATION")
-
 package org.veo.forms
 
 import com.vladmihalcea.hibernate.type.json.JsonType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.PrePersist
+import jakarta.persistence.PreRemove
+import jakarta.persistence.PreUpdate
 import net.swiftzer.semver.SemVer
 import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
 import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.PrePersist
-import javax.persistence.PreRemove
-import javax.persistence.PreUpdate
 
 @Entity
 @Proxy(lazy = false)
-@TypeDef(name = "json", typeClass = JsonType::class)
 open class Form(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "domain_id")
     var domain: Domain,
 
-    @Type(type = "json")
+    @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var name: Map<String, String>,
     var modelType: ModelType,
     var subType: String?,
-    @Type(type = "json")
+    @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var content: Map<String, *>,
-    @Type(type = "json")
+    @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var translation: Map<String, *>?,
     @Column(length = 32) var sorting: String?
