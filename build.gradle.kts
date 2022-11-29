@@ -47,7 +47,7 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-52:2.20.0")
     implementation("org.flywaydb:flyway-core:9.8.3")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.13")
-    implementation("io.mockk:mockk:1.13.2")
+    implementation("io.mockk:mockk:1.13.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     implementation("net.swiftzer.semver:semver:1.2.0")
 
