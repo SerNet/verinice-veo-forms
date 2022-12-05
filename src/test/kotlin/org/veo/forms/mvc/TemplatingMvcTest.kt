@@ -17,6 +17,7 @@
  */
 package org.veo.forms.mvc
 
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach
@@ -93,6 +94,14 @@ class TemplatingMvcTest : AbstractMvcTest() {
         get("/?domainId=$thirdDomainId")
             .bodyAsListOfMaps
             .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
+
+        // expect both template bundles to be listed
+        get("/form-template-bundles").bodyAsListOfMaps.apply {
+            size shouldBe 2
+            get(0)["id"] shouldNotBe get(1)["id"]
+            map { it["version"] } shouldContainExactlyInAnyOrder listOf("1.0.0", "1.0.1")
+            forEach { it["domainTemplateId"] shouldBe domainTemplateId.toString() }
+        }
     }
 
     @Test

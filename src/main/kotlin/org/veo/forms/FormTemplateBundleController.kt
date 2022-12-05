@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.veo.forms.dtos.FormTemplateBundleDto
+import org.veo.forms.dtos.FormTemplateBundleDtoWithoutContent
 import org.veo.forms.dtos.FormTemplateBundleDtoWithoutId
 import org.veo.forms.exceptions.ResourceNotFoundException
 import java.util.UUID
@@ -46,6 +47,11 @@ class FormTemplateBundleController(
     private val repo: FormTemplateBundleRepository
 
 ) {
+    @Operation(description = "Get all form template bundles without content.")
+    @GetMapping
+    fun getAll(): List<FormTemplateBundleDtoWithoutContent> =
+        repo.findAllWithoutContent()
+
     @Operation(description = "Get the latest form template bundle for given domain template. Use this to export the bundle to another instance of veo-forms.")
     @GetMapping("latest")
     fun getLastest(@RequestParam(required = true) domainTemplateId: UUID): FormTemplateBundleDto =

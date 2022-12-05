@@ -19,6 +19,7 @@ package org.veo.forms
 
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
+import org.veo.forms.dtos.FormTemplateBundleDtoWithoutContent
 import java.util.UUID
 
 @Component
@@ -35,4 +36,6 @@ class FormTemplateBundleRepository(
     fun getLatest(domainTemplateId: UUID): FormTemplateBundle? {
         return jpaRepo.getLatest(domainTemplateId)
     }
+
+    fun findAllWithoutContent(): List<FormTemplateBundleDtoWithoutContent> = jpaRepo.findAllWithoutContent()
 }
