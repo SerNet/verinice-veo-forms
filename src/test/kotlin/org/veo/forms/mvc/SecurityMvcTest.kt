@@ -59,6 +59,7 @@ class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
     @WithMockAuth
     fun `content export is forbidden for normal users`() = listOf(
+        testStatus(GET, "/form-template-bundles", 403),
         testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403)
     )
 
