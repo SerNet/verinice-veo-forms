@@ -15,14 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.jpa
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation.MANDATORY
 import org.springframework.transaction.annotation.Transactional
-import org.veo.forms.jpa.FormETagParameterView
+import org.veo.forms.Form
 import java.util.UUID
 
 @Repository

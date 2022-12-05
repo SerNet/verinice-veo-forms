@@ -20,6 +20,7 @@ package org.veo.forms
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.ResourceNotFoundException
 import org.veo.forms.jpa.FormETagParameterView
+import org.veo.forms.jpa.FormJpaRepository
 import java.util.UUID
 
 @Component

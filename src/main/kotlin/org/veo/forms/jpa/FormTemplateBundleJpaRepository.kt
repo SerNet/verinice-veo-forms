@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2021  Jonas Jordan
+ * Copyright (C) 2020  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,24 +15,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms
+package org.veo.forms.jpa
 
+import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Propagation.MANDATORY
-import org.springframework.transaction.annotation.Transactional
+import org.veo.forms.FormTemplateBundle
+import org.veo.forms.dtos.FormTemplateBundleDtoWithoutContent
 import java.util.UUID
 
 @Repository
-@Transactional(propagation = MANDATORY, readOnly = true)
-interface DomainJpaRepository : JpaRepository<Domain, UUID> {
-    @Query("select d from Domain d where d.id = :id and d.clientId = :clientId")
-    fun findClientDomain(id: UUID, clientId: UUID): Domain?
+@Transactional
+interface FormTemplateBundleJpaRepository : JpaRepository<FormTemplateBundle, UUID> {
+    @Query("SELECT * FROM form_template_bundle WHERE domain_template_id = :domainTemplateId ORDER BY version DESC LIMIT 1", nativeQuery = true)
+    fun getLatest(domainTemplateId: UUID): FormTemplateBundle?
 
-    @Query("select d from Domain d where d.clientId = :clientId")
-    fun findAllClientDomains(clientId: UUID): List<Domain>
-
-    @Query("SELECT d FROM Domain as d WHERE d.domainTemplateId = :domainTemplateId AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle != :latestFormTemplateBundle)")
-    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle, domainTemplateId: UUID): Set<Domain>
+    @Query("SELECT new org.veo.forms.dtos.FormTemplateBundleDtoWithoutContent(id, domainTemplateId, version) FROM FormTemplateBundle")
+    fun findAllWithoutContent(): List<FormTemplateBundleDtoWithoutContent>
 }

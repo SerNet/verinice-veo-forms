@@ -21,6 +21,8 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.veo.forms.dtos.FormDtoWithoutId
+import org.veo.forms.jpa.DomainJpaRepository
+import org.veo.forms.jpa.FormJpaRepository
 import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID
 

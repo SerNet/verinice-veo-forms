@@ -22,6 +22,7 @@ import io.kotest.matchers.shouldBe
 import net.swiftzer.semver.SemVer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.veo.forms.jpa.FormTemplateBundleJpaRepository
 import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID.randomUUID
 

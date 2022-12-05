@@ -20,6 +20,7 @@ package org.veo.forms
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.ResourceNotFoundException
+import org.veo.forms.jpa.DomainJpaRepository
 import java.util.UUID
 
 @Component
