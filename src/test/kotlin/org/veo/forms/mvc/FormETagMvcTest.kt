@@ -34,7 +34,7 @@ import org.veo.forms.ROLE_USER
 import java.util.UUID
 import java.util.UUID.randomUUID
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
-class FormETagTest : AbstractMvcTest() {
+class FormETagMvcTest : AbstractMvcTest() {
 
     private val domainId = randomUUID().toString()
     private val domainTemplateId = randomUUID().toString()
