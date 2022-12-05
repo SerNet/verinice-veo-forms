@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation.MANDATORY
 import org.springframework.transaction.annotation.Transactional
+import org.veo.forms.jpa.FormETagParameterView
 import java.util.UUID
 
 @Repository
@@ -36,6 +37,12 @@ interface FormJpaRepository : JpaRepository<Form, UUID> {
     @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId AND f.domain.id = :domainId ORDER BY f.sorting ASC")
     fun findAllByClientAndDomain(clientId: UUID, domainId: UUID): List<Form>
 
-    @Query("SELECT f._formTemplateVersion, f._revision FROM Form f WHERE f.id = :id AND f.domain.clientId = :clientId")
-    fun findETagParametersById(id: UUID, clientId: UUID): Array<Array<Any>>
+    @Query(
+        """
+        SELECT new org.veo.forms.jpa.FormETagParameterView(_formTemplateVersion, _revision) 
+            FROM Form
+            WHERE id = :id AND domain.clientId = :clientId
+        """
+    )
+    fun findETagParametersById(id: UUID, clientId: UUID): FormETagParameterView?
 }
