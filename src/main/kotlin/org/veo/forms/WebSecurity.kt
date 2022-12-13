@@ -22,9 +22,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
+import org.springframework.http.HttpMethod.GET
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.config.annotation.web.invoke
+import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.web.SecurityFilterChain
@@ -53,40 +54,41 @@ class WebSecurity {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.cors()
-            .and()
-            .csrf()
-            .disable() // Anonymous access (a user with role "ROLE_ANONYMOUS" must be enabled for
-            // swagger-ui. We cannot disable it.
-            // Make sure that no critical API can be accessed by an anonymous user!
-            // .anonymous()
-            //     .disable()
-            .authorizeHttpRequests()
-            .requestMatchers("/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/**", "/v2/**")
-            .permitAll()
-            .requestMatchers("/form-template-bundles/**")
-            .hasRole(ROLE_CONTENT_CREATOR)
-            // TODO VEO-842 re-enable form manipulation for normal users.
-            .requestMatchers(HttpMethod.GET)
-            .hasRole(ROLE_USER)
-            .anyRequest()
-            .hasRole(ROLE_CONTENT_CREATOR)
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .oauth2ResourceServer()
-            .jwt()
-            .jwtAuthenticationConverter(
-                JwtAuthenticationConverter().apply {
-                    setJwtGrantedAuthoritiesConverter(
-                        JwtGrantedAuthoritiesConverter().apply {
-                            setAuthoritiesClaimName("roles")
-                            setAuthorityPrefix("ROLE_")
-                        }
-                    )
+        http {
+            cors { }
+            csrf { disable() }
+            authorizeHttpRequests {
+                authorize("/actuator/**", permitAll)
+                authorize("/swagger-ui.html", permitAll)
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/v2/**", permitAll)
+                authorize("/v3/**", permitAll)
+
+                // Templates should only be readable and writable by content creators.
+                authorize("/form-template-bundles", hasRole(ROLE_CONTENT_CREATOR))
+
+                // TODO VEO-842 re-enable form manipulation for normal users.
+                authorize(GET, "**", hasRole(ROLE_USER))
+
+                // Form manipulation is currently reserved for content creators. This also serves as a fallback.
+                authorize(anyRequest, hasRole(ROLE_CONTENT_CREATOR))
+            }
+            sessionManagement {
+                sessionCreationPolicy = STATELESS
+            }
+            oauth2ResourceServer {
+                jwt {
+                    jwtAuthenticationConverter = JwtAuthenticationConverter().apply {
+                        setJwtGrantedAuthoritiesConverter(
+                            JwtGrantedAuthoritiesConverter().apply {
+                                setAuthoritiesClaimName("roles")
+                                setAuthorityPrefix("ROLE_")
+                            }
+                        )
+                    }
                 }
-            )
+            }
+        }
         return http.build()
     }
 
