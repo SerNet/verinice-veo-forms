@@ -65,10 +65,10 @@ class WebSecurity {
                 authorize("/v3/api-docs", permitAll)
 
                 // Templates should only be readable and writable by content creators.
-                authorize("/form-template-bundles", hasRole(ROLE_CONTENT_CREATOR))
+                authorize("/form-template-bundles/**", hasRole(ROLE_CONTENT_CREATOR))
 
                 // TODO VEO-842 re-enable form manipulation for normal users.
-                authorize(GET, "**", hasRole(ROLE_USER))
+                authorize(GET, "/**", hasRole(ROLE_USER))
 
                 // Form manipulation is currently reserved for content creators. This also serves as a fallback.
                 authorize(anyRequest, hasRole(ROLE_CONTENT_CREATOR))
