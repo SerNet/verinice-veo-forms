@@ -61,8 +61,8 @@ class WebSecurity {
                 authorize("/actuator/**", permitAll)
                 authorize("/swagger-ui.html", permitAll)
                 authorize("/swagger-ui/**", permitAll)
-                authorize("/v2/**", permitAll)
-                authorize("/v3/**", permitAll)
+                authorize("/v2/api-docs", permitAll)
+                authorize("/v3/api-docs", permitAll)
 
                 // Templates should only be readable and writable by content creators.
                 authorize("/form-template-bundles", hasRole(ROLE_CONTENT_CREATOR))
