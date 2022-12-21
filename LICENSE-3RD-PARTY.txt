@@ -1,5 +1,5 @@
 
-Dependency License Report for veo-forms 0.20.0
+Dependency License Report for veo-forms 0.21.0-SNAPSHOT
 
 1. Group: ch.qos.logback  Name: logback-classic  Version: 1.4.5
 
@@ -22928,5 +22928,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Wed Dec 21 09:41:32 CET 2022.
+This report was generated at Wed Dec 21 15:35:30 CET 2022.
 
