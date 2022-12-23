@@ -38,6 +38,7 @@ class MessageSubscriberTest {
     fun `initializes domain with template ID`() {
         sut.handleMessage(
             message(
+                "eventType" to "domain_creation",
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
                 "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
@@ -57,6 +58,7 @@ class MessageSubscriberTest {
     fun `initializes domain without template ID`() {
         sut.handleMessage(
             message(
+                "eventType" to "domain_creation",
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
             ),
@@ -78,6 +80,7 @@ class MessageSubscriberTest {
         shouldThrow<AmqpRejectAndDontRequeueException> {
             sut.handleMessage(
                 message(
+                    "eventType" to "domain_creation",
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                     "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
                     "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
@@ -93,6 +96,7 @@ class MessageSubscriberTest {
         shouldThrow<IOException> {
             sut.handleMessage(
                 message(
+                    "eventType" to "domain_creation",
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                     "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
                     "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",

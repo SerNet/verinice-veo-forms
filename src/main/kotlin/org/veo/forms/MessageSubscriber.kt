@@ -79,13 +79,13 @@ class MessageSubscriber(
     private fun handleMessage(content: JsonNode) {
         content
             .get("eventType")
-            ?.asText()
+            .asText()
             .let {
                 log.debug { "Received message with '$it' event" }
                 when (it) {
                     "client_change" -> handleClientChange(content)
-                    // TODO VEO-1770 use eventType "domain_creation"
-                    else -> handleDomainCreation(content)
+                    "domain_creation" -> handleDomainCreation(content)
+                    else -> throw NotImplementedError("Unsupported event type '$it'")
                 }
             }
     }
