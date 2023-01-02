@@ -42,7 +42,7 @@ interface FormJpaRepository : JpaRepository<Form, UUID> {
         SELECT new org.veo.forms.jpa.FormETagParameterView(_formTemplateVersion, _revision) 
             FROM Form
             WHERE id = :id AND domain.clientId = :clientId
-        """
+        """,
     )
     fun findETagParametersById(id: UUID, clientId: UUID): FormETagParameterView?
 }

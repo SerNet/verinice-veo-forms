@@ -24,5 +24,5 @@ import java.util.UUID
 open class FormTemplateBundleDtoWithoutId(
     val domainTemplateId: UUID,
     val version: SemVer,
-    val templates: Map<UUID, FormTemplate>
+    val templates: Map<UUID, FormTemplate>,
 )

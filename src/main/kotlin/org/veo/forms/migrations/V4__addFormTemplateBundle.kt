@@ -44,7 +44,7 @@ class V4__addFormTemplateBundle : BaseJavaMigration() {
                 alter table form 
                     add column form_template_version varchar(255);
 
-                """
+                """,
             )
         }
     }

@@ -32,7 +32,7 @@ class FormTemplateBundle(
     val version: SemVer,
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
-    val templates: Map<UUID, FormTemplate>
+    val templates: Map<UUID, FormTemplate>,
 ) {
     @Id
     val id: UUID = randomUUID()

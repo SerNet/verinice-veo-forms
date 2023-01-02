@@ -21,5 +21,5 @@ import net.swiftzer.semver.SemVer
 
 data class FormETagParameterView(
     val formTemplateVersion: SemVer?,
-    val revision: UInt
+    val revision: UInt,
 )

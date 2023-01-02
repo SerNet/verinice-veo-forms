@@ -45,7 +45,7 @@ class CustomObjectMapper : ObjectMapper() {
                     override fun serialize(value: SemVer?, generator: JsonGenerator?, serializerProvider: SerializerProvider?) {
                         generator?.writeString(value?.toString())
                     }
-                }
+                },
             )
             addDeserializer(
                 SemVer::class.java,
@@ -53,7 +53,7 @@ class CustomObjectMapper : ObjectMapper() {
                     override fun deserialize(parser: JsonParser?, context: DeserializationContext?): SemVer? {
                         return parser?.text?.let { SemVer.parse(it) }
                     }
-                }
+                },
             )
         }
     }

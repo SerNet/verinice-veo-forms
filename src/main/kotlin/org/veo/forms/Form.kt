@@ -51,7 +51,7 @@ open class Form(
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var translation: Map<String, *>?,
-    @Column(length = 32) var sorting: String?
+    @Column(length = 32) var sorting: String?,
 ) {
 
     constructor(
@@ -63,7 +63,7 @@ open class Form(
         translation: Map<String, *>?,
         sorting: String?,
         formTemplateId: UUID,
-        formTemplateVersion: SemVer
+        formTemplateVersion: SemVer,
     ) : this(domain, name, modelType, subType, content, translation, sorting) {
         _formTemplateId = formTemplateId
         _formTemplateVersion = formTemplateVersion
@@ -108,7 +108,7 @@ open class Form(
             subType,
             content,
             translation,
-            sorting
+            sorting,
         )
 
         _formTemplateId = newTemplateId

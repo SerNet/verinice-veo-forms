@@ -63,9 +63,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         ).bodyAsString
         var response = getFormByUuid(formUuid)
 
@@ -94,9 +94,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "asset",
                 "content" to mapOf(
                     "prop1" to "val2",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         )
 
         // then the ETag should have changed,
@@ -124,9 +124,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         ).bodyAsString
 
         // when creating a form template bundle from the existing domain
@@ -168,9 +168,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         ).bodyAsString
         response = getFormsForDomain(domainId)
 
@@ -189,9 +189,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "asset",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         )
         response = getFormsForDomain(domainId)
 
@@ -229,9 +229,9 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
-                )
-            )
+                    "prop2" to listOf("ok"),
+                ),
+            ),
         ).bodyAsString
 
         // expect a retransmission of requested resource.

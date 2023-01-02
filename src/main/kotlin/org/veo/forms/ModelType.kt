@@ -42,5 +42,5 @@ enum class ModelType {
     Scenario,
 
     @JsonProperty("scope")
-    Scope
+    Scope,
 }

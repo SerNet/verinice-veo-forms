@@ -27,7 +27,7 @@ class FormTemplateBundleFactory {
     fun createBundle(domainTemplateId: UUID, version: SemVer, forms: List<Form>) = FormTemplateBundle(
         domainTemplateId,
         version = version,
-        templates = forms.associate { it.toTemplate() }
+        templates = forms.associate { it.toTemplate() },
     )
 
     fun createBundle(dto: FormTemplateBundleDtoWithoutId): FormTemplateBundle = dto.run {

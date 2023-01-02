@@ -51,14 +51,14 @@ class FormController(
     private val formFactory: FormFactory,
     private val formDtoFactory: FormDtoFactory,
     private val authService: AuthService,
-    private val eTagGenerator: ETagGenerator
+    private val eTagGenerator: ETagGenerator,
 ) {
     @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting. Uses If-None-Match header to enable caching of resource.")
     @GetMapping
     fun getForms(
         auth: Authentication,
         @RequestParam(required = false) domainId: UUID?,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<List<FormDtoWithoutContent>> {
         val clientId = authService.getClientId(auth)
         var eTag: String? = null
@@ -79,7 +79,7 @@ class FormController(
             .body(
                 repo.findAll(clientId, domainId).map {
                     formDtoFactory.createDtoWithoutContent(it)
-                }
+                },
             )
     }
 
@@ -109,7 +109,7 @@ class FormController(
         auth: Authentication,
         @Valid
         @RequestBody
-        dto: FormDtoWithoutId
+        dto: FormDtoWithoutId,
     ): UUID {
         formFactory.createForm(authService.getClientId(auth), dto).let {
             return repo.save(it).id
@@ -125,7 +125,7 @@ class FormController(
         @PathVariable("id") id: UUID,
         @Valid
         @RequestBody
-        dto: FormDtoWithoutId
+        dto: FormDtoWithoutId,
     ) {
         val clientId = authService.getClientId(auth)
         repo.getClientForm(clientId, id).let {

@@ -33,7 +33,7 @@ class CorsMvcTest : AbstractMvcTest() {
         // when getting from the correct origin
         val result = get(
             "/",
-            headers = mapOf("Origin" to listOf(origin))
+            headers = mapOf("Origin" to listOf(origin)),
         )
 
         // the request was successful
@@ -47,7 +47,7 @@ class CorsMvcTest : AbstractMvcTest() {
         val result = get(
             "/",
             403,
-            mapOf("Origin" to listOf("https://invalid.notverinice.example"))
+            mapOf("Origin" to listOf("https://invalid.notverinice.example")),
         )
 
         // then an error is returned
@@ -66,8 +66,8 @@ class CorsMvcTest : AbstractMvcTest() {
             headers = mapOf(
                 "Origin" to listOf(origin),
                 "Access-Control-Request-Method" to listOf("GET"),
-                "Access-Control-Request-Headers" to listOf("Content-Type", "Authorization", "X-Ample", "X-Custom-Header")
-            )
+                "Access-Control-Request-Headers" to listOf("Content-Type", "Authorization", "X-Ample", "X-Custom-Header"),
+            ),
         )
 
         // then CORS headers are returned

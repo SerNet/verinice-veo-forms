@@ -25,7 +25,7 @@ import java.util.UUID
 
 @Component
 class FormTemplateBundleRepository(
-    private val jpaRepo: FormTemplateBundleJpaRepository
+    private val jpaRepo: FormTemplateBundleJpaRepository,
 ) {
     fun add(bundle: FormTemplateBundle): FormTemplateBundle {
         if (jpaRepo.existsById(bundle.id)) {

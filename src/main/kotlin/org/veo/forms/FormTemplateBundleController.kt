@@ -44,7 +44,7 @@ class FormTemplateBundleController(
     private val formTemplateService: FormTemplateService,
     private val dtoFactory: FormTemplateBundleDtoFactory,
     private val bundleFactory: FormTemplateBundleFactory,
-    private val repo: FormTemplateBundleRepository
+    private val repo: FormTemplateBundleRepository,
 
 ) {
     @Operation(description = "Get all form template bundles without content.")

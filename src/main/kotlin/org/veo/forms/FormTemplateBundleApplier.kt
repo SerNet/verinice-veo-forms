@@ -28,7 +28,7 @@ private val log = logger {}
 class FormTemplateBundleApplier(
     private val domainRepository: DomainRepository,
     private val formRepository: FormRepository,
-    private val formFactory: FormFactory
+    private val formFactory: FormFactory,
 ) {
     /**
      * Apply form template bundle to all applicable domains (all with the same domain template ID).
@@ -48,7 +48,7 @@ class FormTemplateBundleApplier(
             throw IncompatibleFormTemplateBundleException(
                 "Cannot apply form template bundle ${formTemplateBundle.id} " +
                     "to domain ${domain.id} because the domain requires domain template ${domain.domainTemplateId} " +
-                    "but the bundle targets domain template ${formTemplateBundle.domainTemplateId}."
+                    "but the bundle targets domain template ${formTemplateBundle.domainTemplateId}.",
             )
         }
 

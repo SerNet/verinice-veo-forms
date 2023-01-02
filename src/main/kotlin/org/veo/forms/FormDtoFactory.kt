@@ -32,7 +32,7 @@ class FormDtoFactory {
             entity.subType,
             entity.sorting,
             entity.content,
-            entity.translation
+            entity.translation,
         )
     }
 

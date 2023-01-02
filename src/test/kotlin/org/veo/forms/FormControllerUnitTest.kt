@@ -78,7 +78,7 @@ class FormControllerUnitTest {
             statusCode shouldBe OK
             body shouldBe listOf(
                 clientFormADto,
-                clientFormBDto
+                clientFormBDto,
             )
             headers.eTag shouldBe "\"$mockETag\""
         }

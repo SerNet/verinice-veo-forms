@@ -23,5 +23,5 @@ import java.util.UUID
 class FormTemplateBundleDtoWithoutContent(
     val id: UUID,
     val domainTemplateId: UUID,
-    val version: SemVer
+    val version: SemVer,
 )

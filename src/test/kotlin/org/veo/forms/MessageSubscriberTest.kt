@@ -40,15 +40,15 @@ class MessageSubscriberTest {
             message(
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
-            )
+                "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
+            ),
         )
 
         verify {
             domainServiceMock.initializeDomain(
                 UUID.fromString("a90ac14a-9e91-4c1c-93ef-2e1546c86dab"),
                 UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e"),
-                UUID.fromString("f8ed22b1-b277-56ec-a2ce-0dbd94e24824")
+                UUID.fromString("f8ed22b1-b277-56ec-a2ce-0dbd94e24824"),
             )
         }
     }
@@ -58,15 +58,15 @@ class MessageSubscriberTest {
         sut.handleMessage(
             message(
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
-                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e"
-            )
+                "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
+            ),
         )
 
         verify {
             domainServiceMock.initializeDomain(
                 UUID.fromString("a90ac14a-9e91-4c1c-93ef-2e1546c86dab"),
                 UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e"),
-                null
+                null,
             )
         }
     }
@@ -80,8 +80,8 @@ class MessageSubscriberTest {
                 message(
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                     "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
-                )
+                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
+                ),
             )
         }
     }
@@ -95,8 +95,8 @@ class MessageSubscriberTest {
                 message(
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
                     "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824"
-                )
+                    "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
+                ),
             )
         }
     }
@@ -107,13 +107,13 @@ class MessageSubscriberTest {
             message(
                 "eventType" to "client_change",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                "type" to "DELETION"
-            )
+                "type" to "DELETION",
+            ),
         )
 
         verify {
             domainServiceMock.deleteClient(
-                UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e")
+                UUID.fromString("21712604-ed85-4f08-aa46-1cf39607ee9e"),
             )
         }
     }
@@ -124,8 +124,8 @@ class MessageSubscriberTest {
             message(
                 "eventType" to "client_change",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
-                "type" to "CREATION"
-            )
+                "type" to "CREATION",
+            ),
         )
 
         verify(exactly = 0) {

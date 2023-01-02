@@ -32,9 +32,9 @@ class WithMockAuthSecurityContextFactory : WithSecurityContextFactory<WithMockAu
                 Instant.now(),
                 Instant.MAX,
                 mapOf("test" to "test"),
-                mapOf("groups" to "/veo_client:$mockClientUuid")
+                mapOf("groups" to "/veo_client:$mockClientUuid"),
             ),
-            annotation.roles
+            annotation.roles,
         )
     }
 

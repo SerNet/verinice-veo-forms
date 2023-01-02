@@ -26,5 +26,5 @@ data class FormTemplate(
     val subType: String?,
     val content: Map<String, *>,
     val translation: Map<String, *>?,
-    val sorting: String?
+    val sorting: String?,
 )

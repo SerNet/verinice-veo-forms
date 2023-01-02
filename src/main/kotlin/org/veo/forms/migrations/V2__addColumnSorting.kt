@@ -27,7 +27,7 @@ class V2__addColumnSorting : BaseJavaMigration() {
                 """
                 alter table if exists form 
                     add column sorting varchar(32);
-                """
+                """,
             )
         }
     }

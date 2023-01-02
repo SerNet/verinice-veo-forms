@@ -38,7 +38,7 @@ private val log = KotlinLogging.logger {}
 @ConditionalOnProperty(value = ["veo.forms.rabbitmq.subscribe"], havingValue = "true")
 @Transactional
 class MessageSubscriber(
-    private val domainService: DomainService
+    private val domainService: DomainService,
 ) {
     private val mapper = ObjectMapper()
 
@@ -50,17 +50,17 @@ class MessageSubscriber(
                     exclusive = "false",
                     durable = "true",
                     autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")]
+                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
                 ),
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),
                 key = [
                     "\${veo.forms.rabbitmq.subscription_routing_key_prefix}client_change",
                     "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation",
                     // TODO VEO-1830 stop supporting old routing key
-                    "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event"
-                ]
-            )
-        ]
+                    "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event",
+                ],
+            ),
+        ],
     )
     fun handleMessage(message: String) = try {
         mapper
@@ -101,7 +101,7 @@ class MessageSubscriber(
             domainService.initializeDomain(
                 content.get("domainId").let { UUID.fromString(it.asText()) },
                 content.get("clientId").let { UUID.fromString(it.asText()) },
-                content.get("domainTemplateId")?.let { UUID.fromString(it.asText()) }
+                content.get("domainTemplateId")?.let { UUID.fromString(it.asText()) },
             )
         } catch (ex: DuplicateKeyException) {
             throw AmqpRejectAndDontRequeueException("Domain already known, ignoring domain creation message.")

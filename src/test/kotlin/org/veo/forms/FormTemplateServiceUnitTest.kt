@@ -160,7 +160,7 @@ class FormTemplateServiceUnitTest {
             every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
             every { templates } returns mapOf(
                 randomUUID() to formTemplate(),
-                randomUUID() to formTemplate()
+                randomUUID() to formTemplate(),
             )
         }
         sut.importBundle(newBundle)
@@ -180,7 +180,7 @@ class FormTemplateServiceUnitTest {
             every { templates } returns mapOf(
                 unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
                 modifiedTemplateId to formTemplate(SemVer(4, 10, 3), subType = "special"),
-                obsoleteTemplateId to formTemplate(SemVer(9, 0, 0), subType = "boring")
+                obsoleteTemplateId to formTemplate(SemVer(9, 0, 0), subType = "boring"),
             )
         }
 
@@ -190,7 +190,7 @@ class FormTemplateServiceUnitTest {
             every { templates } returns mapOf(
                 unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
                 modifiedTemplateId to formTemplate(SemVer(4, 11, 0), subType = "superSpecial"),
-                addedTemplateId to formTemplate(SemVer(1, 0, 0), subType = "exciting")
+                addedTemplateId to formTemplate(SemVer(1, 0, 0), subType = "exciting"),
             )
         }
         sut.importBundle(newBundle)
@@ -210,7 +210,7 @@ class FormTemplateServiceUnitTest {
             every { version } returns SemVer(2, 3, 0)
         }
         shouldThrowWithMessage<SemVerTooLowException>(
-            "New form template bundle version number must be higher than current version 2.3.0"
+            "New form template bundle version number must be higher than current version 2.3.0",
         ) {
             sut.importBundle(newBundle)
         }
@@ -227,7 +227,7 @@ class FormTemplateServiceUnitTest {
             every { version } returns SemVer(2, 2, 5)
         }
         shouldThrowWithMessage<SemVerTooLowException>(
-            "New form template bundle version number must be higher than current version 2.3.0"
+            "New form template bundle version number must be higher than current version 2.3.0",
         ) {
             sut.importBundle(newBundle)
         }
@@ -239,7 +239,7 @@ class FormTemplateServiceUnitTest {
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
             every { version } returns SemVer(2, 3, 0)
             every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 1))
+                templateId to formTemplate(SemVer(2, 0, 1)),
             )
         }
 
@@ -247,11 +247,11 @@ class FormTemplateServiceUnitTest {
             every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
             every { version } returns SemVer(2, 4, 0)
             every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0))
+                templateId to formTemplate(SemVer(2, 0, 0)),
             )
         }
         shouldThrowWithMessage<SemVerTooLowException>(
-            "New version number of form template $templateId must not be lower than current version 2.0.1"
+            "New version number of form template $templateId must not be lower than current version 2.0.1",
         ) {
             sut.importBundle(newBundle)
         }
@@ -263,7 +263,7 @@ class FormTemplateServiceUnitTest {
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
             every { version } returns SemVer(3, 0, 0)
             every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0), subType = "oldSubType")
+                templateId to formTemplate(SemVer(2, 0, 0), subType = "oldSubType"),
             )
         }
 
@@ -271,11 +271,11 @@ class FormTemplateServiceUnitTest {
             every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
             every { version } returns SemVer(3, 0, 1)
             every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0), subType = "newSubType")
+                templateId to formTemplate(SemVer(2, 0, 0), subType = "newSubType"),
             )
         }
         shouldThrowWithMessage<SemVerTooLowException>(
-            "Form template $templateId differs from current version 2.0.0 but uses the same version number"
+            "Form template $templateId differs from current version 2.0.0 but uses the same version number",
         ) {
             sut.importBundle(newBundle)
         }

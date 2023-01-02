@@ -43,8 +43,8 @@ class FormTemplateBundleFactoryUnitTest {
                 },
                 mockk {
                     every { toTemplate() } returns formTemplateB
-                }
-            )
+                },
+            ),
         )
 
         result.domainTemplateId shouldBe domainTemplateId

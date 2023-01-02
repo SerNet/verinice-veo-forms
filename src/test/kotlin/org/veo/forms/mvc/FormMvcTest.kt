@@ -59,14 +59,14 @@ class FormMvcTest : AbstractMvcTest() {
                 "sorting" to "b2",
                 "content" to mapOf(
                     "prop1" to "val1",
-                    "prop2" to listOf("ok")
+                    "prop2" to listOf("ok"),
                 ),
                 "translation" to mapOf(
                     "de" to mapOf(
-                        "name" to "Name"
-                    )
-                )
-            )
+                        "name" to "Name",
+                    ),
+                ),
+            ),
         ).bodyAsString
 
         // then a valid UUID is returned
@@ -80,8 +80,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "form one"),
                 "modelType" to "person",
                 "subType" to "VeryNicePerson",
-                "sorting" to "b2"
-            )
+                "sorting" to "b2",
+            ),
         )
 
         // and the complete form can be retrieved
@@ -94,13 +94,13 @@ class FormMvcTest : AbstractMvcTest() {
             "sorting" to "b2",
             "content" to mapOf(
                 "prop1" to "val1",
-                "prop2" to listOf("ok")
+                "prop2" to listOf("ok"),
             ),
             "translation" to mapOf(
                 "de" to mapOf(
-                    "name" to "Name"
-                )
-            )
+                    "name" to "Name",
+                ),
+            ),
         )
     }
 
@@ -114,14 +114,14 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
                 "content" to mapOf(
-                    "oldProp" to "oldValue"
+                    "oldProp" to "oldValue",
                 ),
                 "translation" to mapOf(
                     "de" to mapOf(
-                        "foo" to "Foo"
-                    )
-                )
-            )
+                        "foo" to "Foo",
+                    ),
+                ),
+            ),
         ).bodyAsString
 
         // and updating the form
@@ -134,14 +134,14 @@ class FormMvcTest : AbstractMvcTest() {
                 "subType" to "VT",
                 "sorting" to "b2",
                 "content" to mapOf(
-                    "newProp" to "newValue"
+                    "newProp" to "newValue",
                 ),
                 "translation" to mapOf(
                     "de" to mapOf(
-                        "bar" to "Bar"
-                    )
-                )
-            )
+                        "bar" to "Bar",
+                    ),
+                ),
+            ),
         )
 
         // then the changes have been applied
@@ -153,13 +153,13 @@ class FormMvcTest : AbstractMvcTest() {
             "sorting" to "b2",
             "name" to mapOf("en" to "new name"),
             "content" to mapOf(
-                "newProp" to "newValue"
+                "newProp" to "newValue",
             ),
             "translation" to mapOf(
                 "de" to mapOf(
-                    "bar" to "Bar"
-                )
-            )
+                    "bar" to "Bar",
+                ),
+            ),
         )
     }
 
@@ -172,8 +172,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         ).bodyAsString
 
         // and deleting the form
@@ -192,8 +192,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "domainId" to domain2Id,
                 "name" to mapOf("en" to "three"),
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         )
         post(
             "/",
@@ -202,8 +202,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "two"),
                 "modelType" to "person",
                 "content" to emptyMap<String, Any>(),
-                "sorting" to "a2"
-            )
+                "sorting" to "a2",
+            ),
         )
         post(
             "/",
@@ -212,8 +212,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "one"),
                 "modelType" to "person",
                 "content" to emptyMap<String, Any>(),
-                "sorting" to "a11"
-            )
+                "sorting" to "a11",
+            ),
         )
         post(
             "/",
@@ -221,8 +221,8 @@ class FormMvcTest : AbstractMvcTest() {
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "four"),
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         )
 
         // expect that the forms can be filtered by domain
@@ -238,9 +238,9 @@ class FormMvcTest : AbstractMvcTest() {
                 "domainId" to domain1Id,
                 "name" to mapOf("foo" to mapOf("bar" to "star")),
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
+                "content" to emptyMap<String, Any>(),
             ),
-            400
+            400,
         )
     }
 
@@ -252,9 +252,9 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
+                "content" to emptyMap<String, Any>(),
             ),
-            400
+            400,
         ).rawBody shouldContain "missing (therefore NULL) value for creator parameter domainId which is a non-nullable type"
     }
 
@@ -268,9 +268,9 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "old name"),
                 "modelType" to "person",
                 "subType" to "",
-                "content" to emptyMap<String, Any>()
+                "content" to emptyMap<String, Any>(),
             ),
-            400
+            400,
         ).rawBody shouldContain "size must be between 1 and 255"
     }
 
@@ -285,9 +285,9 @@ class FormMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "subType" to "PER_Person",
                 "sorting" to "ä1",
-                "content" to emptyMap<String, Any>()
+                "content" to emptyMap<String, Any>(),
             ),
-            400
+            400,
         ).rawBody shouldContain "Only ASCII characters are allowed"
     }
 }

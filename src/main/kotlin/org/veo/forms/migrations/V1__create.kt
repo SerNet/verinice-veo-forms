@@ -49,7 +49,7 @@ class V1__create : BaseJavaMigration() {
                    add constraint FK_domain_id
                    foreign key (domain_id)
                    references domain;
-                """
+                """,
             )
         }
     }

@@ -36,7 +36,7 @@ class Domain(
     var domainTemplateId: UUID? = null,
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "form_template_bundle_id")
-    var formTemplateBundle: FormTemplateBundle? = null
+    var formTemplateBundle: FormTemplateBundle? = null,
 ) {
     @Column(name = "last_form_modification")
     private var _lastFormModification: Instant = Instant.now()

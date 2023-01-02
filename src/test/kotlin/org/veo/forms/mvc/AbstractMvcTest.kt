@@ -62,7 +62,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         url: String,
         body: Any? = null,
         headers: Map<String, List<String>> = emptyMap(),
-        expectedStatus: Int
+        expectedStatus: Int,
     ): Response {
         val request = MockMvcRequestBuilders.request(method, url)
         headers.forEach { (k, v) -> request.header(k, v) }
@@ -78,7 +78,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
                 if (it.response.status != expectedStatus) {
                     throw AssertionError(
                         "Expected status code $expectedStatus but received ${it.response.status}",
-                        it.resolvedException
+                        it.resolvedException,
                     )
                 }
             }

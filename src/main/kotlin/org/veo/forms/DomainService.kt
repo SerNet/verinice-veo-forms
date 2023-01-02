@@ -29,7 +29,7 @@ class DomainService(
     private val domainRepo: DomainRepository,
     private val formRepo: FormRepository,
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
-    private val formTemplateBundleApplier: FormTemplateBundleApplier
+    private val formTemplateBundleApplier: FormTemplateBundleApplier,
 ) {
 
     /**

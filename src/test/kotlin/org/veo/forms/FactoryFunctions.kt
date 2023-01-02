@@ -23,7 +23,7 @@ import java.util.UUID.randomUUID
 
 fun domain(
     id: UUID = randomUUID(),
-    clientId: UUID = randomUUID()
+    clientId: UUID = randomUUID(),
 ) = Domain(id, clientId)
 
 fun form(
@@ -33,7 +33,7 @@ fun form(
     subType: String? = null,
     content: Map<String, Any> = emptyMap(),
     translations: Map<String, Any> = emptyMap(),
-    sorting: String? = null
+    sorting: String? = null,
 ) = Form(
     domain,
     name,
@@ -41,7 +41,7 @@ fun form(
     subType,
     content,
     translations,
-    sorting
+    sorting,
 )
 
 fun formTemplate(
@@ -51,7 +51,7 @@ fun formTemplate(
     subType: String? = null,
     content: Map<String, Any> = emptyMap(),
     translations: Map<String, Any> = emptyMap(),
-    sorting: String? = null
+    sorting: String? = null,
 ) = FormTemplate(
     version,
     name,
@@ -59,5 +59,5 @@ fun formTemplate(
     subType,
     content,
     translations,
-    sorting
+    sorting,
 )

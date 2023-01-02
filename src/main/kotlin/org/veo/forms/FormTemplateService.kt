@@ -29,7 +29,7 @@ class FormTemplateService(
     private val formRepo: FormRepository,
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
     private val formTemplateBundleFactory: FormTemplateBundleFactory,
-    private val formTemplateBundleApplier: FormTemplateBundleApplier
+    private val formTemplateBundleApplier: FormTemplateBundleApplier,
 ) {
     fun createBundle(domainId: UUID, domainTemplateId: UUID, clientId: UUID) {
         val domain = domainRepo.getClientDomain(domainId, clientId)
@@ -44,8 +44,8 @@ class FormTemplateService(
                 version = latestTemplateBundle?.version?.nextPatch()
                     ?: domain.formTemplateBundle?.version?.nextMinor()
                     ?: SemVer(1),
-                forms = formRepo.findAll(clientId, domainId)
-            )
+                forms = formRepo.findAll(clientId, domainId),
+            ),
         )
         domain.formTemplateBundle = newBundle
 
@@ -77,7 +77,7 @@ class FormTemplateService(
     private fun validate(
         newTemplate: FormTemplate,
         currentTemplate: FormTemplate,
-        templateId: UUID
+        templateId: UUID,
     ) {
         if (newTemplate.version < currentTemplate.version) {
             throw SemVerTooLowException("New version number of form template $templateId must not be lower than current version ${currentTemplate.version}")

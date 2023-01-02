@@ -27,7 +27,7 @@ abstract class AbstractFormDto(
     val domainId: UUID,
     @field:Schema(
         description = "Translated form name. Use keys for language ISO code and values for translated name.",
-        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}"""
+        example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""",
     )
     val name: Map<String, String>,
     val modelType: ModelType,
@@ -36,5 +36,5 @@ abstract class AbstractFormDto(
     @field:Schema(description = "ASCII string for sorting, maximum 32 characters.")
     @field:Size(min = 1, max = 32)
     @field:Pattern(regexp = "^\\p{ASCII}+$", message = "Only ASCII characters are allowed.")
-    val sorting: String?
+    val sorting: String?,
 )

@@ -30,7 +30,7 @@ class V5__fixSemVerCollation : BaseJavaMigration() {
                 alter table form_template_bundle
                     alter column version type varchar(255) collate sem_ver;
  
-                """
+                """,
             )
         }
     }

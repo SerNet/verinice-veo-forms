@@ -31,7 +31,7 @@ class FormFactory(private val domainRepo: DomainRepository) {
             dto.subType,
             dto.content,
             dto.translation,
-            dto.sorting
+            dto.sorting,
         )
     }
 
@@ -45,7 +45,7 @@ class FormFactory(private val domainRepo: DomainRepository) {
             template.translation,
             template.sorting,
             templateId,
-            template.version
+            template.version,
         )
     }
 }

@@ -27,7 +27,7 @@ class V6__addFormModification : BaseJavaMigration() {
                 """
                 alter table domain 
                     add column last_form_modification timestamp default now() not null;
-                 """
+                 """,
             )
         }
     }

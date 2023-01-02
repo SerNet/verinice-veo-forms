@@ -53,9 +53,9 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
                 SemVer(1),
                 templates = mapOf(
                     assetFormTemplateId to newTemplate(SemVer(1), "original asset form", ModelType.Asset),
-                    documentFormTemplateId to newTemplate(SemVer(1), "document form", ModelType.Document)
-                )
-            )
+                    documentFormTemplateId to newTemplate(SemVer(1), "document form", ModelType.Document),
+                ),
+            ),
         )
 
         // and two domains based upon the template bundle, one of which contains a custom form for scenarios
@@ -69,8 +69,8 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
                     null,
                     emptyMap<String, Any>(),
                     null,
-                    null
-                )
+                    null,
+                ),
             )
         }
 
@@ -86,9 +86,9 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
                 SemVer(1, 0, 1),
                 templates = mapOf(
                     assetFormTemplateId to newTemplate(SemVer(1, 0, 1), "updated asset form", ModelType.Asset),
-                    personFormTemplateId to newTemplate(SemVer(1), "person form", ModelType.Person)
-                )
-            )
+                    personFormTemplateId to newTemplate(SemVer(1), "person form", ModelType.Person),
+                ),
+            ),
         )
 
         // and updating forms to new bundle
@@ -161,6 +161,6 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
         null,
         emptyMap<String, Any>(),
         null,
-        null
+        null,
     )
 }

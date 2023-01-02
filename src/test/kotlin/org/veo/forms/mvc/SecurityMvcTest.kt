@@ -37,14 +37,14 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(PUT, "/a", 401),
         testStatus(DELETE, "/a", 401),
         testStatus(POST, "/form-template-bundles", 401),
-        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401)
+        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401),
     )
 
     @TestFactory
     @WithMockAuth
     fun `read API calls are allowed for normal users`() = listOf(
         testStatus(GET, "/", 200),
-        testStatus(GET, "/a", 400)
+        testStatus(GET, "/a", 400),
     )
 
     @TestFactory
@@ -54,14 +54,14 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(PUT, "/a", 403),
         testStatus(DELETE, "/a", 403),
         testStatus(POST, "/form-template-bundles", 403),
-        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403)
+        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403),
     )
 
     @TestFactory
     @WithMockAuth
     fun `content export is forbidden for normal users`() = listOf(
         testStatus(GET, "/form-template-bundles", 403),
-        testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403)
+        testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403),
     )
 
     @TestFactory
@@ -71,7 +71,7 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(GET, "/actuator/info", 200),
         testStatus(GET, "/swagger-ui.html", 302),
         testStatus(GET, "/swagger-ui/index.html", 200),
-        testStatus(GET, "/v3/api-docs", 200)
+        testStatus(GET, "/v3/api-docs", 200),
     )
 
     private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {

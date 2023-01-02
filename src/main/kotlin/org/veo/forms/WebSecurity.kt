@@ -83,7 +83,7 @@ class WebSecurity {
                             JwtGrantedAuthoritiesConverter().apply {
                                 setAuthoritiesClaimName("roles")
                                 setAuthorityPrefix("ROLE_")
-                            }
+                            },
                         )
                     }
                 }

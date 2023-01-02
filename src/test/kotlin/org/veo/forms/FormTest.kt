@@ -39,7 +39,7 @@ class FormTest {
             subType = "AST_Application",
             content = mapOf("layout" to "column"),
             translation = mapOf("en" to mapOf("title" to "Application")),
-            sorting = "ast"
+            sorting = "ast",
         )
 
         // when updating the form with a new sorting value and creating a new template from it
@@ -51,9 +51,9 @@ class FormTest {
                 translation = form.translation,
                 domainId = form.domain.id,
                 subType = form.subType,
-                sorting = "zz"
+                sorting = "zz",
             ),
-            form.domain
+            form.domain,
         )
         val templatePair = form.toTemplate()
 
@@ -89,7 +89,7 @@ class FormTest {
             translation = mapOf("en" to mapOf("title" to "Application")),
             sorting = "ast",
             formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5)
+            formTemplateVersion = SemVer(3, 0, 5),
         )
 
         // when creating a new template from the form
@@ -122,7 +122,7 @@ class FormTest {
             translation = mapOf("en" to mapOf("title" to "Application")),
             sorting = "ast",
             formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5)
+            formTemplateVersion = SemVer(3, 0, 5),
         )
 
         // when updating the form with a new sorting value and creating a new template from it
@@ -134,9 +134,9 @@ class FormTest {
                 translation = form.translation,
                 domainId = form.domain.id,
                 subType = form.subType,
-                sorting = "zz"
+                sorting = "zz",
             ),
-            form.domain
+            form.domain,
         )
         val templatePair = form.toTemplate()
 
@@ -167,7 +167,7 @@ class FormTest {
             translation = mapOf("en" to mapOf("title" to "Application")),
             sorting = "ast",
             formTemplateId = originalTemplateId,
-            formTemplateVersion = SemVer(1, 2, 4)
+            formTemplateVersion = SemVer(1, 2, 4),
         )
         val originalId = form.id
 
@@ -180,8 +180,8 @@ class FormTest {
                 subType = "DOC_Contract",
                 content = mapOf("layout" to "centered"),
                 translation = mapOf("en" to mapOf("title" to "Contract")),
-                sorting = "doc"
-            )
+                sorting = "doc",
+            ),
         )
 
         // then it should have all the correct values

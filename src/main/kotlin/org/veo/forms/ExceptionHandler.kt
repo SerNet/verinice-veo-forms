@@ -30,7 +30,7 @@ class ExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException::class, MethodArgumentNotValidException::class)
     fun handleException(
         exception: Exception,
-        request: HttpServletRequest?
+        request: HttpServletRequest?,
     ): ResponseEntity<String> {
         return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
     }

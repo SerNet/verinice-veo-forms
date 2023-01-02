@@ -27,7 +27,7 @@ class V3__addRevision : BaseJavaMigration() {
                 """
                 alter table form 
                     add column revision bigint default 0 not null check (revision >= 0 AND revision <= 4294967295);
-                """
+                """,
             )
         }
     }

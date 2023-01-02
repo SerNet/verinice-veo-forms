@@ -74,8 +74,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "person form"),
                 "domainId" to newDomainId,
                 "modelType" to "person",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         )
 
         // and creating yet another new template bundle from the new domain
@@ -154,8 +154,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "asset form"),
                 "domainId" to domainId,
                 "modelType" to "asset",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         )
         post(
             "/",
@@ -163,8 +163,8 @@ class TemplatingMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "document form"),
                 "domainId" to domainId,
                 "modelType" to "document",
-                "content" to emptyMap<String, Any>()
-            )
+                "content" to emptyMap<String, Any>(),
+            ),
         )
     }
 }

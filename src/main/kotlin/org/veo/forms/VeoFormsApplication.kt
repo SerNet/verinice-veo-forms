@@ -41,9 +41,9 @@ import org.springframework.context.annotation.Primary
     description = "openidconnect Login",
     flows = OAuthFlows(
         implicit = OAuthFlow(
-            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth"
-        )
-    )
+            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+        ),
+    ),
 )
 @OpenAPIDefinition(
     info = Info(
@@ -51,13 +51,13 @@ import org.springframework.context.annotation.Primary
         description = "OpenAPI documentation for verinice.veo-forms.",
         license = License(
             name = "GNU Affero General Public License",
-            url = "https://www.gnu.org/licenses/agpl-3.0.html.en"
+            url = "https://www.gnu.org/licenses/agpl-3.0.html.en",
         ),
         contact = Contact(
             url = "http://verinice.com",
-            email = "verinice@sernet.de"
-        )
-    )
+            email = "verinice@sernet.de",
+        ),
+    ),
 )
 class VeoFormsApplication {
     companion object {

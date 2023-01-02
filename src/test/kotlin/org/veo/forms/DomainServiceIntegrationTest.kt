@@ -63,9 +63,9 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
                     null,
                     mapOf<String, Any>(),
                     null,
-                    null
-                )
-            )
+                    null,
+                ),
+            ),
         )
         formTemplateBundleRepo.add(formTemplateBundle)
 

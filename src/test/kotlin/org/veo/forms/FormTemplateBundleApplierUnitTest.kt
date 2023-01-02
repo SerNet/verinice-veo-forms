@@ -53,7 +53,7 @@ class FormTemplateBundleApplierUnitTest {
         val bundle = mockk<FormTemplateBundle> {
             every { domainTemplateId } returns commonDomainTemplateId
             every { templates } returns mapOf(
-                template1
+                template1,
             )
         }
         val template1incarnated = mockk<Form>()
@@ -88,7 +88,7 @@ class FormTemplateBundleApplierUnitTest {
             every { version } returns SemVer(1)
             every { templates } returns mapOf(
                 originalTemplate1,
-                originalTemplate2
+                originalTemplate2,
             )
         }
 
@@ -114,7 +114,7 @@ class FormTemplateBundleApplierUnitTest {
         every { formRepo.findAll(domain.clientId, domain.id) } returns listOf(
             originalTemplate1Incarnation,
             originalTemplate2Incarnation,
-            customForm
+            customForm,
         )
 
         // and a new version of the form template bundle that updates template 1, removes template 2 and adds a third
@@ -129,7 +129,7 @@ class FormTemplateBundleApplierUnitTest {
             every { version } returns SemVer(1, 6, 0)
             every { templates } returns mapOf(
                 updatedTemplate1,
-                template3
+                template3,
             )
         }
         val template3incarnated = mockk<Form>()
