@@ -72,7 +72,7 @@ Other developers who have contributed code are:
 
 --------------------------------------------------------------------------------
 
-6. Group: com.fasterxml.jackson  Name: jackson-bom  Version: 2.14.1
+6. Group: com.fasterxml.jackson  Name: jackson-bom  Version: 2.14.2
 
 No license information found
 
@@ -846,7 +846,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 --------------------------------------------------------------------------------
 
-13. Group: com.fasterxml.jackson.module  Name: jackson-module-kotlin  Version: 2.14.1
+13. Group: com.fasterxml.jackson.module  Name: jackson-module-kotlin  Version: 2.14.2
 
 Project URL: https://github.com/FasterXML/jackson-module-kotlin
 
@@ -21172,5 +21172,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Tue Jan 24 15:01:52 UTC 2023.
+This report was generated at Mon Jan 30 06:06:17 UTC 2023.
 
