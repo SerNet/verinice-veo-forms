@@ -1982,19 +1982,19 @@ package in the Spring Framework library, distributed by VMware, Inc:
 
 --------------------------------------------------------------------------------
 
-26. Group: io.mockk  Name: mockk  Version: 1.13.3
+26. Group: io.mockk  Name: mockk  Version: 1.13.4
 
 No license information found
 
-27. Group: io.mockk  Name: mockk-agent  Version: 1.13.3
+27. Group: io.mockk  Name: mockk-agent  Version: 1.13.4
 
 No license information found
 
-28. Group: io.mockk  Name: mockk-agent-api  Version: 1.13.3
+28. Group: io.mockk  Name: mockk-agent-api  Version: 1.13.4
 
 No license information found
 
-29. Group: io.mockk  Name: mockk-agent-api-jvm  Version: 1.13.3
+29. Group: io.mockk  Name: mockk-agent-api-jvm  Version: 1.13.4
 
 POM Project URL: https://mockk.io
 
@@ -2002,7 +2002,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-30. Group: io.mockk  Name: mockk-agent-jvm  Version: 1.13.3
+30. Group: io.mockk  Name: mockk-agent-jvm  Version: 1.13.4
 
 POM Project URL: https://mockk.io
 
@@ -2010,11 +2010,11 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-31. Group: io.mockk  Name: mockk-core  Version: 1.13.3
+31. Group: io.mockk  Name: mockk-core  Version: 1.13.4
 
 No license information found
 
-32. Group: io.mockk  Name: mockk-core-jvm  Version: 1.13.3
+32. Group: io.mockk  Name: mockk-core-jvm  Version: 1.13.4
 
 POM Project URL: https://mockk.io
 
@@ -2022,11 +2022,11 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-33. Group: io.mockk  Name: mockk-dsl  Version: 1.13.3
+33. Group: io.mockk  Name: mockk-dsl  Version: 1.13.4
 
 No license information found
 
-34. Group: io.mockk  Name: mockk-dsl-jvm  Version: 1.13.3
+34. Group: io.mockk  Name: mockk-dsl-jvm  Version: 1.13.4
 
 POM Project URL: https://mockk.io
 
@@ -2034,7 +2034,7 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 
 --------------------------------------------------------------------------------
 
-35. Group: io.mockk  Name: mockk-jvm  Version: 1.13.3
+35. Group: io.mockk  Name: mockk-jvm  Version: 1.13.4
 
 POM Project URL: https://mockk.io
 
@@ -21172,5 +21172,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Mon Jan 30 06:06:17 UTC 2023.
+This report was generated at Mon Jan 30 14:31:56 UTC 2023.
 
