@@ -72,6 +72,7 @@ class SecurityMvcTest : AbstractMvcTest() {
         testStatus(GET, "/swagger-ui.html", 302),
         testStatus(GET, "/swagger-ui/index.html", 200),
         testStatus(GET, "/v3/api-docs", 200),
+        testStatus(GET, "/v3/api-docs/swagger-config", 200),
     )
 
     private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {
