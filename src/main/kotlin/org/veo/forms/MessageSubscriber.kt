@@ -46,15 +46,14 @@ class MessageSubscriber(
         bindings = [
             QueueBinding(
                 value = Queue(
-                    value = "\${veo.forms.rabbitmq.queue}",
+                    value = "\${veo.forms.rabbitmq.queues.veo}",
                     exclusive = "false",
                     durable = "true",
                     autoDelete = "false",
                     arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
                 ),
-                exchange = Exchange(value = "\${veo.forms.rabbitmq.exchange}", type = "topic"),
+                exchange = Exchange(value = "\${veo.forms.rabbitmq.exchanges.veo}", type = "topic"),
                 key = [
-                    "\${veo.forms.rabbitmq.subscription_routing_key_prefix}client_change",
                     "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation",
                     // TODO VEO-1830 stop supporting old routing key
                     "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation_event",
@@ -62,32 +61,55 @@ class MessageSubscriber(
             ),
         ],
     )
-    fun handleMessage(message: String) = try {
+    fun handleVeoMessage(message: String) = handle(
+        message,
+        mapOf(
+            "domain_creation" to this::handleDomainCreation,
+        ),
+    )
+
+    @RabbitListener(
+        bindings = [
+            QueueBinding(
+                value = Queue(
+                    value = "\${veo.forms.rabbitmq.queues.veo-subscriptions}",
+                    exclusive = "false",
+                    durable = "true",
+                    autoDelete = "false",
+                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
+                ),
+                exchange = Exchange(value = "\${veo.forms.rabbitmq.exchanges.veo-subscriptions}", type = "topic"),
+                key = [
+                    "\${veo.forms.rabbitmq.routing_key_prefix}client_change",
+                ],
+            ),
+        ],
+    )
+    fun handleSubscriptionMessage(message: String) = handle(
+        message,
+        mapOf(
+            "client_change" to this::handleClientChange,
+        ),
+    )
+
+    private fun handle(message: String, eventTypeHandlers: Map<String, (JsonNode) -> Any>) = try {
         mapper
             .readTree(message)
             .get("content")
             .asText()
             .let(mapper::readTree)
-            .let { handleMessage(it) }
+            .let { content ->
+                val eventType = content.get("eventType").asText()
+                log.debug { "Received message with '$eventType' event" }
+                eventTypeHandlers[eventType]
+                    ?.also { handler -> handler(content) }
+                    ?: throw NotImplementedError("Unsupported event type '$eventType'")
+            }
     } catch (ex: AmqpRejectAndDontRequeueException) {
         throw ex
     } catch (ex: Exception) {
         log.error(ex) { "Handling failed for message: '$message'" }
         throw ex
-    }
-
-    private fun handleMessage(content: JsonNode) {
-        content
-            .get("eventType")
-            .asText()
-            .let {
-                log.debug { "Received message with '$it' event" }
-                when (it) {
-                    "client_change" -> handleClientChange(content)
-                    "domain_creation" -> handleDomainCreation(content)
-                    else -> throw NotImplementedError("Unsupported event type '$it'")
-                }
-            }
     }
 
     private fun handleClientChange(content: JsonNode) {

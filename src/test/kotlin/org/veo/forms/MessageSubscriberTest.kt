@@ -36,7 +36,7 @@ class MessageSubscriberTest {
 
     @Test
     fun `initializes domain with template ID`() {
-        sut.handleMessage(
+        sut.handleVeoMessage(
             message(
                 "eventType" to "domain_creation",
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
@@ -56,7 +56,7 @@ class MessageSubscriberTest {
 
     @Test
     fun `initializes domain without template ID`() {
-        sut.handleMessage(
+        sut.handleVeoMessage(
             message(
                 "eventType" to "domain_creation",
                 "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
@@ -78,7 +78,7 @@ class MessageSubscriberTest {
         every { domainServiceMock.initializeDomain(any(), any(), any()) } throws DuplicateKeyException("")
 
         shouldThrow<AmqpRejectAndDontRequeueException> {
-            sut.handleMessage(
+            sut.handleVeoMessage(
                 message(
                     "eventType" to "domain_creation",
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
@@ -94,7 +94,7 @@ class MessageSubscriberTest {
         every { domainServiceMock.initializeDomain(any(), any(), any()) } throws IOException()
 
         shouldThrow<IOException> {
-            sut.handleMessage(
+            sut.handleVeoMessage(
                 message(
                     "eventType" to "domain_creation",
                     "domainId" to "a90ac14a-9e91-4c1c-93ef-2e1546c86dab",
@@ -107,7 +107,7 @@ class MessageSubscriberTest {
 
     @Test
     fun `deletes client`() {
-        sut.handleMessage(
+        sut.handleSubscriptionMessage(
             message(
                 "eventType" to "client_change",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
@@ -124,7 +124,7 @@ class MessageSubscriberTest {
 
     @Test
     fun `ignores client creation`() {
-        sut.handleMessage(
+        sut.handleSubscriptionMessage(
             message(
                 "eventType" to "client_change",
                 "clientId" to "21712604-ed85-4f08-aa46-1cf39607ee9e",
@@ -134,6 +134,17 @@ class MessageSubscriberTest {
 
         verify(exactly = 0) {
             domainServiceMock.deleteClient(any())
+        }
+    }
+
+    @Test
+    fun `domain creation is not supported by subscriptions listener`() {
+        shouldThrow<NotImplementedError> {
+            sut.handleSubscriptionMessage(
+                message(
+                    "eventType" to "domain_creation",
+                ),
+            )
         }
     }
 
