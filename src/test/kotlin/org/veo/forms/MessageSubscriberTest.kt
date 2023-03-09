@@ -19,6 +19,8 @@ package org.veo.forms
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
+import io.kotest.matchers.types.instanceOf
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -93,7 +95,7 @@ class MessageSubscriberTest {
     fun `delegates service exception`() {
         every { domainServiceMock.initializeDomain(any(), any(), any()) } throws IOException()
 
-        shouldThrow<IOException> {
+        shouldThrow<RuntimeException> {
             sut.handleVeoMessage(
                 message(
                     "eventType" to "domain_creation",
@@ -102,7 +104,7 @@ class MessageSubscriberTest {
                     "domainTemplateId" to "f8ed22b1-b277-56ec-a2ce-0dbd94e24824",
                 ),
             )
-        }
+        }.cause should instanceOf<IOException>()
     }
 
     @Test
@@ -139,13 +141,13 @@ class MessageSubscriberTest {
 
     @Test
     fun `domain creation is not supported by subscriptions listener`() {
-        shouldThrow<NotImplementedError> {
+        shouldThrow<RuntimeException> {
             sut.handleSubscriptionMessage(
                 message(
                     "eventType" to "domain_creation",
                 ),
             )
-        }
+        }.cause should instanceOf<NotImplementedError>()
     }
 
     private fun message(vararg properties: Pair<String, Any>): String =
