@@ -50,7 +50,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.5.4")
     implementation("com.vladmihalcea:hibernate-types-60:2.21.1")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3")
     implementation("io.mockk:mockk:1.13.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
     implementation("net.swiftzer.semver:semver:1.2.0")
