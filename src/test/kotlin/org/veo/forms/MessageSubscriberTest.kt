@@ -20,21 +20,32 @@ package org.veo.forms
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
+import io.mockk.InternalPlatformDsl.toStr
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
+import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.dao.DuplicateKeyException
 import java.io.IOException
 import java.util.UUID
+import kotlin.reflect.full.functions
 
 private val om = ObjectMapper()
 
 class MessageSubscriberTest {
     private val domainServiceMock: DomainService = mockk(relaxed = true)
     private val sut = MessageSubscriber(domainServiceMock)
+
+    @Test
+    fun `listeners don't return anything`() {
+        MessageSubscriber::class.functions
+            .filter { it.annotations.filterIsInstance<RabbitListener>().isNotEmpty() }
+            .forEach { it.returnType.toStr() shouldBe "kotlin.Unit" }
+    }
 
     @Test
     fun `initializes domain with template ID`() {
