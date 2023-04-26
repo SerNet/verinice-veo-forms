@@ -47,12 +47,12 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.postgresql:postgresql:42.6.0")
+    implementation("org.postgresql:postgresql")
     implementation("com.vladmihalcea:hibernate-types-60:2.21.1")
     implementation("org.flywaydb:flyway-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("io.mockk:mockk:1.13.5")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("net.swiftzer.semver:semver:1.2.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
@@ -72,8 +72,6 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 }
-
-extra["kotlin-coroutines.version"] = "1.6.0"
 
 val licenseFile3rdParty = "LICENSE-3RD-PARTY.txt"
 licenseReport {
