@@ -20,6 +20,7 @@ package org.veo.forms.migrations
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 
+@Suppress("ClassName")
 class V4__addFormTemplateBundle : BaseJavaMigration() {
     override fun migrate(context: Context) {
         context.connection.createStatement().use {
