@@ -35,6 +35,6 @@ interface DomainJpaRepository : JpaRepository<Domain, UUID> {
     @Query("select d from Domain d where d.clientId = :clientId")
     fun findAllClientDomains(clientId: UUID): List<Domain>
 
-    @Query("SELECT d FROM Domain as d WHERE d.domainTemplateId = :domainTemplateId AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle != :latestFormTemplateBundle)")
+    @Query("SELECT d FROM Domain as d WHERE d.domainTemplateId = :domainTemplateId AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle <> :latestFormTemplateBundle)")
     fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle, domainTemplateId: UUID): Set<Domain>
 }

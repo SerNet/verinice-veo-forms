@@ -28,13 +28,11 @@ import jakarta.persistence.PrePersist
 import jakarta.persistence.PreRemove
 import jakarta.persistence.PreUpdate
 import net.swiftzer.semver.SemVer
-import org.hibernate.annotations.Proxy
 import org.hibernate.annotations.Type
 import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 
 @Entity
-@Proxy(lazy = false)
 open class Form(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "domain_id")

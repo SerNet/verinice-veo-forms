@@ -23,12 +23,10 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
-import org.hibernate.annotations.Proxy
 import java.time.Instant
 import java.util.UUID
 
 @Entity
-@Proxy(lazy = false)
 class Domain(
     @Id
     var id: UUID,
