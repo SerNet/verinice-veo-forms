@@ -17,6 +17,7 @@ plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.10"
 
     id("com.diffplug.spotless") version "6.19.0"
     id("org.cadixdev.licenser") version "0.6.1"
@@ -167,6 +168,11 @@ license {
 
 // Add no-arg ORM constructors for JPA entities.
 noArg {
+    annotation("jakarta.persistence.Entity")
+}
+
+// Make entity classes open to stop hibernate from complaining
+allOpen {
     annotation("jakarta.persistence.Entity")
 }
 
