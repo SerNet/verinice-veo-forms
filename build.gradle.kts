@@ -14,10 +14,10 @@ plugins {
     id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
 
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.10"
+    kotlin("jvm") version "1.9.0"
+    kotlin("plugin.spring") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.0"
 
     id("com.diffplug.spotless") version "6.19.0"
     id("org.cadixdev.licenser") version "0.6.1"
