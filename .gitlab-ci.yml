@@ -21,6 +21,7 @@ build:
     - env
     - ./gradlew -i -PciBuildNumer=$CI_PIPELINE_ID -PciJobName=$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME build -x check
     - echo "PROJECT_VERSION=$(./gradlew -q properties --property version| awk '/^version:/ {print $2}')" >> variables.env
+  interruptible: true
   artifacts:
     expire_in: 1 week
     reports:
@@ -71,6 +72,7 @@ check:
   stage: check
   script:
     - ./gradlew -i check -x test
+  interruptible: true
   cache:
     - key: gradle
       paths:
@@ -88,6 +90,7 @@ check_license:
     - ./gradlew -i generateLicenseReport
     - diff --ignore-matching-lines='This report was generated at' LICENSE-3RD-PARTY.txt LICENSE-3RD-PARTY.txt.orig
     - if [ $? -ne 0 ]; then echo "LICENSE-3RD-PARTY.txt is not up to date, please re-run ./gradlew generateLicenseReport"; exit 1; fi
+  interruptible: true
   cache:
     - key: gradle
       paths:
@@ -128,6 +131,7 @@ docker_image:
       --build-arg VEO_FORMS_VERSION="${PROJECT_VERSION}"
       --label org.opencontainers.image.version="${PROJECT_VERSION}"
       --label org.opencontainers.image.revision=${CI_COMMIT_SHA}
+  interruptible: true
 
 trigger_deployment:
   stage: deployment
