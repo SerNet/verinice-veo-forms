@@ -31,6 +31,7 @@
     },
     {
       "matchPackagePatterns" : [
+        "^io.spring.dependency-management$",
         "^com.github.jk1.dependency-license-report$",
         "^io.kotest:",
         "^org.testcontainers:",
