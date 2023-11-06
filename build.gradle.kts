@@ -8,6 +8,7 @@ import com.github.jk1.license.task.ReportTask
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.eclipse.jgit.api.Git
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.run.BootRun
 import java.util.Calendar
 import kotlin.text.Regex
 import kotlin.text.RegexOption
@@ -105,6 +106,13 @@ tasks.withType<ReportTask> {
             licenseFile.writeText(newLicenseText)
         }
     }
+}
+
+tasks.withType<BootRun> {
+    project.properties["jvmArgs"]
+        ?.let { it as String }
+        ?.split(Regex("\\s+"))
+        ?.let { jvmArgs = it }
 }
 
 tasks.withType<Test> {
