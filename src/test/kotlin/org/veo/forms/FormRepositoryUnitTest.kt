@@ -68,11 +68,13 @@ class FormRepositoryUnitTest {
     fun `finds form`() {
         val formClientId = UUID.randomUUID()
         val formId = UUID.randomUUID()
-        val entity = mockk<Form> {
-            every { domain } returns mockk {
-                every { clientId } returns formClientId
+        val entity =
+            mockk<Form> {
+                every { domain } returns
+                    mockk {
+                        every { clientId } returns formClientId
+                    }
             }
-        }
 
         every { jpaRepo.findClientForm(formId, formClientId) } returns entity
 

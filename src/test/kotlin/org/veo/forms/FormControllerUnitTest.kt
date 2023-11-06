@@ -60,9 +60,10 @@ class FormControllerUnitTest {
         val clientFormBDto = mockk<FormDtoWithoutContent>()
         val domain = mockk<Domain>()
         val lastFormModification = now()
-        val request = mockk<WebRequest> {
-            every { getHeader("If-None-Match") } returns null
-        }
+        val request =
+            mockk<WebRequest> {
+                every { getHeader("If-None-Match") } returns null
+            }
         every { formRepo.findAll(authClientId, domainId) } returns listOf(clientFormA, clientFormB)
         every { dtoFactory.createDtoWithoutContent(clientFormA) } returns clientFormADto
         every { dtoFactory.createDtoWithoutContent(clientFormB) } returns clientFormBDto
@@ -76,10 +77,11 @@ class FormControllerUnitTest {
         // then the DTOs from the mapper and ETag are returned.
         clientForms.apply {
             statusCode shouldBe OK
-            body shouldBe listOf(
-                clientFormADto,
-                clientFormBDto,
-            )
+            body shouldBe
+                listOf(
+                    clientFormADto,
+                    clientFormBDto,
+                )
             headers.eTag shouldBe "\"$mockETag\""
         }
     }
@@ -89,14 +91,16 @@ class FormControllerUnitTest {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
         val templateVersion = SemVer(1, 2, 3)
-        val request = mockk<WebRequest>() {
-            every { getHeader("If-None-Match") } returns null
-        }
-        val entity = mockk<Form> {
-            every { formTemplateVersion } returns templateVersion
-            every { revision } returns 5u
-            every { id } returns formId
-        }
+        val request =
+            mockk<WebRequest> {
+                every { getHeader("If-None-Match") } returns null
+            }
+        val entity =
+            mockk<Form> {
+                every { formTemplateVersion } returns templateVersion
+                every { revision } returns 5u
+                every { id } returns formId
+            }
         val dto = mockk<FormDto>()
 
         every { formRepo.getClientForm(authClientId, formId) } returns entity
@@ -119,9 +123,10 @@ class FormControllerUnitTest {
         // Given a form in the repo that belongs to the client
         val formId = UUID.randomUUID()
         val entity = mockk<Form>()
-        val dto = mockk<FormDtoWithoutId> {
-            every { domainId } returns UUID.randomUUID()
-        }
+        val dto =
+            mockk<FormDtoWithoutId> {
+                every { domainId } returns UUID.randomUUID()
+            }
         val domain = mockk<Domain>()
 
         every { formRepo.getClientForm(authClientId, formId) } returns entity
@@ -142,9 +147,10 @@ class FormControllerUnitTest {
         // Given a new form DTO
         val formId = UUID.randomUUID()
         val mappedEntity = mockk<Form>()
-        val savedEntity = mockk<Form> {
-            every { id } returns formId
-        }
+        val savedEntity =
+            mockk<Form> {
+                every { id } returns formId
+            }
         val dto = mockk<FormDtoWithoutId>()
 
         every { formFactory.createForm(authClientId, dto) } returns mappedEntity

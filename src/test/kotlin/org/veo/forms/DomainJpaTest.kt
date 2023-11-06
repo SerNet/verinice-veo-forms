@@ -57,25 +57,30 @@ class DomainJpaTest : AbstractSpringTest() {
         // Given an old and a current form template bundle.
         val domainTemplateId = randomUUID()
 
-        val oldFormTemplateBundle = formTemplateBundleJpaRepo.save(
-            FormTemplateBundle(domainTemplateId, SemVer(1, 1), emptyMap()),
-        )
-        val latestFormTemplateBundle = formTemplateBundleJpaRepo.save(
-            FormTemplateBundle(domainTemplateId, SemVer(1, 2), emptyMap()),
-        )
+        val oldFormTemplateBundle =
+            formTemplateBundleJpaRepo.save(
+                FormTemplateBundle(domainTemplateId, SemVer(1, 1), emptyMap()),
+            )
+        val latestFormTemplateBundle =
+            formTemplateBundleJpaRepo.save(
+                FormTemplateBundle(domainTemplateId, SemVer(1, 2), emptyMap()),
+            )
 
         // and two domains based on the old template bundle
-        val domainWithOldTemplateBundle1 = domainJpaRepo.save(
-            Domain(randomUUID(), randomUUID(), domainTemplateId, oldFormTemplateBundle),
-        )
-        val domainWithOldTemplateBundle2 = domainJpaRepo.save(
-            Domain(randomUUID(), randomUUID(), domainTemplateId, oldFormTemplateBundle),
-        )
+        val domainWithOldTemplateBundle1 =
+            domainJpaRepo.save(
+                Domain(randomUUID(), randomUUID(), domainTemplateId, oldFormTemplateBundle),
+            )
+        val domainWithOldTemplateBundle2 =
+            domainJpaRepo.save(
+                Domain(randomUUID(), randomUUID(), domainTemplateId, oldFormTemplateBundle),
+            )
 
         // and a domain that doesn't even have a template bundle
-        val domainWithoutTemplateBundle = domainJpaRepo.save(
-            Domain(randomUUID(), randomUUID(), domainTemplateId),
-        )
+        val domainWithoutTemplateBundle =
+            domainJpaRepo.save(
+                Domain(randomUUID(), randomUUID(), domainTemplateId),
+            )
 
         // and an up-to-date domain
         domainJpaRepo.save(

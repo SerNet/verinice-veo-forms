@@ -43,7 +43,10 @@ class FormTemplateBundleApplier(
      * Apply given form template bundle to given domain. Incarnates new form templates, updates forms based on form
      * templates that have been updated and deletes forms based on obsolete form templates.
      */
-    fun apply(formTemplateBundle: FormTemplateBundle, domain: Domain) {
+    fun apply(
+        formTemplateBundle: FormTemplateBundle,
+        domain: Domain,
+    ) {
         if (formTemplateBundle.domainTemplateId != domain.domainTemplateId) {
             throw IncompatibleFormTemplateBundleException(
                 "Cannot apply form template bundle ${formTemplateBundle.id} " +

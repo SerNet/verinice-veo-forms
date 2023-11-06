@@ -45,13 +45,14 @@ class MessageSubscriber(
     @RabbitListener(
         bindings = [
             QueueBinding(
-                value = Queue(
-                    value = "\${veo.forms.rabbitmq.queues.veo}",
-                    exclusive = "false",
-                    durable = "true",
-                    autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
-                ),
+                value =
+                    Queue(
+                        value = "\${veo.forms.rabbitmq.queues.veo}",
+                        exclusive = "false",
+                        durable = "true",
+                        autoDelete = "false",
+                        arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
+                    ),
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchanges.veo}", type = "topic"),
                 key = [
                     "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation",
@@ -71,13 +72,14 @@ class MessageSubscriber(
     @RabbitListener(
         bindings = [
             QueueBinding(
-                value = Queue(
-                    value = "\${veo.forms.rabbitmq.queues.veo-subscriptions}",
-                    exclusive = "false",
-                    durable = "true",
-                    autoDelete = "false",
-                    arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
-                ),
+                value =
+                    Queue(
+                        value = "\${veo.forms.rabbitmq.queues.veo-subscriptions}",
+                        exclusive = "false",
+                        durable = "true",
+                        autoDelete = "false",
+                        arguments = [Argument(name = "x-dead-letter-exchange", value = "\${veo.forms.rabbitmq.dlx}")],
+                    ),
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchanges.veo-subscriptions}", type = "topic"),
                 key = [
                     "\${veo.forms.rabbitmq.routing_key_prefix}client_change",
@@ -94,7 +96,10 @@ class MessageSubscriber(
         )
     }
 
-    private fun handle(message: String, eventTypeHandlers: Map<String, (JsonNode) -> Any>) = try {
+    private fun handle(
+        message: String,
+        eventTypeHandlers: Map<String, (JsonNode) -> Any>,
+    ) = try {
         mapper
             .readTree(message)
             .get("content")

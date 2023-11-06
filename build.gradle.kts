@@ -22,7 +22,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "1.9.20"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
 
-    id("com.diffplug.spotless") version "6.21.0"
+    id("com.diffplug.spotless") version "6.22.0"
     id("org.cadixdev.licenser") version "0.6.1"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
@@ -82,13 +82,15 @@ dependencies {
 
 val licenseFile3rdParty = "LICENSE-3RD-PARTY.txt"
 licenseReport {
-    renderers = arrayOf(
-        TextReportRenderer(licenseFile3rdParty),
-    )
+    renderers =
+        arrayOf(
+            TextReportRenderer(licenseFile3rdParty),
+        )
     projects = arrayOf(project)
-    filters = arrayOf(
-        LicenseBundleNormalizer(),
-    )
+    filters =
+        arrayOf(
+            LicenseBundleNormalizer(),
+        )
 }
 
 tasks.withType<ReportTask> {
@@ -146,15 +148,21 @@ spotless {
     }
     json {
         target("**/*.json")
-        addStep(object : FormatterStep {
-            override fun getName() = "format json"
-            override fun format(rawUnix: String, file: File): String {
-                val om = ObjectMapper()
-                return om.writer()
-                    .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
-                    .writeValueAsString(om.readValue(rawUnix, Map::class.java))
-            }
-        })
+        addStep(
+            object : FormatterStep {
+                override fun getName() = "format json"
+
+                override fun format(
+                    rawUnix: String,
+                    file: File,
+                ): String {
+                    val om = ObjectMapper()
+                    return om.writer()
+                        .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
+                        .writeValueAsString(om.readValue(rawUnix, Map::class.java))
+                }
+            },
+        )
     }
     yaml {
         target(".gitlab-ci.yml")
@@ -175,9 +183,10 @@ license {
         },
     )
     ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
-    ext["author"] = Git.open(project.rootDir).use {
-        it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
-    }
+    ext["author"] =
+        Git.open(project.rootDir).use {
+            it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
+        }
 }
 
 // Add no-arg ORM constructors for JPA entities.

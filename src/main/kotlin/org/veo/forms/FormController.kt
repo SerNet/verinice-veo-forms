@@ -53,7 +53,11 @@ class FormController(
     private val authService: AuthService,
     private val eTagGenerator: ETagGenerator,
 ) {
-    @Operation(description = "Get all forms (metadata only), sorted in ascending order by the field sorting. Uses If-None-Match header to enable caching of resource.")
+    @Operation(
+        description =
+            "Get all forms (metadata only), sorted in ascending order by the field sorting. Uses If-None-Match header to " +
+                "enable caching of resource.",
+    )
     @GetMapping
     fun getForms(
         auth: Authentication,
@@ -85,7 +89,11 @@ class FormController(
 
     @Operation(description = "Get a single form with its contents. Uses If-None-Match header to enable caching of resource.")
     @GetMapping("{id}")
-    fun getForm(auth: Authentication, @PathVariable("id") id: UUID, request: WebRequest): ResponseEntity<FormDto> {
+    fun getForm(
+        auth: Authentication,
+        @PathVariable("id") id: UUID,
+        request: WebRequest,
+    ): ResponseEntity<FormDto> {
         val clientId = authService.getClientId(auth)
         if (request.getHeader("If-None-Match") != null) {
             val eTagParameters = repo.getETagParameterById(id, clientId)
@@ -138,7 +146,10 @@ class FormController(
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun deleteForm(auth: Authentication, @PathVariable("id") id: UUID) {
+    fun deleteForm(
+        auth: Authentication,
+        @PathVariable("id") id: UUID,
+    ) {
         repo.delete(repo.getClientForm(authService.getClientId(auth), id))
     }
 }

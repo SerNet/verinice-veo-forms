@@ -37,25 +37,29 @@ class FormTemplateBundleApplierUnitTest {
     fun `applies form template bundle to domain not based on a form template bundle`() {
         // Given a domain that's not based on a form template bundle and contains one form
         val commonDomainTemplateId = randomUUID()
-        val domain = mockk<Domain>(relaxed = true) {
-            every { id } returns randomUUID()
-            every { clientId } returns randomUUID()
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { formTemplateBundle } returns null
-        }
-        val existingForm = mockk<Form> {
-            every { formTemplateId } returns null
-        }
+        val domain =
+            mockk<Domain>(relaxed = true) {
+                every { id } returns randomUUID()
+                every { clientId } returns randomUUID()
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { formTemplateBundle } returns null
+            }
+        val existingForm =
+            mockk<Form> {
+                every { formTemplateId } returns null
+            }
         every { formRepo.findAll(domain.clientId, domain.id) } returns listOf(existingForm)
 
         // and a template bundle with one template
         val template1 = randomUUID() to mockk<FormTemplate>()
-        val bundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { templates } returns mapOf(
-                template1,
-            )
-        }
+        val bundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { templates } returns
+                    mapOf(
+                        template1,
+                    )
+            }
         val template1incarnated = mockk<Form>()
         every { formFactory.createForm(template1.first, template1.second, domain) } returns template1incarnated
 
@@ -77,61 +81,78 @@ class FormTemplateBundleApplierUnitTest {
     fun `applies newer version of form template bundle to domain`() {
         // Given an old version of a form template bundle
         val commonDomainTemplateId = randomUUID()
-        val originalTemplate1 = randomUUID() to mockk<FormTemplate> {
-            every { version } returns SemVer(1)
-        }
-        val originalTemplate2 = randomUUID() to mockk<FormTemplate> {
-            every { version } returns SemVer(1)
-        }
-        val originalBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { version } returns SemVer(1)
-            every { templates } returns mapOf(
-                originalTemplate1,
-                originalTemplate2,
-            )
-        }
+        val originalTemplate1 =
+            randomUUID() to
+                mockk<FormTemplate> {
+                    every { version } returns SemVer(1)
+                }
+        val originalTemplate2 =
+            randomUUID() to
+                mockk<FormTemplate> {
+                    every { version } returns SemVer(1)
+                }
+        val originalBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { version } returns SemVer(1)
+                every { templates } returns
+                    mapOf(
+                        originalTemplate1,
+                        originalTemplate2,
+                    )
+            }
 
         // and a domain that's based on it
-        val domain = mockk<Domain>(relaxed = true) {
-            every { id } returns randomUUID()
-            every { clientId } returns randomUUID()
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { formTemplateBundle } returns originalBundle
-        }
-        val originalTemplate1Incarnation = mockk<Form>(relaxed = true) {
-            every { formTemplateId } returns originalTemplate1.first
-            every { formTemplateVersion } returns originalTemplate1.second.version
-        }
-        val originalTemplate2Incarnation = mockk<Form>(relaxed = true) {
-            every { formTemplateId } returns originalTemplate2.first
-            every { formTemplateVersion } returns originalTemplate2.second.version
-        }
-        val customForm = mockk<Form>(relaxed = true) {
-            every { formTemplateId } returns null
-            every { formTemplateVersion } returns null
-        }
-        every { formRepo.findAll(domain.clientId, domain.id) } returns listOf(
-            originalTemplate1Incarnation,
-            originalTemplate2Incarnation,
-            customForm,
-        )
+        val domain =
+            mockk<Domain>(relaxed = true) {
+                every { id } returns randomUUID()
+                every { clientId } returns randomUUID()
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { formTemplateBundle } returns originalBundle
+            }
+        val originalTemplate1Incarnation =
+            mockk<Form>(relaxed = true) {
+                every { formTemplateId } returns originalTemplate1.first
+                every { formTemplateVersion } returns originalTemplate1.second.version
+            }
+        val originalTemplate2Incarnation =
+            mockk<Form>(relaxed = true) {
+                every { formTemplateId } returns originalTemplate2.first
+                every { formTemplateVersion } returns originalTemplate2.second.version
+            }
+        val customForm =
+            mockk<Form>(relaxed = true) {
+                every { formTemplateId } returns null
+                every { formTemplateVersion } returns null
+            }
+        every { formRepo.findAll(domain.clientId, domain.id) } returns
+            listOf(
+                originalTemplate1Incarnation,
+                originalTemplate2Incarnation,
+                customForm,
+            )
 
         // and a new version of the form template bundle that updates template 1, removes template 2 and adds a third
-        val updatedTemplate1 = originalTemplate1.first to mockk<FormTemplate> {
-            every { version } returns SemVer(1, 3, 4)
-        }
-        val template3 = randomUUID() to mockk<FormTemplate> {
-            every { version } returns SemVer(2, 0, 0)
-        }
-        val updatedBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { version } returns SemVer(1, 6, 0)
-            every { templates } returns mapOf(
-                updatedTemplate1,
-                template3,
-            )
-        }
+        val updatedTemplate1 =
+            originalTemplate1.first to
+                mockk<FormTemplate> {
+                    every { version } returns SemVer(1, 3, 4)
+                }
+        val template3 =
+            randomUUID() to
+                mockk<FormTemplate> {
+                    every { version } returns SemVer(2, 0, 0)
+                }
+        val updatedBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { version } returns SemVer(1, 6, 0)
+                every { templates } returns
+                    mapOf(
+                        updatedTemplate1,
+                        template3,
+                    )
+            }
         val template3incarnated = mockk<Form>()
         every { formFactory.createForm(template3.first, template3.second, domain) } returns template3incarnated
 
@@ -158,19 +179,22 @@ class FormTemplateBundleApplierUnitTest {
     @Test
     fun `does not allow downgrade`() {
         val commonDomainTemplateId = randomUUID()
-        val oldBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { version } returns SemVer(1, 12, 3)
-        }
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { version } returns SemVer(1, 13, 5)
-        }
-        val domain = mockk<Domain> {
-            every { id } returns randomUUID()
-            every { domainTemplateId } returns commonDomainTemplateId
-            every { formTemplateBundle } returns newBundle
-        }
+        val oldBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { version } returns SemVer(1, 12, 3)
+            }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { version } returns SemVer(1, 13, 5)
+            }
+        val domain =
+            mockk<Domain> {
+                every { id } returns randomUUID()
+                every { domainTemplateId } returns commonDomainTemplateId
+                every { formTemplateBundle } returns newBundle
+            }
 
         assertThrows<FormTemplateBundleDowngradeException> {
             sut.apply(oldBundle, domain)
@@ -179,14 +203,16 @@ class FormTemplateBundleApplierUnitTest {
 
     @Test
     fun `does not allow form template bundle with deviating domain template ID`() {
-        val bundle = mockk<FormTemplateBundle> {
-            every { id } returns randomUUID()
-            every { domainTemplateId } returns randomUUID()
-        }
-        val domain = mockk<Domain> {
-            every { id } returns randomUUID()
-            every { domainTemplateId } returns randomUUID()
-        }
+        val bundle =
+            mockk<FormTemplateBundle> {
+                every { id } returns randomUUID()
+                every { domainTemplateId } returns randomUUID()
+            }
+        val domain =
+            mockk<Domain> {
+                every { id } returns randomUUID()
+                every { domainTemplateId } returns randomUUID()
+            }
 
         assertThrows<IncompatibleFormTemplateBundleException> {
             sut.apply(bundle, domain)

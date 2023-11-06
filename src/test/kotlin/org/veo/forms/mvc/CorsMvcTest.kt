@@ -24,17 +24,17 @@ import org.veo.forms.ROLE_USER
 
 @WithMockAuth(roles = [ROLE_USER])
 class CorsMvcTest : AbstractMvcTest() {
-
     @Test
     fun `get forms with correct origin header`() {
         // given
         val origin = "https://valid.verinice.example"
 
         // when getting from the correct origin
-        val result = get(
-            "/",
-            headers = mapOf("Origin" to listOf(origin)),
-        )
+        val result =
+            get(
+                "/",
+                headers = mapOf("Origin" to listOf(origin)),
+            )
 
         // the request was successful
         result.bodyAsListOfMaps shouldNotBe null
@@ -44,11 +44,12 @@ class CorsMvcTest : AbstractMvcTest() {
     @Test
     fun `get forms with wrong origin header`() {
         // when getting from the wrong origin
-        val result = get(
-            "/",
-            403,
-            mapOf("Origin" to listOf("https://invalid.notverinice.example")),
-        )
+        val result =
+            get(
+                "/",
+                403,
+                mapOf("Origin" to listOf("https://invalid.notverinice.example")),
+            )
 
         // then an error is returned
         result.rawBody shouldBe "Invalid CORS request"
@@ -61,14 +62,16 @@ class CorsMvcTest : AbstractMvcTest() {
         val origin = "https://valid.verinice.example"
 
         // when making a pre-flight request
-        val result = options(
-            "/",
-            headers = mapOf(
-                "Origin" to listOf(origin),
-                "Access-Control-Request-Method" to listOf("GET"),
-                "Access-Control-Request-Headers" to listOf("Content-Type", "Authorization", "X-Ample", "X-Custom-Header"),
-            ),
-        )
+        val result =
+            options(
+                "/",
+                headers =
+                    mapOf(
+                        "Origin" to listOf(origin),
+                        "Access-Control-Request-Method" to listOf("GET"),
+                        "Access-Control-Request-Headers" to listOf("Content-Type", "Authorization", "X-Ample", "X-Custom-Header"),
+                    ),
+            )
 
         // then CORS headers are returned
         result.getHeader("Access-Control-Allow-Origin") shouldBe origin

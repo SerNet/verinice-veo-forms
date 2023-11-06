@@ -26,18 +26,28 @@ import java.util.UUID
 @Component
 class FormRepository(private val jpaRepo: FormJpaRepository) {
     fun delete(form: Form) = jpaRepo.delete(form)
-    fun findAll(clientId: UUID, domainId: UUID?): List<Form> {
+
+    fun findAll(
+        clientId: UUID,
+        domainId: UUID?,
+    ): List<Form> {
         return domainId?.let { jpaRepo.findAllByClientAndDomain(clientId, it) }
             ?: jpaRepo.findAllByClient(clientId)
     }
 
-    fun getClientForm(clientId: UUID, formId: UUID): Form =
+    fun getClientForm(
+        clientId: UUID,
+        formId: UUID,
+    ): Form =
         jpaRepo.findClientForm(formId, clientId)
             ?: throw ResourceNotFoundException()
 
     fun save(form: Form): Form = jpaRepo.save(form)
 
-    fun getETagParameterById(id: UUID, clientId: UUID): FormETagParameterView =
+    fun getETagParameterById(
+        id: UUID,
+        clientId: UUID,
+    ): FormETagParameterView =
         jpaRepo.findETagParametersById(id, clientId)
             ?: throw ResourceNotFoundException()
 }

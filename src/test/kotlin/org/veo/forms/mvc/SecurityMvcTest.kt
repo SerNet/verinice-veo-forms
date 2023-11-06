@@ -30,52 +30,61 @@ import java.util.UUID.randomUUID
 @SpringBootTest(properties = ["management.endpoint.health.probes.enabled=true"])
 class SecurityMvcTest : AbstractMvcTest() {
     @TestFactory
-    fun `regular API calls are forbidden without authorization`() = listOf(
-        testStatus(GET, "/", 401),
-        testStatus(POST, "/", 401),
-        testStatus(GET, "/a", 401),
-        testStatus(PUT, "/a", 401),
-        testStatus(DELETE, "/a", 401),
-        testStatus(POST, "/form-template-bundles", 401),
-        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401),
-    )
+    fun `regular API calls are forbidden without authorization`() =
+        listOf(
+            testStatus(GET, "/", 401),
+            testStatus(POST, "/", 401),
+            testStatus(GET, "/a", 401),
+            testStatus(PUT, "/a", 401),
+            testStatus(DELETE, "/a", 401),
+            testStatus(POST, "/form-template-bundles", 401),
+            testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}?domainTemplateId=${randomUUID()}", 401),
+        )
 
     @TestFactory
     @WithMockAuth
-    fun `read API calls are allowed for normal users`() = listOf(
-        testStatus(GET, "/", 200),
-        testStatus(GET, "/a", 400),
-    )
+    fun `read API calls are allowed for normal users`() =
+        listOf(
+            testStatus(GET, "/", 200),
+            testStatus(GET, "/a", 400),
+        )
 
     @TestFactory
     @WithMockAuth
-    fun `write API calls are forbidden for normal users`() = listOf(
-        testStatus(POST, "/", 403),
-        testStatus(PUT, "/a", 403),
-        testStatus(DELETE, "/a", 403),
-        testStatus(POST, "/form-template-bundles", 403),
-        testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403),
-    )
+    fun `write API calls are forbidden for normal users`() =
+        listOf(
+            testStatus(POST, "/", 403),
+            testStatus(PUT, "/a", 403),
+            testStatus(DELETE, "/a", 403),
+            testStatus(POST, "/form-template-bundles", 403),
+            testStatus(POST, "/form-template-bundles/create-from-domain?domainId=${randomUUID()}", 403),
+        )
 
     @TestFactory
     @WithMockAuth
-    fun `content export is forbidden for normal users`() = listOf(
-        testStatus(GET, "/form-template-bundles", 403),
-        testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403),
-    )
+    fun `content export is forbidden for normal users`() =
+        listOf(
+            testStatus(GET, "/form-template-bundles", 403),
+            testStatus(GET, "/form-template-bundles/latest?domainTemplateId={${randomUUID()}", 403),
+        )
 
     @TestFactory
-    fun `documentation is accessible`() = listOf(
-        testStatus(GET, "/actuator/health/readiness", 200),
-        testStatus(GET, "/actuator/health/liveness", 200),
-        testStatus(GET, "/actuator/info", 200),
-        testStatus(GET, "/swagger-ui.html", 302),
-        testStatus(GET, "/swagger-ui/index.html", 200),
-        testStatus(GET, "/v3/api-docs", 200),
-        testStatus(GET, "/v3/api-docs/swagger-config", 200),
-    )
+    fun `documentation is accessible`() =
+        listOf(
+            testStatus(GET, "/actuator/health/readiness", 200),
+            testStatus(GET, "/actuator/health/liveness", 200),
+            testStatus(GET, "/actuator/info", 200),
+            testStatus(GET, "/swagger-ui.html", 302),
+            testStatus(GET, "/swagger-ui/index.html", 200),
+            testStatus(GET, "/v3/api-docs", 200),
+            testStatus(GET, "/v3/api-docs/swagger-config", 200),
+        )
 
-    private fun testStatus(method: HttpMethod, url: String, status: Int): DynamicTest {
+    private fun testStatus(
+        method: HttpMethod,
+        url: String,
+        status: Int,
+    ): DynamicTest {
         return DynamicTest.dynamicTest("$method $url results in $status") {
             request(method, url, expectedStatus = status)
         }

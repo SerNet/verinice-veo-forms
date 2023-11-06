@@ -29,13 +29,19 @@ import java.util.UUID
 @Transactional(propagation = MANDATORY, readOnly = true)
 interface FormJpaRepository : JpaRepository<Form, UUID> {
     @Query("SELECT f FROM Form f WHERE f.id = :formId AND f.domain.clientId = :clientId")
-    fun findClientForm(formId: UUID, clientId: UUID): Form?
+    fun findClientForm(
+        formId: UUID,
+        clientId: UUID,
+    ): Form?
 
     @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId ORDER BY f.sorting ASC")
     fun findAllByClient(clientId: UUID): List<Form>
 
     @Query("SELECT f FROM Form f WHERE f.domain.clientId = :clientId AND f.domain.id = :domainId ORDER BY f.sorting ASC")
-    fun findAllByClientAndDomain(clientId: UUID, domainId: UUID): List<Form>
+    fun findAllByClientAndDomain(
+        clientId: UUID,
+        domainId: UUID,
+    ): List<Form>
 
     @Query(
         """
@@ -44,5 +50,8 @@ interface FormJpaRepository : JpaRepository<Form, UUID> {
             WHERE id = :id AND domain.clientId = :clientId
         """,
     )
-    fun findETagParametersById(id: UUID, clientId: UUID): FormETagParameterView?
+    fun findETagParametersById(
+        id: UUID,
+        clientId: UUID,
+    ): FormETagParameterView?
 }

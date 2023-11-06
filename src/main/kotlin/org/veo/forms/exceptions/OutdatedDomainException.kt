@@ -27,7 +27,7 @@ class OutdatedDomainException(
     domain: Domain,
     latestTemplateBundle: FormTemplateBundle,
 ) : IllegalStateException(
-    "Cannot create form template bundle from domain ${domain.id} (domain template " +
-        "${domain.domainTemplateId}). Domain is still based on template bundle version " +
-        "${domain.formTemplateBundle?.version}, but latest version is ${latestTemplateBundle.version}.",
-)
+        "Cannot create form template bundle from domain ${domain.id} (domain template " +
+            "${domain.domainTemplateId}). Domain is still based on template bundle version " +
+            "${domain.formTemplateBundle?.version}, but latest version is ${latestTemplateBundle.version}.",
+    )

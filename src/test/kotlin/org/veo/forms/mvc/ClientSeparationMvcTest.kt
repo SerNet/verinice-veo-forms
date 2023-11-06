@@ -41,7 +41,7 @@ class ClientSeparationMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        val ownDomain = domainRepo.addDomain(domain(clientId = UUID.fromString(mockClientUuid)))
+        val ownDomain = domainRepo.addDomain(domain(clientId = UUID.fromString(MOCK_CLIENT_UUID)))
         ownFormId = formRepo.save(form(ownDomain)).id.toString()
 
         val otherClientsDomain = domainRepo.addDomain(domain())

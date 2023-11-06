@@ -30,17 +30,19 @@ class FormTest {
     @Test
     fun `create template from template-less form`() {
         // Given a domain that is not based on a template
-        val form = Form(
-            domain = mockk {
-                every { id } returns randomUUID()
-            },
-            name = mapOf("en" to "asset form"),
-            modelType = ModelType.Asset,
-            subType = "AST_Application",
-            content = mapOf("layout" to "column"),
-            translation = mapOf("en" to mapOf("title" to "Application")),
-            sorting = "ast",
-        )
+        val form =
+            Form(
+                domain =
+                    mockk {
+                        every { id } returns randomUUID()
+                    },
+                name = mapOf("en" to "asset form"),
+                modelType = ModelType.Asset,
+                subType = "AST_Application",
+                content = mapOf("layout" to "column"),
+                translation = mapOf("en" to mapOf("title" to "Application")),
+                sorting = "ast",
+            )
 
         // when updating the form with a new sorting value and creating a new template from it
         form.update(
@@ -80,17 +82,18 @@ class FormTest {
     fun `create template from unaltered template-based form`() {
         // Given a form that is based on a template
         val oldTemplateId = randomUUID()
-        val form = Form(
-            domain = mockk(),
-            name = mapOf("en" to "asset form"),
-            modelType = ModelType.Asset,
-            subType = "AST_Application",
-            content = mapOf("layout" to "column"),
-            translation = mapOf("en" to mapOf("title" to "Application")),
-            sorting = "ast",
-            formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5),
-        )
+        val form =
+            Form(
+                domain = mockk(),
+                name = mapOf("en" to "asset form"),
+                modelType = ModelType.Asset,
+                subType = "AST_Application",
+                content = mapOf("layout" to "column"),
+                translation = mapOf("en" to mapOf("title" to "Application")),
+                sorting = "ast",
+                formTemplateId = oldTemplateId,
+                formTemplateVersion = SemVer(3, 0, 5),
+            )
 
         // when creating a new template from the form
         val templatePair = form.toTemplate()
@@ -111,19 +114,21 @@ class FormTest {
     fun `create template from altered template-based form`() {
         // Given a domain that was based on a template
         val oldTemplateId = randomUUID()
-        val form = Form(
-            domain = mockk {
-                every { id } returns randomUUID()
-            },
-            name = mapOf("en" to "asset form"),
-            modelType = ModelType.Asset,
-            subType = "AST_Application",
-            content = mapOf("layout" to "column"),
-            translation = mapOf("en" to mapOf("title" to "Application")),
-            sorting = "ast",
-            formTemplateId = oldTemplateId,
-            formTemplateVersion = SemVer(3, 0, 5),
-        )
+        val form =
+            Form(
+                domain =
+                    mockk {
+                        every { id } returns randomUUID()
+                    },
+                name = mapOf("en" to "asset form"),
+                modelType = ModelType.Asset,
+                subType = "AST_Application",
+                content = mapOf("layout" to "column"),
+                translation = mapOf("en" to mapOf("title" to "Application")),
+                sorting = "ast",
+                formTemplateId = oldTemplateId,
+                formTemplateVersion = SemVer(3, 0, 5),
+            )
 
         // when updating the form with a new sorting value and creating a new template from it
         form.update(
@@ -158,17 +163,18 @@ class FormTest {
         // given an asset form
         val originalDomain = mockk<Domain>()
         val originalTemplateId = randomUUID()
-        val form = Form(
-            domain = originalDomain,
-            name = mapOf("en" to "asset form"),
-            modelType = ModelType.Asset,
-            subType = "AST_Application",
-            content = mapOf("layout" to "column"),
-            translation = mapOf("en" to mapOf("title" to "Application")),
-            sorting = "ast",
-            formTemplateId = originalTemplateId,
-            formTemplateVersion = SemVer(1, 2, 4),
-        )
+        val form =
+            Form(
+                domain = originalDomain,
+                name = mapOf("en" to "asset form"),
+                modelType = ModelType.Asset,
+                subType = "AST_Application",
+                content = mapOf("layout" to "column"),
+                translation = mapOf("en" to mapOf("title" to "Application")),
+                sorting = "ast",
+                formTemplateId = originalTemplateId,
+                formTemplateVersion = SemVer(1, 2, 4),
+            )
         val originalId = form.id
 
         // when turning it into a document form by applying a form template

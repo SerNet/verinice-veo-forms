@@ -33,9 +33,9 @@ import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
 import java.util.UUID
 import java.util.UUID.randomUUID
+
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class FormETagMvcTest : AbstractMvcTest() {
-
     private val domainId = randomUUID().toString()
     private val domainTemplateId = randomUUID().toString()
 
@@ -46,27 +46,30 @@ class FormETagMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        domainRepo.addDomain(Domain(UUID.fromString(domainId), UUID.fromString(mockClientUuid)))
+        domainRepo.addDomain(Domain(UUID.fromString(domainId), UUID.fromString(MOCK_CLIENT_UUID)))
     }
 
     fun getFormsForDomain(domainId: String): Response = get("/?domainId=$domainId", 200, defaultHeaders)
+
     fun getFormByUuid(formUuid: String): Response = get("/$formUuid", 200, defaultHeaders)
 
     @Test
     fun `add form with ETag and retrieve`() {
         // Given a form
-        val formUuid = post(
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "form one"),
-                "domainId" to domainId,
-                "modelType" to "person",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "name" to mapOf("en" to "form one"),
+                    "domainId" to domainId,
+                    "modelType" to "person",
+                    "content" to
+                        mapOf(
+                            "prop1" to "val1",
+                            "prop2" to listOf("ok"),
+                        ),
                 ),
-            ),
-        ).bodyAsString
+            ).bodyAsString
         var response = getFormByUuid(formUuid)
 
         // when requesting the form
@@ -92,10 +95,11 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "form one"),
                 "domainId" to domainId,
                 "modelType" to "asset",
-                "content" to mapOf(
-                    "prop1" to "val2",
-                    "prop2" to listOf("ok"),
-                ),
+                "content" to
+                    mapOf(
+                        "prop1" to "val2",
+                        "prop2" to listOf("ok"),
+                    ),
             ),
         )
 
@@ -116,18 +120,20 @@ class FormETagMvcTest : AbstractMvcTest() {
     @Test
     fun `add form with ETag, create bundle and retrieve`() {
         // Given a form
-        val formUuid = post(
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "form one"),
-                "domainId" to domainId,
-                "modelType" to "person",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "name" to mapOf("en" to "form one"),
+                    "domainId" to domainId,
+                    "modelType" to "person",
+                    "content" to
+                        mapOf(
+                            "prop1" to "val1",
+                            "prop2" to listOf("ok"),
+                        ),
                 ),
-            ),
-        ).bodyAsString
+            ).bodyAsString
 
         // when creating a form template bundle from the existing domain
         post("/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
@@ -160,18 +166,20 @@ class FormETagMvcTest : AbstractMvcTest() {
         response.getHeader(HttpHeaders.CACHE_CONTROL)!! shouldMatch "no-cache"
 
         // when creating a new form
-        val formId = post(
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "form one"),
-                "domainId" to domainId,
-                "modelType" to "person",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
+        val formId =
+            post(
+                "/",
+                mapOf(
+                    "name" to mapOf("en" to "form one"),
+                    "domainId" to domainId,
+                    "modelType" to "person",
+                    "content" to
+                        mapOf(
+                            "prop1" to "val1",
+                            "prop2" to listOf("ok"),
+                        ),
                 ),
-            ),
-        ).bodyAsString
+            ).bodyAsString
         response = getFormsForDomain(domainId)
 
         // then domain ETag header should change,
@@ -187,10 +195,11 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "form one"),
                 "domainId" to domainId,
                 "modelType" to "asset",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
-                ),
+                "content" to
+                    mapOf(
+                        "prop1" to "val1",
+                        "prop2" to listOf("ok"),
+                    ),
             ),
         )
         response = getFormsForDomain(domainId)
@@ -227,10 +236,11 @@ class FormETagMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "form one"),
                 "domainId" to domainId,
                 "modelType" to "person",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
-                ),
+                "content" to
+                    mapOf(
+                        "prop1" to "val1",
+                        "prop2" to listOf("ok"),
+                    ),
             ),
         ).bodyAsString
 

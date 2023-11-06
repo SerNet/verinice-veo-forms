@@ -42,7 +42,6 @@ const val ROLE_USER = "veo-user"
  */
 @Configuration
 class WebSecurity {
-
     @Value("\${veo.cors.origins}")
     lateinit var origins: Array<String>
 
@@ -78,14 +77,15 @@ class WebSecurity {
             }
             oauth2ResourceServer {
                 jwt {
-                    jwtAuthenticationConverter = JwtAuthenticationConverter().apply {
-                        setJwtGrantedAuthoritiesConverter(
-                            JwtGrantedAuthoritiesConverter().apply {
-                                setAuthoritiesClaimName("roles")
-                                setAuthorityPrefix("ROLE_")
-                            },
-                        )
-                    }
+                    jwtAuthenticationConverter =
+                        JwtAuthenticationConverter().apply {
+                            setJwtGrantedAuthoritiesConverter(
+                                JwtGrantedAuthoritiesConverter().apply {
+                                    setAuthoritiesClaimName("roles")
+                                    setAuthorityPrefix("ROLE_")
+                                },
+                            )
+                        }
                 }
             }
         }

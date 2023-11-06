@@ -27,7 +27,6 @@ import org.veo.forms.mvc.AbstractSpringTest
 import java.util.UUID.randomUUID
 
 class FormTemplateBundleJpaTest : AbstractSpringTest() {
-
     @Autowired
     private lateinit var repo: FormTemplateBundleJpaRepository
 

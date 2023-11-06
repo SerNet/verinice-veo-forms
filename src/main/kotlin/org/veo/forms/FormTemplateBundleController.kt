@@ -45,33 +45,48 @@ class FormTemplateBundleController(
     private val dtoFactory: FormTemplateBundleDtoFactory,
     private val bundleFactory: FormTemplateBundleFactory,
     private val repo: FormTemplateBundleRepository,
-
 ) {
     @Operation(description = "Get all form template bundles without content.")
     @GetMapping
-    fun getAll(): List<FormTemplateBundleDtoWithoutContent> =
-        repo.findAllWithoutContent()
+    fun getAll(): List<FormTemplateBundleDtoWithoutContent> = repo.findAllWithoutContent()
 
-    @Operation(description = "Get the latest form template bundle for given domain template. Use this to export the bundle to another instance of veo-forms.")
+    @Operation(
+        description =
+            "Get the latest form template bundle for given domain template. Use this to export the bundle to another " +
+                "instance of veo-forms.",
+    )
     @GetMapping("latest")
-    fun getLastest(@RequestParam(required = true) domainTemplateId: UUID): FormTemplateBundleDto =
+    fun getLastest(
+        @RequestParam(required = true) domainTemplateId: UUID,
+    ): FormTemplateBundleDto =
         repo.getLatest(domainTemplateId)
             ?.let(dtoFactory::createDto)
             ?: throw ResourceNotFoundException("No form template bundle exists for domain template $domainTemplateId")
 
-    @Operation(description = "Creates a form template bundle from the request body. Use this to import a bundle from another instance of veo-forms.")
+    @Operation(
+        description =
+            "Creates a form template bundle from the request body. Use this to import a bundle from another instance of " +
+                "veo-forms.",
+    )
     @PostMapping
     @ResponseStatus(CREATED)
     @Transactional
-    fun importBundle(@RequestBody bundle: FormTemplateBundleDtoWithoutId): Unit = bundle
-        .let(bundleFactory::createBundle)
-        .let(formTemplateService::importBundle)
+    fun importBundle(
+        @RequestBody bundle: FormTemplateBundleDtoWithoutId,
+    ): Unit =
+        bundle
+            .let(bundleFactory::createBundle)
+            .let(formTemplateService::importBundle)
 
     @Operation(description = "Creates a form template bundle from the forms in given domain.")
     @PostMapping("/create-from-domain")
     @ResponseStatus(CREATED)
     @Transactional
-    fun createBundleFromDomain(auth: Authentication, @RequestParam domainId: UUID, @RequestParam domainTemplateId: UUID) {
+    fun createBundleFromDomain(
+        auth: Authentication,
+        @RequestParam domainId: UUID,
+        @RequestParam domainTemplateId: UUID,
+    ) {
         formTemplateService.createBundle(domainId, domainTemplateId, authService.getClientId(auth))
     }
 }

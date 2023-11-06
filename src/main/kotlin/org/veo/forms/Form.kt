@@ -37,7 +37,6 @@ open class Form(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "domain_id")
     var domain: Domain,
-
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var name: Map<String, String>,
@@ -51,7 +50,6 @@ open class Form(
     var translation: Map<String, *>?,
     @Column(length = 32) var sorting: String?,
 ) {
-
     constructor(
         domain: Domain,
         name: Map<String, String>,
@@ -82,7 +80,10 @@ open class Form(
     private var _formTemplateVersion: SemVer? = null
     val formTemplateVersion: SemVer? get() = _formTemplateVersion
 
-    fun update(dto: FormDtoWithoutId, domain: Domain) {
+    fun update(
+        dto: FormDtoWithoutId,
+        domain: Domain,
+    ) {
         this.domain = domain
         name = dto.name
         modelType = dto.modelType
@@ -99,15 +100,16 @@ open class Form(
      */
     fun toTemplate(): Pair<UUID, FormTemplate> {
         val newTemplateId = formTemplateId ?: UUID.randomUUID()
-        val newTemplate = FormTemplate(
-            getNewTemplateVersion(formTemplateVersion, revision),
-            name,
-            modelType,
-            subType,
-            content,
-            translation,
-            sorting,
-        )
+        val newTemplate =
+            FormTemplate(
+                getNewTemplateVersion(formTemplateVersion, revision),
+                name,
+                modelType,
+                subType,
+                content,
+                translation,
+                sorting,
+            )
 
         _formTemplateId = newTemplateId
         _formTemplateVersion = newTemplate.version
@@ -127,7 +129,10 @@ open class Form(
         sorting = template.sorting
     }
 
-    private fun getNewTemplateVersion(oldTemplateVersion: SemVer?, formRevision: UInt): SemVer {
+    private fun getNewTemplateVersion(
+        oldTemplateVersion: SemVer?,
+        formRevision: UInt,
+    ): SemVer {
         if (oldTemplateVersion == null) {
             return SemVer(1)
         }

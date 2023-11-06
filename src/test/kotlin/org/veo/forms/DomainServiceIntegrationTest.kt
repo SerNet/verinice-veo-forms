@@ -52,21 +52,23 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
         val domainTemplateId = randomUUID()
         val assetFormTemplateId = randomUUID()
 
-        val formTemplateBundle = FormTemplateBundle(
-            domainTemplateId,
-            SemVer(1),
-            mapOf(
-                assetFormTemplateId to FormTemplate(
-                    SemVer(1, 0, 16),
-                    mapOf("en" to "template 1"),
-                    ModelType.Asset,
-                    null,
-                    mapOf<String, Any>(),
-                    null,
-                    null,
+        val formTemplateBundle =
+            FormTemplateBundle(
+                domainTemplateId,
+                SemVer(1),
+                mapOf(
+                    assetFormTemplateId to
+                        FormTemplate(
+                            SemVer(1, 0, 16),
+                            mapOf("en" to "template 1"),
+                            ModelType.Asset,
+                            null,
+                            mapOf<String, Any>(),
+                            null,
+                            null,
+                        ),
                 ),
-            ),
-        )
+            )
         formTemplateBundleRepo.add(formTemplateBundle)
 
         // when initializing the domain

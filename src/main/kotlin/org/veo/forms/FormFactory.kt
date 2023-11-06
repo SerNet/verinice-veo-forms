@@ -23,7 +23,10 @@ import java.util.UUID
 
 @Component
 class FormFactory(private val domainRepo: DomainRepository) {
-    fun createForm(clientId: UUID, dto: FormDtoWithoutId): Form {
+    fun createForm(
+        clientId: UUID,
+        dto: FormDtoWithoutId,
+    ): Form {
         return Form(
             domainRepo.getClientDomain(dto.domainId, clientId),
             dto.name,
@@ -35,7 +38,11 @@ class FormFactory(private val domainRepo: DomainRepository) {
         )
     }
 
-    fun createForm(templateId: UUID, template: FormTemplate, domain: Domain): Form {
+    fun createForm(
+        templateId: UUID,
+        template: FormTemplate,
+        domain: Domain,
+    ): Form {
         return Form(
             domain,
             template.name,

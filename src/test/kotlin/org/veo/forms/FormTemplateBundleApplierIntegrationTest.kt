@@ -51,28 +51,30 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
             FormTemplateBundle(
                 domainTemplateId,
                 SemVer(1),
-                templates = mapOf(
-                    assetFormTemplateId to newTemplate(SemVer(1), "original asset form", ModelType.Asset),
-                    documentFormTemplateId to newTemplate(SemVer(1), "document form", ModelType.Document),
-                ),
+                templates =
+                    mapOf(
+                        assetFormTemplateId to newTemplate(SemVer(1), "original asset form", ModelType.Asset),
+                        documentFormTemplateId to newTemplate(SemVer(1), "document form", ModelType.Document),
+                    ),
             ),
         )
 
         // and two domains based upon the template bundle, one of which contains a custom form for scenarios
         val oldDomain = domainService.initializeDomain(randomUUID(), randomUUID(), domainTemplateId)
-        val oldExtendedDomain = domainService.initializeDomain(randomUUID(), randomUUID(), domainTemplateId).also {
-            formRepository.save(
-                Form(
-                    it,
-                    mapOf("en" to "custom scenario form created by end user"),
-                    ModelType.Scenario,
-                    null,
-                    emptyMap<String, Any>(),
-                    null,
-                    null,
-                ),
-            )
-        }
+        val oldExtendedDomain =
+            domainService.initializeDomain(randomUUID(), randomUUID(), domainTemplateId).also {
+                formRepository.save(
+                    Form(
+                        it,
+                        mapOf("en" to "custom scenario form created by end user"),
+                        ModelType.Scenario,
+                        null,
+                        emptyMap<String, Any>(),
+                        null,
+                        null,
+                    ),
+                )
+            }
 
         // expect that the form templates have been incarnated in both domains
         formRepository.findAll(oldDomain.clientId, oldDomain.id).size shouldBe 2
@@ -80,16 +82,18 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
 
         // when creating a new template bundle version that removes the document form and adds a person form
         val personFormTemplateId = randomUUID()
-        val newTemplateBundle = formTemplateBundleRepository.add(
-            FormTemplateBundle(
-                domainTemplateId,
-                SemVer(1, 0, 1),
-                templates = mapOf(
-                    assetFormTemplateId to newTemplate(SemVer(1, 0, 1), "updated asset form", ModelType.Asset),
-                    personFormTemplateId to newTemplate(SemVer(1), "person form", ModelType.Person),
+        val newTemplateBundle =
+            formTemplateBundleRepository.add(
+                FormTemplateBundle(
+                    domainTemplateId,
+                    SemVer(1, 0, 1),
+                    templates =
+                        mapOf(
+                            assetFormTemplateId to newTemplate(SemVer(1, 0, 1), "updated asset form", ModelType.Asset),
+                            personFormTemplateId to newTemplate(SemVer(1), "person form", ModelType.Person),
+                        ),
                 ),
-            ),
-        )
+            )
 
         // and updating forms to new bundle
         formTemplateBundleApplier.applyToAllDomains(newTemplateBundle)
@@ -154,7 +158,11 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
         }
     }
 
-    private fun newTemplate(version: SemVer, englishName: String, modelType: ModelType) = FormTemplate(
+    private fun newTemplate(
+        version: SemVer,
+        englishName: String,
+        modelType: ModelType,
+    ) = FormTemplate(
         version,
         mapOf("en" to englishName),
         modelType,

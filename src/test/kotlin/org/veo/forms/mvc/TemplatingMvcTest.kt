@@ -35,7 +35,6 @@ import java.util.UUID.randomUUID
 
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class TemplatingMvcTest : AbstractMvcTest() {
-
     private val domainId = randomUUID()
     private val domainTemplateId = randomUUID()
 
@@ -47,7 +46,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        domainRepo.addDomain(Domain(domainId, UUID.fromString(mockClientUuid), domainTemplateId))
+        domainRepo.addDomain(Domain(domainId, UUID.fromString(MOCK_CLIENT_UUID), domainTemplateId))
     }
 
     @Test
@@ -60,7 +59,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
 
         // and creating a new domain using the same domain template
         val newDomainId = randomUUID()
-        domainService.initializeDomain(newDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
+        domainService.initializeDomain(newDomainId, UUID.fromString(MOCK_CLIENT_UUID), domainTemplateId)
 
         // Then our two form templates have been incarnated in the new domain
         get("/?domainId=$newDomainId")
@@ -88,7 +87,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
 
         // when creating yet another new domain using the same domain template.
         val thirdDomainId = randomUUID()
-        domainService.initializeDomain(thirdDomainId, UUID.fromString(mockClientUuid), domainTemplateId)
+        domainService.initializeDomain(thirdDomainId, UUID.fromString(MOCK_CLIENT_UUID), domainTemplateId)
 
         // Then our three form templates have been incarnated in the new domain
         get("/?domainId=$thirdDomainId")

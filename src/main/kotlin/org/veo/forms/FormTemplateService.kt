@@ -31,31 +31,38 @@ class FormTemplateService(
     private val formTemplateBundleFactory: FormTemplateBundleFactory,
     private val formTemplateBundleApplier: FormTemplateBundleApplier,
 ) {
-    fun createBundle(domainId: UUID, domainTemplateId: UUID, clientId: UUID) {
+    fun createBundle(
+        domainId: UUID,
+        domainTemplateId: UUID,
+        clientId: UUID,
+    ) {
         val domain = domainRepo.getClientDomain(domainId, clientId)
         val latestTemplateBundle = formTemplateBundleRepo.getLatest(domainTemplateId)
         if (latestTemplateBundle != null && latestTemplateBundle != domain.formTemplateBundle) {
             throw OutdatedDomainException(domain, latestTemplateBundle)
         }
 
-        val newBundle = formTemplateBundleRepo.add(
-            formTemplateBundleFactory.createBundle(
-                domainTemplateId,
-                version = latestTemplateBundle?.version?.nextPatch()
-                    ?: domain.formTemplateBundle?.version?.nextMinor()
-                    ?: SemVer(1),
-                forms = formRepo.findAll(clientId, domainId),
-            ),
-        )
+        val newBundle =
+            formTemplateBundleRepo.add(
+                formTemplateBundleFactory.createBundle(
+                    domainTemplateId,
+                    version =
+                        latestTemplateBundle?.version?.nextPatch()
+                            ?: domain.formTemplateBundle?.version?.nextMinor()
+                            ?: SemVer(1),
+                    forms = formRepo.findAll(clientId, domainId),
+                ),
+            )
         domain.formTemplateBundle = newBundle
 
         formTemplateBundleApplier.applyToAllDomains(newBundle)
     }
 
-    fun importBundle(bundle: FormTemplateBundle) = bundle
-        .also(this::validate)
-        .let(formTemplateBundleRepo::add)
-        .let(formTemplateBundleApplier::applyToAllDomains)
+    fun importBundle(bundle: FormTemplateBundle) =
+        bundle
+            .also(this::validate)
+            .let(formTemplateBundleRepo::add)
+            .let(formTemplateBundleApplier::applyToAllDomains)
 
     private fun validate(newBundle: FormTemplateBundle) {
         formTemplateBundleRepo.getLatest(newBundle.domainTemplateId)?.let { currentBundle ->
@@ -63,9 +70,14 @@ class FormTemplateService(
         }
     }
 
-    private fun validate(newBundle: FormTemplateBundle, currentBundle: FormTemplateBundle) {
+    private fun validate(
+        newBundle: FormTemplateBundle,
+        currentBundle: FormTemplateBundle,
+    ) {
         if (newBundle.version <= currentBundle.version) {
-            throw SemVerTooLowException("New form template bundle version number must be higher than current version ${currentBundle.version}")
+            throw SemVerTooLowException(
+                "New form template bundle version number must be higher than current version ${currentBundle.version}",
+            )
         }
         newBundle.templates.forEach { (templateId, newTemplate) ->
             currentBundle.templates[templateId]?.let { currentTemplate ->
@@ -80,10 +92,14 @@ class FormTemplateService(
         templateId: UUID,
     ) {
         if (newTemplate.version < currentTemplate.version) {
-            throw SemVerTooLowException("New version number of form template $templateId must not be lower than current version ${currentTemplate.version}")
+            throw SemVerTooLowException(
+                "New version number of form template $templateId must not be lower than current version ${currentTemplate.version}",
+            )
         }
         if (newTemplate.version == currentTemplate.version && newTemplate != currentTemplate) {
-            throw SemVerTooLowException("Form template $templateId differs from current version ${currentTemplate.version} but uses the same version number")
+            throw SemVerTooLowException(
+                "Form template $templateId differs from current version ${currentTemplate.version} but uses the same version number",
+            )
         }
     }
 }

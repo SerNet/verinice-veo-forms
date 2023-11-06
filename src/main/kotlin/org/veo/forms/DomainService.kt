@@ -31,12 +31,15 @@ class DomainService(
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
     private val formTemplateBundleApplier: FormTemplateBundleApplier,
 ) {
-
     /**
      * Persists new domain and applies the latest form template bundle for the domain's template (if any).
      * @throws DuplicateKeyException if the domain already exists
      */
-    fun initializeDomain(domainId: UUID, clientId: UUID, domainTemplateId: UUID?): Domain {
+    fun initializeDomain(
+        domainId: UUID,
+        clientId: UUID,
+        domainTemplateId: UUID?,
+    ): Domain {
         log.info { "initializing domain $domainId with domain template ID $domainTemplateId" }
         return domainRepo.addDomain(Domain(domainId, clientId, domainTemplateId)).also { domain ->
             domainTemplateId

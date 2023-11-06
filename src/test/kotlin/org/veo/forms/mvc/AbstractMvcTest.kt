@@ -38,24 +38,37 @@ private val objectMapper = jacksonObjectMapper()
 @EnableAsync
 @AutoConfigureMockMvc
 abstract class AbstractMvcTest : AbstractSpringTest() {
-
     @Autowired
     protected lateinit var mvc: MockMvc
 
-    protected fun options(url: String, expectedStatus: Int = 200, headers: Map<String, List<String>> = emptyMap()) =
-        request(OPTIONS, url, headers = headers, expectedStatus = expectedStatus)
+    protected fun options(
+        url: String,
+        expectedStatus: Int = 200,
+        headers: Map<String, List<String>> = emptyMap(),
+    ) = request(OPTIONS, url, headers = headers, expectedStatus = expectedStatus)
 
-    protected fun get(url: String, expectedStatus: Int = 200, headers: Map<String, List<String>> = emptyMap()) =
-        request(GET, url, headers = headers, expectedStatus = expectedStatus)
+    protected fun get(
+        url: String,
+        expectedStatus: Int = 200,
+        headers: Map<String, List<String>> = emptyMap(),
+    ) = request(GET, url, headers = headers, expectedStatus = expectedStatus)
 
-    protected fun post(url: String, body: Any? = null, expectedStatus: Int = 201) =
-        request(POST, url, body, expectedStatus = expectedStatus)
+    protected fun post(
+        url: String,
+        body: Any? = null,
+        expectedStatus: Int = 201,
+    ) = request(POST, url, body, expectedStatus = expectedStatus)
 
-    protected fun put(url: String, body: Any?, expectedStatus: Int = 204) =
-        request(PUT, url, body, expectedStatus = expectedStatus)
+    protected fun put(
+        url: String,
+        body: Any?,
+        expectedStatus: Int = 204,
+    ) = request(PUT, url, body, expectedStatus = expectedStatus)
 
-    protected fun delete(url: String, expectedStatus: Int = 204) =
-        request(DELETE, url, expectedStatus = expectedStatus)
+    protected fun delete(
+        url: String,
+        expectedStatus: Int = 204,
+    ) = request(DELETE, url, expectedStatus = expectedStatus)
 
     protected fun request(
         method: HttpMethod,
@@ -92,6 +105,7 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
         val bodyAsListOfMaps get() = parseBody().asListOfMaps()
 
         fun getHeader(name: String): String? = response.getHeader(name)
+
         private fun parseBody(): Any = objectMapper.readValue(rawBody, Object::class.java)
     }
 }

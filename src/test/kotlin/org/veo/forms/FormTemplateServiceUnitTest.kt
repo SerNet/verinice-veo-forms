@@ -33,28 +33,34 @@ class FormTemplateServiceUnitTest {
     private val clientId = randomUUID()
     private val domainId = randomUUID()
     private val domainTemplateId = randomUUID()
-    private val domain = mockk<Domain> (relaxed = true) {
-        every { id } returns domainId
-        every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-        every { formTemplateBundle } returns null
-    }
+    private val domain =
+        mockk<Domain> (relaxed = true) {
+            every { id } returns domainId
+            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+            every { formTemplateBundle } returns null
+        }
     private val domainForms = listOf<Form>(mockk(), mockk())
     private val newBundleFromFactory = mockk<FormTemplateBundle>()
 
-    private val domainRepo: DomainRepository = mockk {
-        every { getClientDomain(domainId, clientId) } returns domain
-    }
-    private val formRepo: FormRepository = mockk {
-        every { findAll(clientId, domainId) } returns domainForms
-    }
-    private val formTemplateBundleRepo: FormTemplateBundleRepository = mockk {
-        every { add(any()) } returnsArgument 0
-    }
-    private val formTemplateBundleFactory: FormTemplateBundleFactory = mockk {
-        every { createBundle(any(), any(), any()) } returns newBundleFromFactory
-    }
+    private val domainRepo: DomainRepository =
+        mockk {
+            every { getClientDomain(domainId, clientId) } returns domain
+        }
+    private val formRepo: FormRepository =
+        mockk {
+            every { findAll(clientId, domainId) } returns domainForms
+        }
+    private val formTemplateBundleRepo: FormTemplateBundleRepository =
+        mockk {
+            every { add(any()) } returnsArgument 0
+        }
+    private val formTemplateBundleFactory: FormTemplateBundleFactory =
+        mockk {
+            every { createBundle(any(), any(), any()) } returns newBundleFromFactory
+        }
     private val formTemplateBundleApplier: FormTemplateBundleApplier = mockk(relaxed = true)
-    private val sut = FormTemplateService(domainRepo, formRepo, formTemplateBundleRepo, formTemplateBundleFactory, formTemplateBundleApplier)
+    private val sut =
+        FormTemplateService(domainRepo, formRepo, formTemplateBundleRepo, formTemplateBundleFactory, formTemplateBundleApplier)
 
     @Test
     fun `creates initial template version`() {
@@ -79,9 +85,10 @@ class FormTemplateServiceUnitTest {
     @Test
     fun `creates follow-up template version`() {
         // Given some forms in a domain that's based upon the latest form template bundle for its domain template
-        val latestBundle = mockk<FormTemplateBundle> {
-            every { version } returns SemVer(2, 3, 6)
-        }
+        val latestBundle =
+            mockk<FormTemplateBundle> {
+                every { version } returns SemVer(2, 3, 6)
+            }
 
         every { domain.formTemplateBundle } returns latestBundle
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns latestBundle
@@ -106,9 +113,10 @@ class FormTemplateServiceUnitTest {
         val oldDomainTemplateId = randomUUID()
 
         every { domain.domainTemplateId } returns oldDomainTemplateId
-        every { domain.formTemplateBundle } returns mockk {
-            every { version } returns SemVer(2, 4, 5)
-        }
+        every { domain.formTemplateBundle } returns
+            mockk {
+                every { version } returns SemVer(2, 4, 5)
+            }
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns null
 
         // when creating a new bundle from that domain for a new domain template version
@@ -128,12 +136,14 @@ class FormTemplateServiceUnitTest {
     @Test
     fun `creation fails for outdated domain`() {
         // Given some forms in a domain that's based upon an old outdated form template bundle version.
-        val latestBundle = mockk<FormTemplateBundle> {
-            every { version } returns SemVer(2, 3, 7)
-        }
-        val outdatedBundle = mockk<FormTemplateBundle> {
-            every { version } returns SemVer(2, 3, 6)
-        }
+        val latestBundle =
+            mockk<FormTemplateBundle> {
+                every { version } returns SemVer(2, 3, 7)
+            }
+        val outdatedBundle =
+            mockk<FormTemplateBundle> {
+                every { version } returns SemVer(2, 3, 6)
+            }
 
         every { domain.formTemplateBundle } returns outdatedBundle
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns latestBundle
@@ -156,13 +166,15 @@ class FormTemplateServiceUnitTest {
     fun `initial bundle import succeeds`() {
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns null
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { templates } returns mapOf(
-                randomUUID() to formTemplate(),
-                randomUUID() to formTemplate(),
-            )
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { templates } returns
+                    mapOf(
+                        randomUUID() to formTemplate(),
+                        randomUUID() to formTemplate(),
+                    )
+            }
         sut.importBundle(newBundle)
 
         verify { formTemplateBundleRepo.add(newBundle) }
@@ -175,24 +187,28 @@ class FormTemplateServiceUnitTest {
         val modifiedTemplateId = randomUUID()
         val addedTemplateId = randomUUID()
         val obsoleteTemplateId = randomUUID()
-        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
-            every { version } returns SemVer(1, 0, 0)
-            every { templates } returns mapOf(
-                unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
-                modifiedTemplateId to formTemplate(SemVer(4, 10, 3), subType = "special"),
-                obsoleteTemplateId to formTemplate(SemVer(9, 0, 0), subType = "boring"),
-            )
-        }
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns
+            mockk {
+                every { version } returns SemVer(1, 0, 0)
+                every { templates } returns
+                    mapOf(
+                        unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
+                        modifiedTemplateId to formTemplate(SemVer(4, 10, 3), subType = "special"),
+                        obsoleteTemplateId to formTemplate(SemVer(9, 0, 0), subType = "boring"),
+                    )
+            }
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { version } returns SemVer(1, 1, 0)
-            every { templates } returns mapOf(
-                unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
-                modifiedTemplateId to formTemplate(SemVer(4, 11, 0), subType = "superSpecial"),
-                addedTemplateId to formTemplate(SemVer(1, 0, 0), subType = "exciting"),
-            )
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { version } returns SemVer(1, 1, 0)
+                every { templates } returns
+                    mapOf(
+                        unmodifiedTemplateId to formTemplate(SemVer(2, 3, 4), subType = "standard"),
+                        modifiedTemplateId to formTemplate(SemVer(4, 11, 0), subType = "superSpecial"),
+                        addedTemplateId to formTemplate(SemVer(1, 0, 0), subType = "exciting"),
+                    )
+            }
         sut.importBundle(newBundle)
 
         verify { formTemplateBundleRepo.add(newBundle) }
@@ -201,14 +217,16 @@ class FormTemplateServiceUnitTest {
 
     @Test
     fun `bundle import fails with same old version number`() {
-        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
-            every { version } returns SemVer(2, 3, 0)
-        }
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns
+            mockk {
+                every { version } returns SemVer(2, 3, 0)
+            }
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { version } returns SemVer(2, 3, 0)
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { version } returns SemVer(2, 3, 0)
+            }
         shouldThrowWithMessage<SemVerTooLowException>(
             "New form template bundle version number must be higher than current version 2.3.0",
         ) {
@@ -218,14 +236,16 @@ class FormTemplateServiceUnitTest {
 
     @Test
     fun `bundle import fails with lower version number`() {
-        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
-            every { version } returns SemVer(2, 3, 0)
-        }
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns
+            mockk {
+                every { version } returns SemVer(2, 3, 0)
+            }
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { version } returns SemVer(2, 2, 5)
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { version } returns SemVer(2, 2, 5)
+            }
         shouldThrowWithMessage<SemVerTooLowException>(
             "New form template bundle version number must be higher than current version 2.3.0",
         ) {
@@ -236,20 +256,24 @@ class FormTemplateServiceUnitTest {
     @Test
     fun `bundle import fails with a lower template version number`() {
         val templateId = randomUUID()
-        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
-            every { version } returns SemVer(2, 3, 0)
-            every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 1)),
-            )
-        }
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns
+            mockk {
+                every { version } returns SemVer(2, 3, 0)
+                every { templates } returns
+                    mapOf(
+                        templateId to formTemplate(SemVer(2, 0, 1)),
+                    )
+            }
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { version } returns SemVer(2, 4, 0)
-            every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0)),
-            )
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { version } returns SemVer(2, 4, 0)
+                every { templates } returns
+                    mapOf(
+                        templateId to formTemplate(SemVer(2, 0, 0)),
+                    )
+            }
         shouldThrowWithMessage<SemVerTooLowException>(
             "New version number of form template $templateId must not be lower than current version 2.0.1",
         ) {
@@ -260,20 +284,24 @@ class FormTemplateServiceUnitTest {
     @Test
     fun `bundle import fails with a modified template that has the same old version number`() {
         val templateId = randomUUID()
-        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns mockk {
-            every { version } returns SemVer(3, 0, 0)
-            every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0), subType = "oldSubType"),
-            )
-        }
+        every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns
+            mockk {
+                every { version } returns SemVer(3, 0, 0)
+                every { templates } returns
+                    mapOf(
+                        templateId to formTemplate(SemVer(2, 0, 0), subType = "oldSubType"),
+                    )
+            }
 
-        val newBundle = mockk<FormTemplateBundle> {
-            every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
-            every { version } returns SemVer(3, 0, 1)
-            every { templates } returns mapOf(
-                templateId to formTemplate(SemVer(2, 0, 0), subType = "newSubType"),
-            )
-        }
+        val newBundle =
+            mockk<FormTemplateBundle> {
+                every { domainTemplateId } returns this@FormTemplateServiceUnitTest.domainTemplateId
+                every { version } returns SemVer(3, 0, 1)
+                every { templates } returns
+                    mapOf(
+                        templateId to formTemplate(SemVer(2, 0, 0), subType = "newSubType"),
+                    )
+            }
         shouldThrowWithMessage<SemVerTooLowException>(
             "Form template $templateId differs from current version 2.0.0 but uses the same version number",
         ) {

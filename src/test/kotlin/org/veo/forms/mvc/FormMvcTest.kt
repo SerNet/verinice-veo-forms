@@ -32,7 +32,6 @@ import java.util.UUID.randomUUID
 
 @WithMockAuth(roles = [ROLE_USER, ROLE_CONTENT_CREATOR])
 class FormMvcTest : AbstractMvcTest() {
-
     private val domain1Id = randomUUID().toString()
     private val domain2Id = randomUUID().toString()
 
@@ -42,38 +41,55 @@ class FormMvcTest : AbstractMvcTest() {
     @BeforeEach
     fun setup() {
         listOf(domain1Id, domain2Id).forEach {
-            domainRepo.addDomain(Domain(UUID.fromString(it), UUID.fromString(mockClientUuid)))
+            domainRepo.addDomain(Domain(UUID.fromString(it), UUID.fromString(MOCK_CLIENT_UUID)))
         }
     }
 
     @Test
     fun `add form and retrieve`() {
         // when adding a new form
-        val formUuid = post(
-            "/",
-            mapOf(
-                "name" to mapOf("en" to "form one"),
-                "domainId" to domain1Id,
-                "modelType" to "person",
-                "subType" to "VeryNicePerson",
-                "sorting" to "b2",
-                "content" to mapOf(
-                    "prop1" to "val1",
-                    "prop2" to listOf("ok"),
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "name" to mapOf("en" to "form one"),
+                    "domainId" to domain1Id,
+                    "modelType" to "person",
+                    "subType" to "VeryNicePerson",
+                    "sorting" to "b2",
+                    "content" to
+                        mapOf(
+                            "prop1" to "val1",
+                            "prop2" to listOf("ok"),
+                        ),
+                    "translation" to
+                        mapOf(
+                            "de" to
+                                mapOf(
+                                    "name" to "Name",
+                                ),
+                        ),
                 ),
-                "translation" to mapOf(
-                    "de" to mapOf(
-                        "name" to "Name",
-                    ),
-                ),
-            ),
-        ).bodyAsString
+            ).bodyAsString
 
         // then a valid UUID is returned
         formUuid.length shouldBe 36
 
         // and the form is contained in the list of forms
-        get("/").bodyAsListOfMaps shouldBe listOf(
+        get("/").bodyAsListOfMaps shouldBe
+            listOf(
+                mapOf(
+                    "id" to formUuid,
+                    "domainId" to domain1Id,
+                    "name" to mapOf("en" to "form one"),
+                    "modelType" to "person",
+                    "subType" to "VeryNicePerson",
+                    "sorting" to "b2",
+                ),
+            )
+
+        // and the complete form can be retrieved
+        get("/$formUuid").bodyAsMap shouldBe
             mapOf(
                 "id" to formUuid,
                 "domainId" to domain1Id,
@@ -81,48 +97,44 @@ class FormMvcTest : AbstractMvcTest() {
                 "modelType" to "person",
                 "subType" to "VeryNicePerson",
                 "sorting" to "b2",
-            ),
-        )
-
-        // and the complete form can be retrieved
-        get("/$formUuid").bodyAsMap shouldBe mapOf(
-            "id" to formUuid,
-            "domainId" to domain1Id,
-            "name" to mapOf("en" to "form one"),
-            "modelType" to "person",
-            "subType" to "VeryNicePerson",
-            "sorting" to "b2",
-            "content" to mapOf(
-                "prop1" to "val1",
-                "prop2" to listOf("ok"),
-            ),
-            "translation" to mapOf(
-                "de" to mapOf(
-                    "name" to "Name",
-                ),
-            ),
-        )
+                "content" to
+                    mapOf(
+                        "prop1" to "val1",
+                        "prop2" to listOf("ok"),
+                    ),
+                "translation" to
+                    mapOf(
+                        "de" to
+                            mapOf(
+                                "name" to "Name",
+                            ),
+                    ),
+            )
     }
 
     @Test
     fun `add form and update`() {
         // when adding a form
-        val formUuid = post(
-            "/",
-            mapOf(
-                "domainId" to domain1Id,
-                "name" to mapOf("en" to "old name"),
-                "modelType" to "person",
-                "content" to mapOf(
-                    "oldProp" to "oldValue",
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "domainId" to domain1Id,
+                    "name" to mapOf("en" to "old name"),
+                    "modelType" to "person",
+                    "content" to
+                        mapOf(
+                            "oldProp" to "oldValue",
+                        ),
+                    "translation" to
+                        mapOf(
+                            "de" to
+                                mapOf(
+                                    "foo" to "Foo",
+                                ),
+                        ),
                 ),
-                "translation" to mapOf(
-                    "de" to mapOf(
-                        "foo" to "Foo",
-                    ),
-                ),
-            ),
-        ).bodyAsString
+            ).bodyAsString
 
         // and updating the form
         put(
@@ -133,48 +145,56 @@ class FormMvcTest : AbstractMvcTest() {
                 "modelType" to "process",
                 "subType" to "VT",
                 "sorting" to "b2",
-                "content" to mapOf(
-                    "newProp" to "newValue",
-                ),
-                "translation" to mapOf(
-                    "de" to mapOf(
-                        "bar" to "Bar",
+                "content" to
+                    mapOf(
+                        "newProp" to "newValue",
                     ),
-                ),
+                "translation" to
+                    mapOf(
+                        "de" to
+                            mapOf(
+                                "bar" to "Bar",
+                            ),
+                    ),
             ),
         )
 
         // then the changes have been applied
-        get("/$formUuid").bodyAsMap shouldBe mapOf(
-            "id" to formUuid,
-            "domainId" to domain1Id,
-            "modelType" to "process",
-            "subType" to "VT",
-            "sorting" to "b2",
-            "name" to mapOf("en" to "new name"),
-            "content" to mapOf(
-                "newProp" to "newValue",
-            ),
-            "translation" to mapOf(
-                "de" to mapOf(
-                    "bar" to "Bar",
-                ),
-            ),
-        )
+        get("/$formUuid").bodyAsMap shouldBe
+            mapOf(
+                "id" to formUuid,
+                "domainId" to domain1Id,
+                "modelType" to "process",
+                "subType" to "VT",
+                "sorting" to "b2",
+                "name" to mapOf("en" to "new name"),
+                "content" to
+                    mapOf(
+                        "newProp" to "newValue",
+                    ),
+                "translation" to
+                    mapOf(
+                        "de" to
+                            mapOf(
+                                "bar" to "Bar",
+                            ),
+                    ),
+            )
     }
 
     @Test
     fun `add form and delete`() {
         // when adding a form
-        val formUuid = post(
-            "/",
-            mapOf(
-                "domainId" to domain1Id,
-                "name" to mapOf("en" to "old name"),
-                "modelType" to "person",
-                "content" to emptyMap<String, Any>(),
-            ),
-        ).bodyAsString
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "domainId" to domain1Id,
+                    "name" to mapOf("en" to "old name"),
+                    "modelType" to "person",
+                    "content" to emptyMap<String, Any>(),
+                ),
+            ).bodyAsString
 
         // and deleting the form
         delete("/$formUuid")

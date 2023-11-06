@@ -23,19 +23,29 @@ import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.Instant
-import java.util.*
+import java.util.Base64
+import java.util.UUID
 
 @Component
-class ETagGenerator(@Value("\${veo.forms.etag.salt}") val salt: String) {
-
+class ETagGenerator(
+    @Value("\${veo.forms.etag.salt}") val salt: String,
+) {
     init {
         require(salt.isNotEmpty()) {
             "Salt must not be empty."
         }
     }
-    fun generateFormETag(version: SemVer?, revision: UInt, formId: UUID): String = hash("$version $revision $formId")
 
-    fun generateDomainFormsETag(domainId: UUID, lastFormModification: Instant): String = hash("$domainId $lastFormModification")
+    fun generateFormETag(
+        version: SemVer?,
+        revision: UInt,
+        formId: UUID,
+    ): String = hash("$version $revision $formId")
+
+    fun generateDomainFormsETag(
+        domainId: UUID,
+        lastFormModification: Instant,
+    ): String = hash("$domainId $lastFormModification")
 
     /**
      * Hashes ETag.

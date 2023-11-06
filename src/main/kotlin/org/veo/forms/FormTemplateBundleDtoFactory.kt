@@ -22,7 +22,8 @@ import org.veo.forms.dtos.FormTemplateBundleDto
 
 @Component
 class FormTemplateBundleDtoFactory {
-    fun createDto(bundle: FormTemplateBundle): FormTemplateBundleDto = bundle.run {
-        FormTemplateBundleDto(id, domainTemplateId, version, templates)
-    }
+    fun createDto(bundle: FormTemplateBundle): FormTemplateBundleDto =
+        bundle.run {
+            FormTemplateBundleDto(id, domainTemplateId, version, templates)
+        }
 }

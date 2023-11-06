@@ -30,11 +30,23 @@ import java.util.UUID
 @Transactional(propagation = MANDATORY, readOnly = true)
 interface DomainJpaRepository : JpaRepository<Domain, UUID> {
     @Query("select d from Domain d where d.id = :id and d.clientId = :clientId")
-    fun findClientDomain(id: UUID, clientId: UUID): Domain?
+    fun findClientDomain(
+        id: UUID,
+        clientId: UUID,
+    ): Domain?
 
     @Query("select d from Domain d where d.clientId = :clientId")
     fun findAllClientDomains(clientId: UUID): List<Domain>
 
-    @Query("SELECT d FROM Domain as d WHERE d.domainTemplateId = :domainTemplateId AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle <> :latestFormTemplateBundle)")
-    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle, domainTemplateId: UUID): Set<Domain>
+    @Query(
+        """
+        SELECT d FROM Domain as d 
+        WHERE d.domainTemplateId = :domainTemplateId 
+            AND (d.formTemplateBundle IS NULL OR d.formTemplateBundle <> :latestFormTemplateBundle)
+                """,
+    )
+    fun findOutdatedDomains(
+        latestFormTemplateBundle: FormTemplateBundle,
+        domainTemplateId: UUID,
+    ): Set<Domain>
 }

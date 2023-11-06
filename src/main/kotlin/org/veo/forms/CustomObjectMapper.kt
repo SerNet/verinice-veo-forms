@@ -38,11 +38,16 @@ class CustomObjectMapper : ObjectMapper() {
         companion object {
             const val serialVersionUID = 1L
         }
+
         init {
             addSerializer(
                 SemVer::class.java,
                 object : JsonSerializer<SemVer>() {
-                    override fun serialize(value: SemVer?, generator: JsonGenerator?, serializerProvider: SerializerProvider?) {
+                    override fun serialize(
+                        value: SemVer?,
+                        generator: JsonGenerator?,
+                        serializerProvider: SerializerProvider?,
+                    ) {
                         generator?.writeString(value?.toString())
                     }
                 },
@@ -50,7 +55,10 @@ class CustomObjectMapper : ObjectMapper() {
             addDeserializer(
                 SemVer::class.java,
                 object : JsonDeserializer<SemVer>() {
-                    override fun deserialize(parser: JsonParser?, context: DeserializationContext?): SemVer? {
+                    override fun deserialize(
+                        parser: JsonParser?,
+                        context: DeserializationContext?,
+                    ): SemVer? {
                         return parser?.text?.let { SemVer.parse(it) }
                     }
                 },

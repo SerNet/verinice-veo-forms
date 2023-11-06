@@ -39,25 +39,30 @@ import org.springframework.context.annotation.Primary
     type = SecuritySchemeType.OAUTH2,
     `in` = SecuritySchemeIn.HEADER,
     description = "openidconnect Login",
-    flows = OAuthFlows(
-        implicit = OAuthFlow(
-            authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+    flows =
+        OAuthFlows(
+            implicit =
+                OAuthFlow(
+                    authorizationUrl = "\${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth",
+                ),
         ),
-    ),
 )
 @OpenAPIDefinition(
-    info = Info(
-        title = "verinice.veo-forms API",
-        description = "OpenAPI documentation for verinice.veo-forms.",
-        license = License(
-            name = "GNU Affero General Public License",
-            url = "https://www.gnu.org/licenses/agpl-3.0.html.en",
+    info =
+        Info(
+            title = "verinice.veo-forms API",
+            description = "OpenAPI documentation for verinice.veo-forms.",
+            license =
+                License(
+                    name = "GNU Affero General Public License",
+                    url = "https://www.gnu.org/licenses/agpl-3.0.html.en",
+                ),
+            contact =
+                Contact(
+                    url = "http://verinice.com",
+                    email = "verinice@sernet.de",
+                ),
         ),
-        contact = Contact(
-            url = "http://verinice.com",
-            email = "verinice@sernet.de",
-        ),
-    ),
 )
 class VeoFormsApplication {
     companion object {
@@ -66,8 +71,9 @@ class VeoFormsApplication {
 
     @Bean
     @Primary
-    fun objectMapper(): ObjectMapper = CustomObjectMapper()
-        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+    fun objectMapper(): ObjectMapper =
+        CustomObjectMapper()
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 }
 
 fun main(args: Array<String>) {

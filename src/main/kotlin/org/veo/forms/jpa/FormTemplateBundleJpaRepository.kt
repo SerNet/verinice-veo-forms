@@ -28,7 +28,10 @@ import java.util.UUID
 @Repository
 @Transactional
 interface FormTemplateBundleJpaRepository : JpaRepository<FormTemplateBundle, UUID> {
-    @Query("SELECT * FROM form_template_bundle WHERE domain_template_id = :domainTemplateId ORDER BY version DESC LIMIT 1", nativeQuery = true)
+    @Query(
+        "SELECT * FROM form_template_bundle WHERE domain_template_id = :domainTemplateId ORDER BY version DESC LIMIT 1",
+        nativeQuery = true,
+    )
     fun getLatest(domainTemplateId: UUID): FormTemplateBundle?
 
     @Query("SELECT new org.veo.forms.dtos.FormTemplateBundleDtoWithoutContent(id, domainTemplateId, version) FROM FormTemplateBundle")

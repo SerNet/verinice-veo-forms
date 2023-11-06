@@ -164,7 +164,18 @@ class FormJpaTest : AbstractSpringTest() {
         form.revision shouldBe 0u
 
         // when updating and retrieving the DTO.
-        form.update(FormDtoWithoutId(form.content, form.translation, domain.id, mapOf("en" to "my new little form"), form.modelType, form.subType, form.sorting), domain)
+        form.update(
+            FormDtoWithoutId(
+                form.content,
+                form.translation,
+                domain.id,
+                mapOf("en" to "my new little form"),
+                form.modelType,
+                form.subType,
+                form.sorting,
+            ),
+            domain,
+        )
         formRepo.save(form)
         form = formRepo.getReferenceById(formId)
 
@@ -176,6 +187,9 @@ class FormJpaTest : AbstractSpringTest() {
         return domainRepo.save(domain(clientId = clientId))
     }
 
-    private fun createForm(englishName: String, domain: Domain, sorting: String? = null) =
-        formRepo.save(form(domain, mapOf("en" to englishName), sorting = sorting))
+    private fun createForm(
+        englishName: String,
+        domain: Domain,
+        sorting: String? = null,
+    ) = formRepo.save(form(domain, mapOf("en" to englishName), sorting = sorting))
 }
