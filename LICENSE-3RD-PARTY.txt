@@ -1365,7 +1365,7 @@ POM License: MIT License - https://opensource.org/licenses/MIT
 
 --------------------------------------------------------------------------------
 
-22. Group: io.hypersistence  Name: hypersistence-utils-hibernate-62  Version: 3.7.1
+22. Group: io.hypersistence  Name: hypersistence-utils-hibernate-62  Version: 3.7.3
 
 POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
 
@@ -20549,5 +20549,5 @@ POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICEN
 --------------------------------------------------------------------------------
 
 
-This report was generated at Mon Mar 04 10:29:27 UTC 2024.
+This report was generated at Tue Mar 05 07:27:00 UTC 2024.
 
