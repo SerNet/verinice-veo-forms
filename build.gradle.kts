@@ -55,7 +55,7 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("io.hypersistence:hypersistence-utils-hibernate-62:3.7.3")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("net.swiftzer.semver:semver:2.0.0")
 
