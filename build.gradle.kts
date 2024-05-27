@@ -60,8 +60,8 @@ dependencies {
     implementation("net.swiftzer.semver:semver:2.0.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-    runtimeOnly ("ch.qos.logback.contrib:logback-json-classic:0.1.5")
-    runtimeOnly ("ch.qos.logback.contrib:logback-jackson:0.1.5")
+    runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
+    runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
 
     val kotestVersion = "5.9.0"
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
@@ -178,7 +178,7 @@ license {
     header.set(resources.text.fromFile("templates/licenseHeader.txt"))
     newLine.set(false)
     skipExistingHeaders.set(true)
-    exclude("**/*.properties")
+    exclude("**/*.properties", "**/*.xml")
     style(
         closureOf<HeaderFormatRegistry> {
             put("kt", "JAVADOC")
