@@ -10,7 +10,7 @@ import java.util.Calendar
 import kotlin.text.Regex
 
 plugins {
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
 
     kotlin("jvm") version "2.0.21"
@@ -50,7 +50,7 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("io.hypersistence:hypersistence-utils-hibernate-62:3.9.0")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("net.swiftzer.semver:semver:2.0.0")
 
