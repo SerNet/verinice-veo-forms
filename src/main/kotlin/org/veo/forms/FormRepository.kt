@@ -24,16 +24,17 @@ import org.veo.forms.jpa.FormJpaRepository
 import java.util.UUID
 
 @Component
-class FormRepository(private val jpaRepo: FormJpaRepository) {
+class FormRepository(
+    private val jpaRepo: FormJpaRepository,
+) {
     fun delete(form: Form) = jpaRepo.delete(form)
 
     fun findAll(
         clientId: UUID,
         domainId: UUID?,
-    ): List<Form> {
-        return domainId?.let { jpaRepo.findAllByClientAndDomain(clientId, it) }
+    ): List<Form> =
+        domainId?.let { jpaRepo.findAllByClientAndDomain(clientId, it) }
             ?: jpaRepo.findAllByClient(clientId)
-    }
 
     fun getClientForm(
         clientId: UUID,

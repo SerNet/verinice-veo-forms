@@ -40,7 +40,10 @@ class WithMockAuthSecurityContextFactory : WithSecurityContextFactory<WithMockAu
                 )
         }
 
-    class MockToken(jwt: Jwt, val roles: Array<String>) : JwtAuthenticationToken(jwt) {
+    class MockToken(
+        jwt: Jwt,
+        val roles: Array<String>,
+    ) : JwtAuthenticationToken(jwt) {
         override fun getAuthorities() = roles.map { r -> SimpleGrantedAuthority("ROLE_$r") }.toMutableList()
 
         override fun isAuthenticated() = true

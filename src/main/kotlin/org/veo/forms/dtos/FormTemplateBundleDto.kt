@@ -21,5 +21,9 @@ import net.swiftzer.semver.SemVer
 import org.veo.forms.FormTemplate
 import java.util.UUID
 
-class FormTemplateBundleDto(val id: UUID, domainTemplateId: UUID, version: SemVer, template: Map<UUID, FormTemplate>) :
-    FormTemplateBundleDtoWithoutId(domainTemplateId, version, template)
+class FormTemplateBundleDto(
+    val id: UUID,
+    domainTemplateId: UUID,
+    version: SemVer,
+    template: Map<UUID, FormTemplate>,
+) : FormTemplateBundleDtoWithoutId(domainTemplateId, version, template)

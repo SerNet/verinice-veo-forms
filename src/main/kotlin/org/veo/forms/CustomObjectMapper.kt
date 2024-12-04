@@ -58,9 +58,7 @@ class CustomObjectMapper : ObjectMapper() {
                     override fun deserialize(
                         parser: JsonParser?,
                         context: DeserializationContext?,
-                    ): SemVer? {
-                        return parser?.text?.let { SemVer.parse(it) }
-                    }
+                    ): SemVer? = parser?.text?.let { SemVer.parse(it) }
                 },
             )
         }

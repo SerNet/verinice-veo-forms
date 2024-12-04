@@ -59,7 +59,8 @@ class FormTemplateBundleController(
     fun getLastest(
         @RequestParam(required = true) domainTemplateId: UUID,
     ): FormTemplateBundleDto =
-        repo.getLatest(domainTemplateId)
+        repo
+            .getLatest(domainTemplateId)
             ?.let(dtoFactory::createDto)
             ?: throw ResourceNotFoundException("No form template bundle exists for domain template $domainTemplateId")
 

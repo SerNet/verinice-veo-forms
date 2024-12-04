@@ -34,9 +34,7 @@ class FormTemplateBundleRepository(
         return jpaRepo.save(bundle)
     }
 
-    fun getLatest(domainTemplateId: UUID): FormTemplateBundle? {
-        return jpaRepo.getLatest(domainTemplateId)
-    }
+    fun getLatest(domainTemplateId: UUID): FormTemplateBundle? = jpaRepo.getLatest(domainTemplateId)
 
     fun findAllWithoutContent(): List<FormTemplateBundleDtoWithoutContent> = jpaRepo.findAllWithoutContent()
 }

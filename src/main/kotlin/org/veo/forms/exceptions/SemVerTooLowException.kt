@@ -17,4 +17,6 @@
  */
 package org.veo.forms.exceptions
 
-class SemVerTooLowException(message: String) : Exception(message)
+class SemVerTooLowException(
+    message: String,
+) : Exception(message)

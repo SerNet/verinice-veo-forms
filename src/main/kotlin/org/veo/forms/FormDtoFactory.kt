@@ -23,8 +23,8 @@ import org.veo.forms.dtos.FormDtoWithoutContent
 
 @Component
 class FormDtoFactory {
-    fun createDto(entity: Form): FormDto {
-        return FormDto(
+    fun createDto(entity: Form): FormDto =
+        FormDto(
             entity.id,
             entity.domain.id,
             entity.name,
@@ -34,9 +34,7 @@ class FormDtoFactory {
             entity.content,
             entity.translation,
         )
-    }
 
-    fun createDtoWithoutContent(entity: Form): FormDtoWithoutContent {
-        return FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
-    }
+    fun createDtoWithoutContent(entity: Form): FormDtoWithoutContent =
+        FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
 }

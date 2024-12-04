@@ -84,9 +84,8 @@ class SecurityMvcTest : AbstractMvcTest() {
         method: HttpMethod,
         url: String,
         status: Int,
-    ): DynamicTest {
-        return DynamicTest.dynamicTest("$method $url results in $status") {
+    ): DynamicTest =
+        DynamicTest.dynamicTest("$method $url results in $status") {
             request(method, url, expectedStatus = status)
         }
-    }
 }

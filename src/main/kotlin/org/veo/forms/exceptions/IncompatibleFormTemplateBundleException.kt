@@ -17,4 +17,6 @@
  */
 package org.veo.forms.exceptions
 
-class IncompatibleFormTemplateBundleException(msg: String) : Exception(msg)
+class IncompatibleFormTemplateBundleException(
+    msg: String,
+) : Exception(msg)

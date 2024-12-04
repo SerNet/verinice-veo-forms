@@ -246,7 +246,8 @@ class FormMvcTest : AbstractMvcTest() {
         )
 
         // expect that the forms can be filtered by domain
-        get("/?domainId=$domain2Id").bodyAsListOfMaps
+        get("/?domainId=$domain2Id")
+            .bodyAsListOfMaps
             .map { it["name"].asMap()["en"] } shouldBe setOf("one", "two", "three")
     }
 

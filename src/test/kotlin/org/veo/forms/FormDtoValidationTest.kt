@@ -58,7 +58,6 @@ class FormDtoValidationTest {
         sorting: String? = null,
         content: Map<String, *> = emptyMap<String, Any>(),
         translation: Map<String, *>? = null,
-    ): Set<ConstraintViolation<FormDto>> {
-        return validator.validate(FormDto(id, domainId, name, modelType, subType, sorting, content, translation))
-    }
+    ): Set<ConstraintViolation<FormDto>> =
+        validator.validate(FormDto(id, domainId, name, modelType, subType, sorting, content, translation))
 }

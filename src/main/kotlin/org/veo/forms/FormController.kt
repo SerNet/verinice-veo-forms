@@ -73,14 +73,14 @@ class FormController(
                 return ResponseEntity.status(304).build()
             }
         }
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .apply {
                 eTag?.let {
                     eTag(it)
                     header(HttpHeaders.CACHE_CONTROL, "no-cache")
                 }
-            }
-            .body(
+            }.body(
                 repo.findAll(clientId, domainId).map {
                     formDtoFactory.createDtoWithoutContent(it)
                 },
@@ -103,7 +103,8 @@ class FormController(
             }
         }
         val form = repo.getClientForm(clientId, id)
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .eTag(eTagGenerator.generateFormETag(form.formTemplateVersion, form.revision, form.id))
             .header(HttpHeaders.CACHE_CONTROL, "no-cache")
             .body(formDtoFactory.createDto(form))

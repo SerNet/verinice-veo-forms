@@ -183,9 +183,7 @@ class FormJpaTest : AbstractSpringTest() {
         form.revision shouldBe 1u
     }
 
-    private fun createDomain(clientId: UUID): Domain {
-        return domainRepo.save(domain(clientId = clientId))
-    }
+    private fun createDomain(clientId: UUID): Domain = domainRepo.save(domain(clientId = clientId))
 
     private fun createForm(
         englishName: String,

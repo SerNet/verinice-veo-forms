@@ -67,7 +67,8 @@ class V7__adaptSchemasToMultiDomainApi : BaseJavaMigration() {
             if (it.isTextual) {
                 obj.put(
                     "scope",
-                    it.asText()
+                    it
+                        .asText()
                         .replace("#/properties/domains/properties/{CURRENT_DOMAIN_ID}", "#")
                         .replace(
                             Regex("#/properties/customAspects/properties/([^/]+)/properties/attributes"),
@@ -76,12 +77,14 @@ class V7__adaptSchemasToMultiDomainApi : BaseJavaMigration() {
                 )
             }
         }
-        obj.elements()
+        obj
+            .elements()
             .forEach {
                 if (it is ObjectNode) {
                     migrate(it)
                 } else if (it is ArrayNode) {
-                    it.elements()
+                    it
+                        .elements()
                         .forEach {
                             if (it is ObjectNode) {
                                 migrate(it)

@@ -94,11 +94,12 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
                         it.resolvedException,
                     )
                 }
-            }
-            .let { Response(it.response) }
+            }.let { Response(it.response) }
     }
 
-    class Response(private val response: MockHttpServletResponse) {
+    class Response(
+        private val response: MockHttpServletResponse,
+    ) {
         val rawBody = response.contentAsString
         val bodyAsString get() = parseBody() as String
         val bodyAsMap get() = parseBody().asMap()

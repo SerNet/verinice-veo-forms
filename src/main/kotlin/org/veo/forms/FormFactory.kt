@@ -22,12 +22,14 @@ import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 
 @Component
-class FormFactory(private val domainRepo: DomainRepository) {
+class FormFactory(
+    private val domainRepo: DomainRepository,
+) {
     fun createForm(
         clientId: UUID,
         dto: FormDtoWithoutId,
-    ): Form {
-        return Form(
+    ): Form =
+        Form(
             domainRepo.getClientDomain(dto.domainId, clientId),
             dto.name,
             dto.modelType,
@@ -36,14 +38,13 @@ class FormFactory(private val domainRepo: DomainRepository) {
             dto.translation,
             dto.sorting,
         )
-    }
 
     fun createForm(
         templateId: UUID,
         template: FormTemplate,
         domain: Domain,
-    ): Form {
-        return Form(
+    ): Form =
+        Form(
             domain,
             template.name,
             template.modelType,
@@ -54,5 +55,4 @@ class FormFactory(private val domainRepo: DomainRepository) {
             templateId,
             template.version,
         )
-    }
 }

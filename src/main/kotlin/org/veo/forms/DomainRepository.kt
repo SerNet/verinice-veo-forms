@@ -24,7 +24,9 @@ import org.veo.forms.jpa.DomainJpaRepository
 import java.util.UUID
 
 @Component
-class DomainRepository(private val jpaRepo: DomainJpaRepository) {
+class DomainRepository(
+    private val jpaRepo: DomainJpaRepository,
+) {
     /**
      * Persists new domain
      * @throws DuplicateKeyException if the domain ID is already present
@@ -45,9 +47,8 @@ class DomainRepository(private val jpaRepo: DomainJpaRepository) {
 
     fun findAll(): MutableList<Domain> = jpaRepo.findAll()
 
-    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle): Set<Domain> {
-        return jpaRepo.findOutdatedDomains(latestFormTemplateBundle, latestFormTemplateBundle.domainTemplateId)
-    }
+    fun findOutdatedDomains(latestFormTemplateBundle: FormTemplateBundle): Set<Domain> =
+        jpaRepo.findOutdatedDomains(latestFormTemplateBundle, latestFormTemplateBundle.domainTemplateId)
 
     fun findAllClientDomains(clientId: UUID): List<Domain> = jpaRepo.findAllClientDomains(clientId)
 

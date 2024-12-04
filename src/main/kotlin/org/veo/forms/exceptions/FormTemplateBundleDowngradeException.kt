@@ -20,8 +20,10 @@ package org.veo.forms.exceptions
 import org.veo.forms.Domain
 import org.veo.forms.FormTemplateBundle
 
-class FormTemplateBundleDowngradeException(targetBundle: FormTemplateBundle, domain: Domain) :
-    Exception(
+class FormTemplateBundleDowngradeException(
+    targetBundle: FormTemplateBundle,
+    domain: Domain,
+) : Exception(
         "Can't downgrade domain ${domain.id} from form template bundle version ${domain.formTemplateBundle?.version} to version " +
             "${targetBundle.version}",
     )

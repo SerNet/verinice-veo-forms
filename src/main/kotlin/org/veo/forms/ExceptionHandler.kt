@@ -31,7 +31,5 @@ class ExceptionHandler {
     fun handleException(
         exception: Exception,
         request: HttpServletRequest?,
-    ): ResponseEntity<String> {
-        return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
-    }
+    ): ResponseEntity<String> = ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
 }
