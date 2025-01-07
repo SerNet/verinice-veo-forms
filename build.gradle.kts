@@ -10,7 +10,7 @@ import java.util.Calendar
 import kotlin.text.Regex
 
 plugins {
-    id("org.springframework.boot") version "3.4.0"
+    id("org.springframework.boot") version "3.4.1"
     id("io.spring.dependency-management") version "1.1.7"
 
     kotlin("jvm") version "2.1.0"
