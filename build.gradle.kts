@@ -1,13 +1,8 @@
-import com.diffplug.spotless.FormatterStep
-import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
 import org.eclipse.jgit.api.Git
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import java.util.Calendar
-import kotlin.text.Regex
 
 plugins {
     id("org.springframework.boot") version "3.4.2"
@@ -109,29 +104,15 @@ spotless {
         endWithNewline()
     }
     kotlin {
-        ktlint("1.5.0") // https://github.com/diffplug/spotless/issues/2349
+        ktlint("1.5.0")
     }
     kotlinGradle {
-        ktlint("1.5.0") // https://github.com/diffplug/spotless/issues/2349
+        ktlint("1.5.0")
     }
     json {
         target("**/*.json")
-        addStep(
-            object : FormatterStep {
-                override fun getName() = "format json"
-
-                override fun format(
-                    rawUnix: String,
-                    file: File,
-                ): String {
-                    val om = ObjectMapper()
-                    return om
-                        .writer()
-                        .with(DefaultPrettyPrinter().apply { indentArraysWith(SYSTEM_LINEFEED_INSTANCE) })
-                        .writeValueAsString(om.readValue(rawUnix, Map::class.java))
-                }
-            },
-        )
+        gson().indentWithSpaces(2)
+        endWithNewline()
     }
     yaml {
         target(".gitlab-ci.yml")
