@@ -104,10 +104,10 @@ spotless {
         endWithNewline()
     }
     kotlin {
-        ktlint("1.5.0")
+        ktlint()
     }
     kotlinGradle {
-        ktlint("1.5.0")
+        ktlint()
     }
     json {
         target("**/*.json")
