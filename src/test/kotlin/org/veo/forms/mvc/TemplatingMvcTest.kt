@@ -55,7 +55,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         postFormsInDomain()
 
         // and creating a form template bundle from the existing domain
-        post("/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+        post("/form-template-bundles/create-from-domain?domainId=$domainId")
 
         // and creating a new domain using the same domain template
         val newDomainId = randomUUID()
@@ -78,7 +78,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         )
 
         // and creating yet another new template bundle from the new domain
-        post("/form-template-bundles/create-from-domain?domainId=$newDomainId&domainTemplateId=$domainTemplateId")
+        post("/form-template-bundles/create-from-domain?domainId=$newDomainId")
 
         // then the forms in the original domain have been updated
         get("/?domainId=$domainId")
@@ -107,7 +107,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
     fun `export and import templates`() {
         // Given a persisted form template bundle with some forms
         postFormsInDomain()
-        post("/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+        post("/form-template-bundles/create-from-domain?domainId=$domainId")
 
         // when requesting the latest form template bundle
         val bundle = get("/form-template-bundles/latest?domainTemplateId=$domainTemplateId").bodyAsMap
@@ -144,6 +144,17 @@ class TemplatingMvcTest : AbstractMvcTest() {
             .bodyAsListOfMaps
             .first { it["modelType"] == "asset" }
             .apply { get("subType") shouldBe "IT system" }
+    }
+
+    @Test
+    fun `cannot create bundle without domain template`() {
+        // given a domain not based on a domain template
+        domainRepo.getClientDomain(domainId, UUID.fromString(MOCK_CLIENT_UUID)).domainTemplateId = null
+        postFormsInDomain()
+
+        // expect that no form template bundle can be created from it
+        post("/form-template-bundles/create-from-domain?domainId=$domainId", expectedStatus = 422)
+            .rawBody shouldBe "Form template bundles must target a domain template, but given domain is not based on a domain template."
     }
 
     private fun postFormsInDomain() {

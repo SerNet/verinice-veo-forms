@@ -39,6 +39,7 @@ private val log = KotlinLogging.logger {}
 @Transactional
 class MessageSubscriber(
     private val domainService: DomainService,
+    private val formTemplateBundleService: FormTemplateService,
 ) {
     private val mapper = ObjectMapper()
 
@@ -56,6 +57,7 @@ class MessageSubscriber(
                 exchange = Exchange(value = "\${veo.forms.rabbitmq.exchanges.veo}", type = "topic"),
                 key = [
                     "\${veo.forms.rabbitmq.routing_key_prefix}domain_creation",
+                    "\${veo.forms.rabbitmq.routing_key_prefix}domain_template_creation",
                 ],
             ),
         ],
@@ -65,6 +67,7 @@ class MessageSubscriber(
             message,
             mapOf(
                 "domain_creation" to this::handleDomainCreation,
+                "domain_template_creation" to this::handleDomainTemplateCreation,
             ),
         )
     }
@@ -135,5 +138,13 @@ class MessageSubscriber(
         } catch (ex: DuplicateKeyException) {
             throw AmqpRejectAndDontRequeueException("Domain already known, ignoring domain creation message.")
         }
+    }
+
+    private fun handleDomainTemplateCreation(content: JsonNode) {
+        formTemplateBundleService.createBundle(
+            domainId = content.get("sourceDomainId").let { UUID.fromString(it.asText()) },
+            clientId = content.get("sourceClientId").let { UUID.fromString(it.asText()) },
+            newDomainTemplateId = content.get("domainTemplateId").let { UUID.fromString(it.asText()) },
+        )
     }
 }

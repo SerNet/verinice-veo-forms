@@ -38,7 +38,8 @@ private val om = ObjectMapper()
 
 class MessageSubscriberTest {
     private val domainServiceMock: DomainService = mockk(relaxed = true)
-    private val sut = MessageSubscriber(domainServiceMock)
+    private val formTemplateService: FormTemplateService = mockk(relaxed = true)
+    private val sut = MessageSubscriber(domainServiceMock, formTemplateService)
 
     @Test
     fun `listeners don't return anything`() {
@@ -117,6 +118,26 @@ class MessageSubscriberTest {
                 ),
             )
         }.cause should instanceOf<IOException>()
+    }
+
+    @Test
+    fun `handles domain template creation`() {
+        sut.handleVeoMessage(
+            message(
+                "eventType" to "domain_template_creation",
+                "sourceDomainId" to "09a248ee-e79e-4e0d-a243-721b8743bdc5",
+                "sourceClientId" to "59da071e-c51f-4f60-9835-d1ac88ef43c3",
+                "domainTemplateId" to "4e82bf10-3395-44cf-96eb-582bec26ed62",
+            ),
+        )
+
+        verify {
+            formTemplateService.createBundle(
+                domainId = UUID.fromString("09a248ee-e79e-4e0d-a243-721b8743bdc5"),
+                clientId = UUID.fromString("59da071e-c51f-4f60-9835-d1ac88ef43c3"),
+                newDomainTemplateId = UUID.fromString("4e82bf10-3395-44cf-96eb-582bec26ed62"),
+            )
+        }
     }
 
     @Test

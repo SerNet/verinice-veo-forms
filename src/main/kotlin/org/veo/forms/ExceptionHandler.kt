@@ -24,6 +24,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.veo.forms.exceptions.UnprocessableDataException
 
 @ControllerAdvice
 class ExceptionHandler {
@@ -32,4 +33,8 @@ class ExceptionHandler {
         exception: Exception,
         request: HttpServletRequest?,
     ): ResponseEntity<String> = ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(UnprocessableDataException::class)
+    fun handleUnprocessableOperationException(exception: Exception): ResponseEntity<String> =
+        ResponseEntity<String>(exception.message, HttpStatus.UNPROCESSABLE_ENTITY)
 }

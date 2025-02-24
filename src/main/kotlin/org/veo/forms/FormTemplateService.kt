@@ -21,10 +21,12 @@ import net.swiftzer.semver.SemVer
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.OutdatedDomainException
 import org.veo.forms.exceptions.SemVerTooLowException
+import org.veo.forms.exceptions.UnprocessableDataException
 import java.util.UUID
 
 @Component
-class FormTemplateService(
+class
+FormTemplateService(
     private val domainRepo: DomainRepository,
     private val formRepo: FormRepository,
     private val formTemplateBundleRepo: FormTemplateBundleRepository,
@@ -33,10 +35,16 @@ class FormTemplateService(
 ) {
     fun createBundle(
         domainId: UUID,
-        domainTemplateId: UUID,
+        newDomainTemplateId: UUID?,
         clientId: UUID,
     ) {
         val domain = domainRepo.getClientDomain(domainId, clientId)
+        val domainTemplateId = newDomainTemplateId ?: domain.domainTemplateId
+        if (domainTemplateId == null) {
+            throw UnprocessableDataException(
+                "Form template bundles must target a domain template, but given domain is not based on a domain template.",
+            )
+        }
         val latestTemplateBundle = formTemplateBundleRepo.getLatest(domainTemplateId)
         if (latestTemplateBundle != null && latestTemplateBundle != domain.formTemplateBundle) {
             throw OutdatedDomainException(domain, latestTemplateBundle)
@@ -53,6 +61,7 @@ class FormTemplateService(
                     forms = formRepo.findAll(clientId, domainId),
                 ),
             )
+        domain.domainTemplateId = domainTemplateId
         domain.formTemplateBundle = newBundle
 
         formTemplateBundleApplier.applyToAllDomains(newBundle)

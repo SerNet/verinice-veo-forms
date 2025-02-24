@@ -46,7 +46,7 @@ class FormETagMvcTest : AbstractMvcTest() {
 
     @BeforeEach
     fun setup() {
-        domainRepo.addDomain(Domain(UUID.fromString(domainId), UUID.fromString(MOCK_CLIENT_UUID)))
+        domainRepo.addDomain(Domain(UUID.fromString(domainId), UUID.fromString(MOCK_CLIENT_UUID), UUID.fromString(domainTemplateId)))
     }
 
     fun getFormsForDomain(domainId: String): Response = get("/?domainId=$domainId", 200, defaultHeaders)
@@ -136,7 +136,7 @@ class FormETagMvcTest : AbstractMvcTest() {
             ).bodyAsString
 
         // when creating a form template bundle from the existing domain
-        post("/form-template-bundles/create-from-domain?domainId=$domainId&domainTemplateId=$domainTemplateId")
+        post("/form-template-bundles/create-from-domain?domainId=$domainId")
 
         // and requesting the form
         var response = getFormByUuid(formUuid)

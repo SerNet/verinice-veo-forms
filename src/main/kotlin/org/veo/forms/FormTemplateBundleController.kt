@@ -79,15 +79,19 @@ class FormTemplateBundleController(
             .let(bundleFactory::createBundle)
             .let(formTemplateService::importBundle)
 
-    @Operation(description = "Creates a form template bundle from the forms in given domain.")
+    @Operation(
+        description =
+            "Creates a form template bundle from the forms in given domain. " +
+                "Only use this endpoint to create a patch bundle (targeting the domain's current domain template version). " +
+                "Don't use this endpoint if a new domain template is created from a domain (FTB creation is automated in that case).",
+    )
     @PostMapping("/create-from-domain")
     @ResponseStatus(CREATED)
     @Transactional
     fun createBundleFromDomain(
         auth: Authentication,
         @RequestParam domainId: UUID,
-        @RequestParam domainTemplateId: UUID,
     ) {
-        formTemplateService.createBundle(domainId, domainTemplateId, authService.getClientId(auth))
+        formTemplateService.createBundle(domainId, null, authService.getClientId(auth))
     }
 }

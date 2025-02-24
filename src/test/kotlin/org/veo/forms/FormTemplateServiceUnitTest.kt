@@ -94,7 +94,7 @@ class FormTemplateServiceUnitTest {
         every { formTemplateBundleRepo.getLatest(domainTemplateId) } returns latestBundle
 
         // when creating a new bundle from that domain for its domain template
-        sut.createBundle(domainId, domainTemplateId, clientId)
+        sut.createBundle(domainId, null, clientId)
 
         // then it is persisted with a new patch version.
         verify { formTemplateBundleFactory.createBundle(domainTemplateId, SemVer(2, 3, 7), domainForms) }
@@ -126,7 +126,8 @@ class FormTemplateServiceUnitTest {
         verify { formTemplateBundleFactory.createBundle(domainTemplateId, SemVer(2, 5), domainForms) }
         verify { formTemplateBundleRepo.add(newBundleFromFactory) }
 
-        // and the domain is now linked to the new template bundle
+        // and the domain is now linked to the new domain template & form template bundle
+        verify { domain.domainTemplateId = domainTemplateId }
         verify { domain.formTemplateBundle = newBundleFromFactory }
 
         // and other domains are updated to the new template bundle
