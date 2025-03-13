@@ -53,8 +53,8 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
                 SemVer(1),
                 templates =
                     mapOf(
-                        assetFormTemplateId to newTemplate(SemVer(1), "original asset form", ModelType.Asset),
-                        documentFormTemplateId to newTemplate(SemVer(1), "document form", ModelType.Document),
+                        assetFormTemplateId to formTemplate(SemVer(1), mapOf("en" to "original asset form"), ModelType.Asset),
+                        documentFormTemplateId to formTemplate(SemVer(1), mapOf("en" to "document form"), ModelType.Document),
                     ),
             ),
         )
@@ -64,14 +64,10 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
         val oldExtendedDomain =
             domainService.initializeDomain(randomUUID(), randomUUID(), domainTemplateId).also {
                 formRepository.save(
-                    Form(
+                    form(
                         it,
                         mapOf("en" to "custom scenario form created by end user"),
                         ModelType.Scenario,
-                        null,
-                        emptyMap<String, Any>(),
-                        null,
-                        null,
                     ),
                 )
             }
@@ -89,8 +85,8 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
                     SemVer(1, 0, 1),
                     templates =
                         mapOf(
-                            assetFormTemplateId to newTemplate(SemVer(1, 0, 1), "updated asset form", ModelType.Asset),
-                            personFormTemplateId to newTemplate(SemVer(1), "person form", ModelType.Person),
+                            assetFormTemplateId to formTemplate(SemVer(1, 0, 1), mapOf("en" to "updated asset form"), ModelType.Asset),
+                            personFormTemplateId to formTemplate(SemVer(1), mapOf("en" to "person form"), ModelType.Person),
                         ),
                 ),
             )
@@ -157,18 +153,4 @@ class FormTemplateBundleApplierIntegrationTest : AbstractSpringTest() {
             }
         }
     }
-
-    private fun newTemplate(
-        version: SemVer,
-        englishName: String,
-        modelType: ModelType,
-    ) = FormTemplate(
-        version,
-        mapOf("en" to englishName),
-        modelType,
-        null,
-        emptyMap<String, Any>(),
-        null,
-        null,
-    )
 }
