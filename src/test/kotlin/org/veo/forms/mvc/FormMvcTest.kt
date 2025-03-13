@@ -84,6 +84,7 @@ class FormMvcTest : AbstractMvcTest() {
                     "name" to mapOf("en" to "form one"),
                     "modelType" to "person",
                     "subType" to "VeryNicePerson",
+                    "context" to "elementDetails",
                     "sorting" to "b2",
                 ),
             )
@@ -96,6 +97,7 @@ class FormMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "form one"),
                 "modelType" to "person",
                 "subType" to "VeryNicePerson",
+                "context" to "elementDetails",
                 "sorting" to "b2",
                 "content" to
                     mapOf(
@@ -122,6 +124,7 @@ class FormMvcTest : AbstractMvcTest() {
                     "domainId" to domain1Id,
                     "name" to mapOf("en" to "old name"),
                     "modelType" to "person",
+                    "context" to "elementDetails",
                     "content" to
                         mapOf(
                             "oldProp" to "oldValue",
@@ -142,7 +145,8 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "new name"),
-                "modelType" to "process",
+                "modelType" to "control",
+                "context" to "requirementImplementationControlView",
                 "subType" to "VT",
                 "sorting" to "b2",
                 "content" to
@@ -164,7 +168,8 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "id" to formUuid,
                 "domainId" to domain1Id,
-                "modelType" to "process",
+                "modelType" to "control",
+                "context" to "requirementImplementationControlView",
                 "subType" to "VT",
                 "sorting" to "b2",
                 "name" to mapOf("en" to "new name"),
@@ -310,5 +315,23 @@ class FormMvcTest : AbstractMvcTest() {
             ),
             400,
         ).rawBody shouldContain "Only ASCII characters are allowed"
+    }
+
+    @Test
+    fun `context compatibility is validated`() {
+        // expect a bad combination of model type and context to be denied
+        post(
+            "/",
+            mapOf(
+                "domainId" to domain1Id,
+                "name" to mapOf("en" to "RI form"),
+                "modelType" to "person",
+                "context" to "requirementImplementationControlView",
+                "content" to emptyMap<String, Any>(),
+            ),
+            422,
+        ).rawBody shouldBe "Invalid context for model type. " +
+            "The context requirementImplementationControlView only supports model types [control]. " +
+            "The model type person only supports the contexts [elementDetails]."
     }
 }

@@ -63,6 +63,7 @@ class DomainServiceIntegrationTest : AbstractSpringTest() {
                             mapOf("en" to "template 1"),
                             ModelType.Asset,
                             null,
+                            FormContext.ElementDetails,
                             mapOf<String, Any>(),
                             null,
                             null,

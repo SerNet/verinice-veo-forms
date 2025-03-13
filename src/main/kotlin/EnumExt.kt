@@ -1,6 +1,6 @@
 /**
  * verinice.veo forms
- * Copyright (C) 2020  Jonas Jordan
+ * Copyright (C) 2025  Jonas Jordan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,19 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.veo.forms.dtos
+package org.veo.forms
 
-import org.veo.forms.FormContext
-import org.veo.forms.ModelType
-import java.util.UUID
+import com.fasterxml.jackson.annotation.JsonProperty
 
-class FormDtoWithoutId(
-    val content: Map<String, *>,
-    val translation: Map<String, *>?,
-    domainId: UUID,
-    name: Map<String, String>,
-    modelType: ModelType,
-    subType: String?,
-    context: FormContext = FormContext.ElementDetails,
-    sorting: String?,
-) : AbstractFormDto(domainId, name, modelType, subType, context, sorting)
+fun Enum<*>.jsonName(): String = declaringJavaClass.getField(name).getAnnotation(JsonProperty::class.java).value

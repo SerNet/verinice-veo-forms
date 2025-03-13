@@ -20,6 +20,8 @@ package org.veo.forms
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
@@ -40,8 +42,12 @@ open class Form(
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var name: Map<String, String>,
-    var modelType: ModelType,
+    @Column("model_type")
+    private var _modelType: ModelType,
     var subType: String?,
+    @Column("context")
+    @Enumerated(EnumType.STRING)
+    private var _context: FormContext,
     @Type(JsonType::class)
     @Column(columnDefinition = "jsonb")
     var content: Map<String, *>,
@@ -55,18 +61,37 @@ open class Form(
         name: Map<String, String>,
         modelType: ModelType,
         subType: String?,
+        context: FormContext,
         content: Map<String, *>,
         translation: Map<String, *>?,
         sorting: String?,
         formTemplateId: UUID,
         formTemplateVersion: SemVer,
-    ) : this(domain, name, modelType, subType, content, translation, sorting) {
+    ) : this(domain, name, modelType, subType, context, content, translation, sorting) {
         _formTemplateId = formTemplateId
         _formTemplateVersion = formTemplateVersion
     }
 
+    init {
+        context.validate(modelType)
+    }
+
     @Id
     var id: UUID = UUID.randomUUID()
+
+    var modelType: ModelType
+        get() = _modelType
+        set(value) {
+            context.validate(value)
+            _modelType = value
+        }
+
+    var context: FormContext
+        get() = _context
+        set(value) {
+            value.validate(modelType)
+            _context = value
+        }
 
     @Column(name = "revision")
     private var _revision: UInt = 0u
@@ -88,6 +113,7 @@ open class Form(
         name = dto.name
         modelType = dto.modelType
         subType = dto.subType
+        context = dto.context
         sorting = dto.sorting
         content = dto.content
         translation = dto.translation
@@ -106,6 +132,7 @@ open class Form(
                 name,
                 modelType,
                 subType,
+                context,
                 content,
                 translation,
                 sorting,
@@ -124,6 +151,7 @@ open class Form(
         name = template.name
         modelType = template.modelType
         subType = template.subType
+        context = template.context
         content = template.content
         translation = template.translation
         sorting = template.sorting

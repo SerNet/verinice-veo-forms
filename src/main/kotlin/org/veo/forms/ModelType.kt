@@ -43,4 +43,7 @@ enum class ModelType {
 
     @JsonProperty("scope")
     Scope,
+    ;
+
+    override fun toString() = jsonName()
 }

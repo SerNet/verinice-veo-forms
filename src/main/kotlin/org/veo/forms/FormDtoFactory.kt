@@ -30,11 +30,12 @@ class FormDtoFactory {
             entity.name,
             entity.modelType,
             entity.subType,
+            entity.context,
             entity.sorting,
             entity.content,
             entity.translation,
         )
 
     fun createDtoWithoutContent(entity: Form): FormDtoWithoutContent =
-        FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.sorting)
+        FormDtoWithoutContent(entity.id, entity.domain.id, entity.name, entity.modelType, entity.subType, entity.context, entity.sorting)
 }

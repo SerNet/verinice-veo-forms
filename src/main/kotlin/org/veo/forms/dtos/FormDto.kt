@@ -17,6 +17,7 @@
  */
 package org.veo.forms.dtos
 
+import org.veo.forms.FormContext
 import org.veo.forms.ModelType
 import java.util.UUID
 
@@ -26,7 +27,8 @@ class FormDto(
     name: Map<String, String>,
     modelType: ModelType,
     subType: String?,
+    context: FormContext,
     sorting: String?,
     val content: Map<String, *>,
     val translation: Map<String, *>?,
-) : AbstractFormDto(domainId, name, modelType, subType, sorting)
+) : AbstractFormDto(domainId, name, modelType, subType, context, sorting)

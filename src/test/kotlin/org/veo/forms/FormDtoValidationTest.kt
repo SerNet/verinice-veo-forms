@@ -56,8 +56,9 @@ class FormDtoValidationTest {
         modelType: ModelType = ModelType.Document,
         subType: String? = null,
         sorting: String? = null,
+        context: FormContext = FormContext.ElementDetails,
         content: Map<String, *> = emptyMap<String, Any>(),
         translation: Map<String, *>? = null,
     ): Set<ConstraintViolation<FormDto>> =
-        validator.validate(FormDto(id, domainId, name, modelType, subType, sorting, content, translation))
+        validator.validate(FormDto(id, domainId, name, modelType, subType, context, sorting, content, translation))
 }

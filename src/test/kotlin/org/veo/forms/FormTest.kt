@@ -17,6 +17,7 @@
  */
 package org.veo.forms
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
@@ -24,6 +25,7 @@ import io.mockk.mockk
 import net.swiftzer.semver.SemVer
 import org.junit.jupiter.api.Test
 import org.veo.forms.dtos.FormDtoWithoutId
+import org.veo.forms.exceptions.UnprocessableDataException
 import java.util.UUID.randomUUID
 
 class FormTest {
@@ -37,8 +39,9 @@ class FormTest {
                         every { id } returns randomUUID()
                     },
                 name = mapOf("en" to "asset form"),
-                modelType = ModelType.Asset,
+                _modelType = ModelType.Asset,
                 subType = "AST_Application",
+                _context = FormContext.ElementDetails,
                 content = mapOf("layout" to "column"),
                 translation = mapOf("en" to mapOf("title" to "Application")),
                 sorting = "ast",
@@ -51,6 +54,7 @@ class FormTest {
                 name = form.name,
                 modelType = form.modelType,
                 translation = form.translation,
+                context = FormContext.ElementDetails,
                 domainId = form.domain.id,
                 subType = form.subType,
                 sorting = "zz",
@@ -66,6 +70,7 @@ class FormTest {
             name["en"] shouldBe "asset form"
             modelType shouldBe ModelType.Asset
             subType shouldBe "AST_Application"
+            context shouldBe FormContext.ElementDetails
             content["layout"] shouldBe "column"
             translation?.get("en") shouldBe mapOf("title" to "Application")
             sorting shouldBe "zz"
@@ -88,6 +93,7 @@ class FormTest {
                 name = mapOf("en" to "asset form"),
                 modelType = ModelType.Asset,
                 subType = "AST_Application",
+                context = FormContext.ElementDetails,
                 content = mapOf("layout" to "column"),
                 translation = mapOf("en" to mapOf("title" to "Application")),
                 sorting = "ast",
@@ -123,6 +129,7 @@ class FormTest {
                 name = mapOf("en" to "asset form"),
                 modelType = ModelType.Asset,
                 subType = "AST_Application",
+                context = FormContext.ElementDetails,
                 content = mapOf("layout" to "column"),
                 translation = mapOf("en" to mapOf("title" to "Application")),
                 sorting = "ast",
@@ -136,6 +143,7 @@ class FormTest {
                 content = form.content,
                 name = form.name,
                 modelType = form.modelType,
+                context = FormContext.ElementDetails,
                 translation = form.translation,
                 domainId = form.domain.id,
                 subType = form.subType,
@@ -169,6 +177,7 @@ class FormTest {
                 name = mapOf("en" to "asset form"),
                 modelType = ModelType.Asset,
                 subType = "AST_Application",
+                context = FormContext.ElementDetails,
                 content = mapOf("layout" to "column"),
                 translation = mapOf("en" to mapOf("title" to "Application")),
                 sorting = "ast",
@@ -181,9 +190,10 @@ class FormTest {
         form.update(
             FormTemplate(
                 version = SemVer(1, 2, 5),
-                name = mapOf("en" to "document form"),
-                modelType = ModelType.Document,
+                name = mapOf("en" to "control form"),
+                modelType = ModelType.Control,
                 subType = "DOC_Contract",
+                context = FormContext.RequirementImplementationControlView,
                 content = mapOf("layout" to "centered"),
                 translation = mapOf("en" to mapOf("title" to "Contract")),
                 sorting = "doc",
@@ -195,14 +205,32 @@ class FormTest {
             id shouldBe originalId
             formTemplateId shouldBe originalTemplateId
             formTemplateVersion shouldBe SemVer(1, 2, 5)
-            name["en"] shouldBe "document form"
-            modelType shouldBe ModelType.Document
+            name["en"] shouldBe "control form"
+            modelType shouldBe ModelType.Control
             subType shouldBe "DOC_Contract"
+            context shouldBe FormContext.RequirementImplementationControlView
             content shouldBe mapOf("layout" to "centered")
             translation shouldBe mapOf("en" to mapOf("title" to "Contract"))
             sorting shouldBe "doc"
             domain shouldBe originalDomain
             revision shouldBe 0u
+        }
+    }
+
+    @Test
+    fun `context and model type are always validated`() {
+        shouldThrow<UnprocessableDataException> {
+            form(mockk(), modelType = ModelType.Asset, context = FormContext.RequirementImplementationControlView)
+        }
+        form(mockk(), modelType = ModelType.Asset, context = FormContext.ElementDetails).apply {
+            shouldThrow<UnprocessableDataException> {
+                context = FormContext.RequirementImplementationControlView
+            }
+        }
+        form(mockk(), modelType = ModelType.Control, context = FormContext.RequirementImplementationControlView).apply {
+            shouldThrow<UnprocessableDataException> {
+                modelType = ModelType.Person
+            }
         }
     }
 }

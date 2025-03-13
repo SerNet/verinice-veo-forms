@@ -73,6 +73,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
                 "name" to mapOf("en" to "person form"),
                 "domainId" to newDomainId,
                 "modelType" to "person",
+                "context" to "elementDetails",
                 "content" to emptyMap<String, Any>(),
             ),
         )

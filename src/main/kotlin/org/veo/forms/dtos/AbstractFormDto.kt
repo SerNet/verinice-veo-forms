@@ -20,6 +20,7 @@ package org.veo.forms.dtos
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import org.veo.forms.FormContext
 import org.veo.forms.ModelType
 import java.util.UUID
 
@@ -33,6 +34,7 @@ abstract class AbstractFormDto(
     val modelType: ModelType,
     @field:Size(min = 1, max = 255)
     val subType: String?,
+    val context: FormContext,
     @field:Schema(description = "ASCII string for sorting, maximum 32 characters.")
     @field:Size(min = 1, max = 32)
     @field:Pattern(regexp = "^\\p{ASCII}+$", message = "Only ASCII characters are allowed.")
