@@ -229,7 +229,7 @@ class FormETagMvcTest : AbstractMvcTest() {
         // expect no retransmission of requested unmodified resource,
         get("/?domainId=$domainId", 304, mapOf("If-None-Match" to listOf(eTag)))
 
-        // when a form is modified
+        // when a form is added
         post(
             "/",
             mapOf(
