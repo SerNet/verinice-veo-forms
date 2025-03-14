@@ -34,7 +34,8 @@ class V8__add_context : BaseJavaMigration() {
                     update form_template_bundle
                         set templates = (select jsonb_object_agg(key, value || '{
                           "context": "elementDetails"
-                        }'::jsonb) from jsonb_each(templates));
+                        }'::jsonb) from jsonb_each(templates))
+                        where templates != '{}'::jsonb;
                 """,
             )
         }
