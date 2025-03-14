@@ -189,19 +189,10 @@ class FormETagMvcTest : AbstractMvcTest() {
         }
 
         // and when updating a form
-        put(
-            "/$formId",
-            mapOf(
-                "name" to mapOf("en" to "form one"),
-                "domainId" to domainId,
-                "modelType" to "asset",
-                "content" to
-                    mapOf(
-                        "prop1" to "val1",
-                        "prop2" to listOf("ok"),
-                    ),
-            ),
-        )
+        get("/$formId").bodyAsMap.let {
+            it["modelType"] = "asset"
+            put("/$formId", it)
+        }
         response = getFormsForDomain(domainId)
 
         // then domain ETag header should change,
