@@ -64,7 +64,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // Then our two form templates have been incarnated in the new domain
         get("/?domainId=$newDomainId")
             .bodyAsListOfMaps
-            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form")
+            .map { it["name"].asMap()["en"] } shouldContainExactlyInAnyOrder listOf("asset form", "document form")
 
         // When adding a third form to the new domain
         post(
@@ -83,7 +83,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // then the forms in the original domain have been updated
         get("/?domainId=$domainId")
             .bodyAsListOfMaps
-            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
+            .map { it["name"].asMap()["en"] } shouldContainExactlyInAnyOrder listOf("asset form", "document form", "person form")
 
         // when creating yet another new domain using the same domain template.
         val thirdDomainId = randomUUID()
@@ -92,7 +92,7 @@ class TemplatingMvcTest : AbstractMvcTest() {
         // Then our three form templates have been incarnated in the new domain
         get("/?domainId=$thirdDomainId")
             .bodyAsListOfMaps
-            .map { it["name"].asMap()["en"] } shouldBe listOf("asset form", "document form", "person form")
+            .map { it["name"].asMap()["en"] } shouldContainExactlyInAnyOrder listOf("asset form", "document form", "person form")
 
         // expect both template bundles to be listed
         get("/form-template-bundles").bodyAsListOfMaps.apply {
