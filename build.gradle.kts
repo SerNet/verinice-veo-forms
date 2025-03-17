@@ -47,7 +47,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("net.swiftzer.semver:semver:2.0.0")
+    implementation("net.swiftzer.semver:semver:2.1.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
