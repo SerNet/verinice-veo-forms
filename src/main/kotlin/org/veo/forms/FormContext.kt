@@ -23,7 +23,7 @@ import org.veo.forms.exceptions.UnprocessableDataException
 
 @Schema(description = "The UI context in which a form should be used.")
 enum class FormContext(
-    val allowedTypes: Set<ModelType>,
+    val allowedTypes: Set<ModelType?>,
 ) {
     @Schema(description = "In a detail view for an element, the form can be used to view / edit the element itself.")
     @JsonProperty("elementDetails")
@@ -46,10 +46,10 @@ enum class FormContext(
                 "The form should tell the user how the control should be implemented.",
     )
     @JsonProperty("requirementImplementationControlView")
-    RequirementImplementationControlView(setOf(ModelType.Control)),
+    RequirementImplementationControlView(setOf(ModelType.Asset, ModelType.Process, ModelType.Scope, null)),
     ;
 
-    fun validate(type: ModelType) {
+    fun validate(type: ModelType?) {
         if (!allowedTypes.contains(type)) {
             throw UnprocessableDataException(
                 "Invalid context for model type. " +

@@ -22,7 +22,7 @@ import net.swiftzer.semver.SemVer
 data class FormTemplate(
     val version: SemVer,
     val name: Map<String, String>,
-    val modelType: ModelType,
+    val modelType: ModelType?,
     val subType: String?,
     val context: FormContext,
     val content: Map<String, *>,

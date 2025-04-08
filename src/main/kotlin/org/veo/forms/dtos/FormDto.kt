@@ -25,7 +25,7 @@ class FormDto(
     val id: UUID,
     domainId: UUID,
     name: Map<String, String>,
-    modelType: ModelType,
+    modelType: ModelType?,
     subType: String?,
     context: FormContext,
     sorting: String?,

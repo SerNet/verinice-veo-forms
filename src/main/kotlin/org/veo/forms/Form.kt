@@ -43,8 +43,9 @@ open class Form(
     @Column(columnDefinition = "jsonb")
     var name: Map<String, String>,
     @Column("model_type")
-    private var _modelType: ModelType,
-    var subType: String?,
+    private var _modelType: ModelType?,
+    @Column("sub_type")
+    private var _subType: String?,
     @Column("context")
     @Enumerated(EnumType.STRING)
     private var _context: FormContext,
@@ -59,7 +60,7 @@ open class Form(
     constructor(
         domain: Domain,
         name: Map<String, String>,
-        modelType: ModelType,
+        modelType: ModelType?,
         subType: String?,
         context: FormContext,
         content: Map<String, *>,
@@ -74,24 +75,32 @@ open class Form(
 
     init {
         context.validate(modelType)
+        modelType.validateSubType(subType)
     }
 
     @Id
     var id: UUID = UUID.randomUUID()
 
-    var modelType: ModelType
+    val modelType: ModelType?
         get() = _modelType
-        set(value) {
-            context.validate(value)
-            _modelType = value
-        }
 
-    var context: FormContext
+    val subType: String?
+        get() = _subType
+
+    val context: FormContext
         get() = _context
-        set(value) {
-            value.validate(modelType)
-            _context = value
-        }
+
+    fun updateTypeAndContext(
+        modelType: ModelType?,
+        subType: String?,
+        context: FormContext,
+    ) {
+        context.validate(modelType)
+        modelType.validateSubType(subType)
+        _modelType = modelType
+        _subType = subType
+        _context = context
+    }
 
     @Column(name = "revision")
     private var _revision: UInt = 0u
@@ -111,9 +120,7 @@ open class Form(
     ) {
         this.domain = domain
         name = dto.name
-        modelType = dto.modelType
-        subType = dto.subType
-        context = dto.context
+        updateTypeAndContext(dto.modelType, dto.subType, dto.context)
         sorting = dto.sorting
         content = dto.content
         translation = dto.translation
@@ -149,9 +156,7 @@ open class Form(
         _formTemplateVersion = template.version
         _revision = 0u
         name = template.name
-        modelType = template.modelType
-        subType = template.subType
-        context = template.context
+        updateTypeAndContext(template.modelType, template.subType, template.context)
         content = template.content
         translation = template.translation
         sorting = template.sorting

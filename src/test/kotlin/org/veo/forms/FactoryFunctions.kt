@@ -29,7 +29,7 @@ fun domain(
 fun form(
     domain: Domain,
     name: Map<String, String> = emptyMap(),
-    modelType: ModelType = ModelType.Document,
+    modelType: ModelType? = ModelType.Document,
     subType: String? = null,
     context: FormContext = FormContext.ElementDetails,
     content: Map<String, Any> = emptyMap(),

@@ -26,7 +26,7 @@ class FormDtoWithoutId(
     val translation: Map<String, *>?,
     domainId: UUID,
     name: Map<String, String>,
-    modelType: ModelType,
+    modelType: ModelType?,
     subType: String?,
     context: FormContext = FormContext.ElementDetails,
     sorting: String?,

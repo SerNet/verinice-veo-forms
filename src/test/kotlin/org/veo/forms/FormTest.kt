@@ -40,7 +40,7 @@ class FormTest {
                     },
                 name = mapOf("en" to "asset form"),
                 _modelType = ModelType.Asset,
-                subType = "AST_Application",
+                _subType = "AST_Application",
                 _context = FormContext.ElementDetails,
                 content = mapOf("layout" to "column"),
                 translation = mapOf("en" to mapOf("title" to "Application")),
@@ -191,8 +191,8 @@ class FormTest {
             FormTemplate(
                 version = SemVer(1, 2, 5),
                 name = mapOf("en" to "control form"),
-                modelType = ModelType.Control,
-                subType = "DOC_Contract",
+                modelType = ModelType.Process,
+                subType = "PRO_cess",
                 context = FormContext.RequirementImplementationControlView,
                 content = mapOf("layout" to "centered"),
                 translation = mapOf("en" to mapOf("title" to "Contract")),
@@ -206,8 +206,8 @@ class FormTest {
             formTemplateId shouldBe originalTemplateId
             formTemplateVersion shouldBe SemVer(1, 2, 5)
             name["en"] shouldBe "control form"
-            modelType shouldBe ModelType.Control
-            subType shouldBe "DOC_Contract"
+            modelType shouldBe ModelType.Process
+            subType shouldBe "PRO_cess"
             context shouldBe FormContext.RequirementImplementationControlView
             content shouldBe mapOf("layout" to "centered")
             translation shouldBe mapOf("en" to mapOf("title" to "Contract"))
@@ -220,17 +220,30 @@ class FormTest {
     @Test
     fun `context and model type are always validated`() {
         shouldThrow<UnprocessableDataException> {
-            form(mockk(), modelType = ModelType.Asset, context = FormContext.RequirementImplementationControlView)
-        }
-        form(mockk(), modelType = ModelType.Asset, context = FormContext.ElementDetails).apply {
+            form(mockk(), modelType = ModelType.Document, context = FormContext.RequirementImplementationControlView)
+        }.message shouldBe "Invalid context for model type. " +
+            "The context requirementImplementationControlView only supports model types [asset, process, scope, null]. " +
+            "The model type document only supports the contexts [elementDetails]."
+
+        form(mockk()).apply {
             shouldThrow<UnprocessableDataException> {
-                context = FormContext.RequirementImplementationControlView
-            }
+                updateTypeAndContext(ModelType.Document, subType = null, FormContext.RequirementImplementationControlView)
+            }.message shouldBe "Invalid context for model type. " +
+                "The context requirementImplementationControlView only supports model types [asset, process, scope, null]. " +
+                "The model type document only supports the contexts [elementDetails]."
         }
-        form(mockk(), modelType = ModelType.Control, context = FormContext.RequirementImplementationControlView).apply {
+    }
+
+    @Test
+    fun `sub type depends on model type`() {
+        shouldThrow<UnprocessableDataException> {
+            form(mockk(), modelType = null, subType = "abc", context = FormContext.RequirementImplementationControlView)
+        }.message shouldBe "Cannot specify a sub type without a model type."
+
+        form(mockk()).apply {
             shouldThrow<UnprocessableDataException> {
-                modelType = ModelType.Person
-            }
+                updateTypeAndContext(modelType = null, subType = "abc", context = FormContext.RequirementImplementationControlView)
+            }.message shouldBe "Cannot specify a sub type without a model type."
         }
     }
 }

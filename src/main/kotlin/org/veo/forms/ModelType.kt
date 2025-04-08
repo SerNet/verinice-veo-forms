@@ -18,6 +18,7 @@
 package org.veo.forms
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.veo.forms.exceptions.UnprocessableDataException
 
 enum class ModelType {
     @JsonProperty("asset")
@@ -46,4 +47,10 @@ enum class ModelType {
     ;
 
     override fun toString() = jsonName()
+}
+
+fun ModelType?.validateSubType(subType: String?) {
+    if (this == null && subType != null) {
+        throw UnprocessableDataException("Cannot specify a sub type without a model type.")
+    }
 }

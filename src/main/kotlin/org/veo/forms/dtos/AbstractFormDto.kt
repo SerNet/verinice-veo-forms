@@ -31,7 +31,13 @@ abstract class AbstractFormDto(
         example = """{"en":"A very nice form", "de": "Ein sehr nettes Formular"}""",
     )
     val name: Map<String, String>,
-    val modelType: ModelType,
+    @field:Schema(
+        description =
+            "Element type which this form applies to. " +
+                "The form may target that type of element itself, or a subresource of the element (depending on the form context). " +
+                "If this is null, it means that the form applies to all element types.",
+    )
+    val modelType: ModelType?,
     @field:Size(min = 1, max = 255)
     val subType: String?,
     val context: FormContext,

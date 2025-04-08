@@ -145,7 +145,7 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "domainId" to domain1Id,
                 "name" to mapOf("en" to "new name"),
-                "modelType" to "control",
+                "modelType" to "process",
                 "context" to "requirementImplementationControlView",
                 "subType" to "VT",
                 "sorting" to "b2",
@@ -168,8 +168,8 @@ class FormMvcTest : AbstractMvcTest() {
             mapOf(
                 "id" to formUuid,
                 "domainId" to domain1Id,
-                "modelType" to "control",
                 "context" to "requirementImplementationControlView",
+                "modelType" to "process",
                 "subType" to "VT",
                 "sorting" to "b2",
                 "name" to mapOf("en" to "new name"),
@@ -331,7 +331,22 @@ class FormMvcTest : AbstractMvcTest() {
             ),
             422,
         ).rawBody shouldBe "Invalid context for model type. " +
-            "The context requirementImplementationControlView only supports model types [control]. " +
+            "The context requirementImplementationControlView only supports model types [asset, process, scope, null]. " +
             "The model type person only supports the contexts [elementDetails]."
+    }
+
+    @Test
+    fun `cannot have sub type without a model type`() {
+        post(
+            "/",
+            mapOf(
+                "domainId" to domain1Id,
+                "name" to mapOf("en" to "RI form"),
+                "subType" to "p1",
+                "context" to "requirementImplementationControlView",
+                "content" to emptyMap<String, Any>(),
+            ),
+            422,
+        ).rawBody shouldBe "Cannot specify a sub type without a model type."
     }
 }
