@@ -5,7 +5,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 import java.util.Calendar
 
 plugins {
-    id("org.springframework.boot") version "3.4.4"
+    id("org.springframework.boot") version "3.4.5"
 
     kotlin("jvm") version "2.1.20"
     kotlin("plugin.spring") version "2.1.20"
