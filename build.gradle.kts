@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.0"
 
-    id("com.diffplug.spotless") version "7.0.4"
+    id("com.diffplug.spotless") version "7.1.0"
     id("org.cadixdev.licenser") version "0.6.1"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
