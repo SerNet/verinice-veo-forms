@@ -1,7 +1,4 @@
-import org.cadixdev.gradle.licenser.header.HeaderFormatRegistry
-import org.eclipse.jgit.api.Git
 import org.springframework.boot.gradle.tasks.run.BootRun
-import java.util.Calendar
 
 plugins {
     id("org.springframework.boot") version "3.5.4"
@@ -12,7 +9,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.0"
 
     id("com.diffplug.spotless") version "7.2.1"
-    id("org.cadixdev.licenser") version "0.6.1"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
     id("com.gorylenko.gradle-git-properties") version "2.5.2"
@@ -90,11 +86,6 @@ kotlin {
     }
 }
 
-tasks.register("formatApply") {
-    dependsOn("spotlessApply")
-    dependsOn("licenseFormat")
-}
-
 spotless {
     format("misc") {
         target("**/*.md", "**/*.gitignore")
@@ -103,6 +94,12 @@ spotless {
         endWithNewline()
     }
     kotlin {
+        target("buildSrc/**/*.kt")
+        target("src/**/*.kt")
+        addStep(
+            org.veo.cli.LicenseHeaderStep
+                .create(project.rootDir),
+        )
         ktlint()
     }
     kotlinGradle {
@@ -119,23 +116,6 @@ spotless {
         leadingTabsToSpaces()
         endWithNewline()
     }
-}
-
-license {
-    header.set(resources.text.fromFile("templates/licenseHeader.txt"))
-    newLine.set(false)
-    skipExistingHeaders.set(true)
-    exclude("**/*.properties", "**/*.xml")
-    style(
-        closureOf<HeaderFormatRegistry> {
-            put("kt", "JAVADOC")
-        },
-    )
-    ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
-    ext["author"] =
-        Git.open(project.rootDir).use {
-            it.getRepository().getConfig().getString("user", null, "name") ?: "<name>"
-        }
 }
 
 // Add no-arg ORM constructors for JPA entities.

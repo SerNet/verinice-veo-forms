@@ -83,7 +83,7 @@ Launch and visit <http://localhost:8080/forms/swagger-ui.html>
 Spotless is used for linting and license-gradle-plugin is used to apply license headers. The following task applies
 spotless code format & adds missing license headers to new files:
 
-    ./gradlew formatApply
+    ./gradlew spotlessApply
 
 The Kotlin lint configuration does not allow wildcard imports. Spotless cannot fix wildcard imports automatically, so
 you should setup your IDE to avoid them.
