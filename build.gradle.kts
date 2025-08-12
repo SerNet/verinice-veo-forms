@@ -94,10 +94,9 @@ spotless {
         endWithNewline()
     }
     kotlin {
-        target("buildSrc/**/*.kt")
-        target("src/**/*.kt")
+        target("buildSrc/**/*.kt", "src/**/*.kt")
         addStep(
-            org.veo.cli.LicenseHeaderStep
+            org.veo.forms.LicenseHeaderStep
                 .create(project.rootDir),
         )
         ktlint()
