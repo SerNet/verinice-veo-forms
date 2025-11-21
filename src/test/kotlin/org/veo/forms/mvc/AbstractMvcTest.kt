@@ -17,9 +17,8 @@
  */
 package org.veo.forms.mvc
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpMethod.DELETE
 import org.springframework.http.HttpMethod.GET
@@ -32,6 +31,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.veo.forms.asListOfMaps
 import org.veo.forms.asMap
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 private val objectMapper = jacksonObjectMapper()
 

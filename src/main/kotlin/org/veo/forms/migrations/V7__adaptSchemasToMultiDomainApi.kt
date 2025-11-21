@@ -17,11 +17,11 @@
  */
 package org.veo.forms.migrations
 
-import com.fasterxml.jackson.databind.node.ArrayNode
-import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
+import tools.jackson.databind.node.ArrayNode
+import tools.jackson.databind.node.ObjectNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.sql.Connection
 
 @Suppress("ClassName")
@@ -64,11 +64,11 @@ class V7__adaptSchemasToMultiDomainApi : BaseJavaMigration() {
 
     private fun migrate(obj: ObjectNode) {
         obj.get("scope")?.let {
-            if (it.isTextual) {
+            if (it.isString) {
                 obj.put(
                     "scope",
                     it
-                        .asText()
+                        .asString()
                         .replace("#/properties/domains/properties/{CURRENT_DOMAIN_ID}", "#")
                         .replace(
                             Regex("#/properties/customAspects/properties/([^/]+)/properties/attributes"),
@@ -78,7 +78,6 @@ class V7__adaptSchemasToMultiDomainApi : BaseJavaMigration() {
             }
         }
         obj
-            .elements()
             .forEach {
                 if (it is ObjectNode) {
                     migrate(it)
