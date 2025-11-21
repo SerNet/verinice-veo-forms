@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
-    id("org.springframework.boot") version "3.5.7"
+    id("org.springframework.boot") version "3.5.8"
 
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.spring") version "2.2.21"
