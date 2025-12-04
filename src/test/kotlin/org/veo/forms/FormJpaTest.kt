@@ -191,4 +191,17 @@ class FormJpaTest : AbstractSpringTest() {
         domain: Domain,
         sorting: String? = null,
     ) = formRepo.save(form(domain, mapOf("en" to englishName), sorting = sorting))
+
+    @Test
+    fun `saves form with CI context`() {
+        // when saving a form with CI context
+        formRepo.save(
+            form(createDomain(UUID.randomUUID()), context = FormContext.ControlImplementationDetails, modelType = null),
+        )
+        val allForms = formRepo.findAll()
+
+        // then the form is returned with the correct context
+        allForms.size shouldBe 1
+        allForms[0].context shouldBe FormContext.ControlImplementationDetails
+    }
 }

@@ -349,4 +349,23 @@ class FormMvcTest : AbstractMvcTest() {
             422,
         ).rawBody shouldBe "Cannot specify a sub type without a model type."
     }
+
+    @Test
+    fun `save form with CI context`() {
+        // when adding a new CI form
+        val formUuid =
+            post(
+                "/",
+                mapOf(
+                    "domainId" to domain1Id,
+                    "name" to mapOf("en" to "CI form"),
+                    "modelType" to "process",
+                    "context" to "controlImplementationDetails",
+                    "content" to emptyMap<String, Any>(),
+                ),
+            ).bodyAsString
+
+        // then a valid UUID is returned
+        formUuid.length shouldBe 36
+    }
 }

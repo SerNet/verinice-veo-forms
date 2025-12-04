@@ -47,6 +47,13 @@ enum class FormContext(
     )
     @JsonProperty("requirementImplementationControlView")
     RequirementImplementationControlView(setOf(ModelType.Asset, ModelType.Process, ModelType.Scope, null)),
+
+    @Schema(
+        description =
+            "This form type can be used to edit a control implementation.",
+    )
+    @JsonProperty("controlImplementationDetails")
+    ControlImplementationDetails(setOf(ModelType.Asset, ModelType.Process, ModelType.Scope, null)),
     ;
 
     fun validate(type: ModelType?) {
