@@ -17,11 +17,11 @@
  */
 package org.veo.forms.mvc
 
-import jakarta.transaction.Transactional
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.transaction.annotation.Transactional
 
 @ActiveProfiles("test")
 @ComponentScan("org.veo.forms")
