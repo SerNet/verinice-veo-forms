@@ -53,7 +53,7 @@ enum class FormContext(
             "This form type can be used to edit a control implementation.",
     )
     @JsonProperty("controlImplementationDetails")
-    ControlImplementationDetails(setOf(ModelType.Asset, ModelType.Process, ModelType.Scope, null)),
+    ControlImplementationDetails(setOf(ModelType.Asset, ModelType.Process, ModelType.Scope)),
     ;
 
     fun validate(type: ModelType?) {

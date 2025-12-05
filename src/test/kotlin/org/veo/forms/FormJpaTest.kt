@@ -196,7 +196,7 @@ class FormJpaTest : AbstractSpringTest() {
     fun `saves form with CI context`() {
         // when saving a form with CI context
         formRepo.save(
-            form(createDomain(UUID.randomUUID()), context = FormContext.ControlImplementationDetails, modelType = null),
+            form(createDomain(UUID.randomUUID()), context = FormContext.ControlImplementationDetails, modelType = ModelType.Asset),
         )
         val allForms = formRepo.findAll()
 
