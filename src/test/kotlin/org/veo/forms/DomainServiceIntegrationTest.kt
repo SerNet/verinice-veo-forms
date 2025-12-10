@@ -20,7 +20,6 @@ package org.veo.forms
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import net.swiftzer.semver.SemVer
-import org.junit.Ignore
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.veo.forms.exceptions.ResourceNotFoundException
@@ -30,7 +29,6 @@ import java.util.UUID.randomUUID
 /**
  * Test [DomainService] using a real database and real components.
  */
-@Ignore
 class DomainServiceIntegrationTest : AbstractSpringTest() {
     @Autowired
     private lateinit var domainRepo: DomainRepository
