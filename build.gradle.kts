@@ -38,7 +38,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
-    implementation("io.hypersistence:hypersistence-utils-hibernate-71:3.14.0")
+    implementation("io.hypersistence:hypersistence-utils-hibernate-71:3.14.1")
     // required by hypersistence-utils-hibernate-71
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
