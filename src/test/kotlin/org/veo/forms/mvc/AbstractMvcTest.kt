@@ -107,6 +107,6 @@ abstract class AbstractMvcTest : AbstractSpringTest() {
 
         fun getHeader(name: String): String? = response.getHeader(name)
 
-        private fun parseBody(): Any = objectMapper.readValue(rawBody, Object::class.java)
+        private fun parseBody(): Any = objectMapper.readValue(rawBody, Any::class.java)
     }
 }
