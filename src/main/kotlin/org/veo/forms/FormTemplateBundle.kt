@@ -28,10 +28,12 @@ import java.util.UUID.randomUUID
 
 @Entity
 class FormTemplateBundle(
+    @Column(nullable = false)
     val domainTemplateId: UUID,
+    @Column(nullable = false)
     val version: SemVer,
     @Type(JsonType::class)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     val templates: Map<UUID, FormTemplate>,
 ) {
     @Id

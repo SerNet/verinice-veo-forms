@@ -36,7 +36,7 @@ class Domain(
     @JoinColumn(name = "form_template_bundle_id")
     var formTemplateBundle: FormTemplateBundle? = null,
 ) {
-    @Column(name = "last_form_modification")
+    @Column(name = "last_form_modification", nullable = false)
     private var _lastFormModification: Instant = Instant.now()
 
     /** Last time when a form in this domain was added, updated or removed. */

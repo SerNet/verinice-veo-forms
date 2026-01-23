@@ -46,7 +46,7 @@ open class Form(
     private var _modelType: ModelType?,
     @Column("sub_type")
     private var _subType: String?,
-    @Column("context")
+    @Column("context", nullable = false)
     @Enumerated(EnumType.STRING)
     private var _context: FormContext,
     @Type(JsonType::class)
@@ -102,7 +102,7 @@ open class Form(
         _context = context
     }
 
-    @Column(name = "revision")
+    @Column(name = "revision", nullable = false)
     private var _revision: UInt = 0u
     val revision: UInt get() = _revision
 
