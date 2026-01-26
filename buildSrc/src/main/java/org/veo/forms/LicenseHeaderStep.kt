@@ -56,7 +56,6 @@ class LicenseHeaderStep private constructor(
     private val author: String
     private val delimiterPattern: Pattern
 
-    /** The license that we'd like enforced. */
     init {
         require(!delimiter.contains("\n")) { "The delimiter must not contain any newlines." }
 
