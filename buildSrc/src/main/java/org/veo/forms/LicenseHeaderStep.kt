@@ -1,4 +1,4 @@
-/**
+/*
  * verinice.veo forms
  * Copyright (C) 2018  Jochen Kemnade
  *
@@ -30,7 +30,7 @@ import java.util.regex.Pattern
 private const val NAME = "veoLicenseHeader"
 private const val LICENSE_HEADER_DELIMITER = "package |@file"
 private const val LICENSE_HEADER_TEMPLATE =
-    "/**\n" +
+    "/*\n" +
         " * verinice.veo forms\n" +
         " * Copyright (C) \$YEAR  \$AUTHOR\n" +
         " *\n" +

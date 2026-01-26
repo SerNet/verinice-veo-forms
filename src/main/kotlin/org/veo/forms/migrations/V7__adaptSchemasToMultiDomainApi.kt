@@ -1,4 +1,4 @@
-/**
+/*
  * verinice.veo forms
  * Copyright (C) 2023  Jonas Jordan
  *
