@@ -8,7 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.noarg") version "2.3.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "2.3.0"
 
-    id("com.diffplug.spotless") version "8.2.0"
+    id("com.diffplug.spotless") version "8.2.1"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
     id("com.gorylenko.gradle-git-properties") version "2.5.4"
