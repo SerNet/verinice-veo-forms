@@ -3,10 +3,10 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 plugins {
     id("org.springframework.boot") version "4.0.2"
 
-    kotlin("jvm") version "2.3.0"
-    kotlin("plugin.spring") version "2.3.0"
-    id("org.jetbrains.kotlin.plugin.noarg") version "2.3.0"
-    id("org.jetbrains.kotlin.plugin.allopen") version "2.3.0"
+    kotlin("jvm") version "2.3.10"
+    kotlin("plugin.spring") version "2.3.10"
+    id("org.jetbrains.kotlin.plugin.noarg") version "2.3.10"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.3.10"
 
     id("com.diffplug.spotless") version "8.2.1"
     jacoco
