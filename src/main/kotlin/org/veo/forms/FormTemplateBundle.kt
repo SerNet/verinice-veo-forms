@@ -17,12 +17,12 @@
  */
 package org.veo.forms
 
-import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import net.swiftzer.semver.SemVer
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -32,7 +32,7 @@ class FormTemplateBundle(
     val domainTemplateId: UUID,
     @Column(nullable = false)
     val version: SemVer,
-    @Type(JsonType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb", nullable = false)
     val templates: Map<UUID, FormTemplate>,
 ) {

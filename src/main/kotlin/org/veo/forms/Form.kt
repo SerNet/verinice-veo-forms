@@ -17,7 +17,6 @@
  */
 package org.veo.forms
 
-import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -30,7 +29,8 @@ import jakarta.persistence.PrePersist
 import jakarta.persistence.PreRemove
 import jakarta.persistence.PreUpdate
 import net.swiftzer.semver.SemVer
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import org.veo.forms.dtos.FormDtoWithoutId
 import java.util.UUID
 
@@ -39,7 +39,7 @@ open class Form(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "domain_id")
     var domain: Domain,
-    @Type(JsonType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     var name: Map<String, String>,
     @Column("model_type")
@@ -49,10 +49,10 @@ open class Form(
     @Column("context", nullable = false)
     @Enumerated(EnumType.STRING)
     private var _context: FormContext,
-    @Type(JsonType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     var content: Map<String, *>,
-    @Type(JsonType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     var translation: Map<String, *>?,
     @Column(length = 32) var sorting: String?,
