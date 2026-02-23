@@ -17,7 +17,7 @@
  */
 package org.veo.forms
 
-import mu.KotlinLogging.logger
+import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import org.springframework.stereotype.Component
 import org.veo.forms.exceptions.FormTemplateBundleDowngradeException
 import org.veo.forms.exceptions.IncompatibleFormTemplateBundleException

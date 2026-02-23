@@ -17,7 +17,7 @@
  */
 package org.veo.forms
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -103,10 +103,10 @@ class WebSecurity {
         corsConfig.addAllowedHeader(HttpHeaders.IF_MATCH)
         corsConfig.addAllowedHeader(HttpHeaders.IF_NONE_MATCH)
         allowedHeaders
-            .onEach { log.debug("Added CORS allowed header: $it") }
+            .onEach { log.debug { "Added CORS allowed header: $it" } }
             .forEach { corsConfig.addAllowedHeader(it) }
         origins
-            .onEach { log.debug("Added CORS origin pattern: $it") }
+            .onEach { log.debug { "Added CORS origin pattern: $it" } }
             .forEach { corsConfig.addAllowedOriginPattern(it) }
         corsConfig.setMaxAge(Duration.ofMinutes(30))
         corsConfig.addExposedHeader(HttpHeaders.ETAG)

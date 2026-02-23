@@ -17,7 +17,7 @@
  */
 package org.veo.forms
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Component
 import java.util.UUID
