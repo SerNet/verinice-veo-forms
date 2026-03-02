@@ -41,7 +41,7 @@ dependencies {
     // required for Hibernate JSON serialization
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("net.swiftzer.semver:semver:2.1.0")
 
