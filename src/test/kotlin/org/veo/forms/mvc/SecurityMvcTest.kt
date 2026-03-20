@@ -18,6 +18,7 @@
 package org.veo.forms.mvc
 
 import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
@@ -80,12 +81,20 @@ class SecurityMvcTest : AbstractMvcTest() {
             testStatus(GET, "/v3/api-docs/swagger-config", 200),
         )
 
+    @TestFactory
+    fun `form template bundle upload is possible via API key`() =
+        listOf(
+            testStatus(POST, "/form-template-bundles", headers = mapOf("X-API-KEY" to listOf("temp")), status = 400),
+            testStatus(POST, "/form-template-bundles", headers = mapOf("X-API-KEY" to listOf("invalid")), status = 401),
+        )
+
     private fun testStatus(
         method: HttpMethod,
         url: String,
         status: Int,
+        headers: Map<String, List<String>> = emptyMap(),
     ): DynamicTest =
         DynamicTest.dynamicTest("$method $url results in $status") {
-            request(method, url, expectedStatus = status)
+            request(method, url, headers = headers, expectedStatus = status)
         }
 }

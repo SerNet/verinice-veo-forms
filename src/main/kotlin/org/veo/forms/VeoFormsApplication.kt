@@ -43,6 +43,15 @@ import org.springframework.boot.runApplication
                 ),
         ),
 )
+@SecurityScheme(
+    name = VeoFormsApplication.SECURITY_SCHEME_API_KEY,
+    type = SecuritySchemeType.APIKEY,
+    `in` = SecuritySchemeIn.HEADER,
+    paramName = VeoFormsApplication.HEADER_NAME_APIKEY,
+    description =
+        "Form template bundle upload API key - only Kubernetes jobs should know this key. " +
+            "It is required for bootstrap the initial form template bundles for an environment.",
+)
 @OpenAPIDefinition(
     info =
         Info(
@@ -63,6 +72,8 @@ import org.springframework.boot.runApplication
 class VeoFormsApplication {
     companion object {
         const val SECURITY_SCHEME_OAUTH = "OAuth2"
+        const val SECURITY_SCHEME_API_KEY = "ApiKeyAuth"
+        const val HEADER_NAME_APIKEY = "X-API-KEY"
     }
 }
 

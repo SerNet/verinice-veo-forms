@@ -72,6 +72,8 @@ class FormTemplateBundleController(
     @PostMapping
     @ResponseStatus(CREATED)
     @Transactional
+    @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_API_KEY)
+    @SecurityRequirement(name = VeoFormsApplication.SECURITY_SCHEME_OAUTH)
     fun importBundle(
         @RequestBody bundle: FormTemplateBundleDtoWithoutId,
     ): Unit =

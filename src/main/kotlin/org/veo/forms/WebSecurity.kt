@@ -23,12 +23,18 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod.GET
+import org.springframework.http.HttpMethod.POST
+import org.springframework.security.authorization.AuthorityAuthorizationManager
+import org.springframework.security.authorization.AuthorizationDecision
+import org.springframework.security.authorization.AuthorizationManager
+import org.springframework.security.authorization.AuthorizationManagers
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -48,6 +54,9 @@ class WebSecurity {
     @Value("\${veo.cors.headers}")
     lateinit var allowedHeaders: Array<String>
 
+    @Value("\${veo.forms.auth.apiKeys.formTemplateBundleUpload}")
+    lateinit var ftbUploadApiKey: String
+
     private val log = KotlinLogging.logger { }
 
     @Bean
@@ -62,6 +71,20 @@ class WebSecurity {
                 authorize("/swagger-ui/**", permitAll)
                 authorize("/v2/api-docs/**", permitAll)
                 authorize("/v3/api-docs/**", permitAll)
+
+                authorize(
+                    POST,
+                    "/form-template-bundles",
+                    AuthorizationManagers.anyOf(
+                        { _, context ->
+                            AuthorizationDecision(
+                                context.request.getHeader(VeoFormsApplication.HEADER_NAME_APIKEY)
+                                    == ftbUploadApiKey,
+                            )
+                        },
+                        AuthorityAuthorizationManager.hasRole(ROLE_CONTENT_CREATOR),
+                    ),
+                )
 
                 // Templates should only be readable and writable by content creators.
                 authorize("/form-template-bundles/**", hasRole(ROLE_CONTENT_CREATOR))
