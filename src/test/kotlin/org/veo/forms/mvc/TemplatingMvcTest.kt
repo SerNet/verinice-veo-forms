@@ -17,6 +17,7 @@
  */
 package org.veo.forms.mvc
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -30,6 +31,7 @@ import org.veo.forms.ROLE_CONTENT_CREATOR
 import org.veo.forms.ROLE_USER
 import org.veo.forms.asMap
 import org.veo.forms.asNestedMap
+import org.veo.forms.exceptions.SemVerTooLowException
 import java.util.UUID
 import java.util.UUID.randomUUID
 
@@ -145,6 +147,9 @@ class TemplatingMvcTest : AbstractMvcTest() {
             .bodyAsListOfMaps
             .first { it["modelType"] == "asset" }
             .apply { get("subType") shouldBe "IT system" }
+
+        // another imports leads to an error
+        post("/form-template-bundles", bundle, 409)
     }
 
     @Test
