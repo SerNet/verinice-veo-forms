@@ -11,7 +11,7 @@ plugins {
     id("com.diffplug.spotless") version "8.6.0"
     jacoco
     id("io.github.chiragji.jacotura") version "1.1.2"
-    id("com.gorylenko.gradle-git-properties") version "3.0.3"
+    id("com.gorylenko.gradle-git-properties") version "4.0.1"
 }
 
 group = "org.veo"
