@@ -3,10 +3,10 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 plugins {
     id("org.springframework.boot") version "4.0.6"
 
-    kotlin("jvm") version "2.3.21"
-    kotlin("plugin.spring") version "2.3.21"
-    id("org.jetbrains.kotlin.plugin.noarg") version "2.3.21"
-    id("org.jetbrains.kotlin.plugin.allopen") version "2.3.21"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.spring") version "2.4.0"
+    id("org.jetbrains.kotlin.plugin.noarg") version "2.4.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.4.0"
 
     id("com.diffplug.spotless") version "8.6.0"
     jacoco
@@ -101,7 +101,7 @@ tasks.withType<Test> {
 kotlin {
     compilerOptions {
         allWarningsAsErrors = true
-        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+        freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
 
