@@ -37,7 +37,7 @@ class ExceptionHandler {
 
     @ExceptionHandler(UnprocessableDataException::class)
     fun handleUnprocessableOperationException(exception: Exception): ResponseEntity<String> =
-        ResponseEntity<String>(exception.message, HttpStatus.UNPROCESSABLE_ENTITY)
+        ResponseEntity<String>(exception.message, HttpStatus.UNPROCESSABLE_CONTENT)
 
     @ExceptionHandler(SemVerTooLowException::class)
     fun handleSemVerTooLowException(exception: Exception): ResponseEntity<String> =
