@@ -5,6 +5,11 @@ variables:
   CI_DEBUG_SERVICES: "true"
   PROXY: $HTTPS_PROXY_HOST
 
+include:
+  - project: "veo/verinice-veo"
+    file: "/.gitlab/ci_templates/common_jobs.yaml"
+    ref: develop
+
 # Verification (tests and code analysis) is unnecessary on 'develop' &
 # 'master', because only verified MRs can be merged into those branches.
 .verification:
@@ -17,6 +22,7 @@ variables:
 
 stages:
   - build
+  - copy
   - check
   - docker_image
   - deployment
@@ -160,6 +166,12 @@ docker_image:
       --label org.opencontainers.image.version="${PROJECT_VERSION}"
       --label org.opencontainers.image.revision=${CI_COMMIT_SHA}
   interruptible: true
+
+copy-image:
+  extends: .registry-copy-image
+  variables:
+    IMAGE_REPO: 'veo-forms'
+    IMAGE_TAG: '$CI_COMMIT_TAG'
 
 update-values:
   stage: deployment
