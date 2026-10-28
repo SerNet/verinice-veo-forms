@@ -29,6 +29,14 @@ repositories {
 
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+
+    // security overrides
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.22.3"))
+    implementation(platform("tools.jackson:jackson-bom:3.2.3"))
+    constraints {
+        implementation("com.rabbitmq:amqp-client:5.37.0")
+    }
+
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -68,35 +76,6 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-postgresql")
 
     testRuntimeOnly("org.springframework.boot:spring-boot-starter-security-test")
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "org.apache.tomcat.embed" && requested.version == "11.0.21") {
-            useVersion("11.0.22")
-            because("Security fixes")
-        }
-        if (requested.name == "postgresql" && requested.version == "42.7.11") {
-            useVersion("42.7.12")
-            because("Security fixes")
-        }
-        if (requested.group == "io.netty" && requested.version == "4.2.15.Final") {
-            useVersion("4.2.16.Final")
-            because("CVE-2026-5990")
-        }
-        if (requested.group == "com.rabbitmq" && requested.version == "5.31.0") {
-            useVersion("5.37.0")
-            because("CWE-295;CVE-2026-75516,CVE-2026-106121,CVE-2026-106122,CVE-2026-106123")
-        }
-        if (requested.group == "tools.jackson.core" && requested.version == "3.1.5") {
-            useVersion("3.1.7")
-            because("CVE-2026-89407,CVE-2026-89425,CVE-2026-91776,CVE-2026-91777")
-        }
-        if (requested.group == "com.fasterxml.jackson.core" && requested.version == "2.22.1") {
-            useVersion("2.22.3")
-            because("CVE-2026-89407,CVE-2026-89425,CVE-2026-91776,CVE-2026-91777")
-        }
-    }
 }
 
 tasks.withType<BootRun> {
