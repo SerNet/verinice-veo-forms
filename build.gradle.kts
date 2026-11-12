@@ -43,7 +43,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("io.github.oshai:kotlin-logging-jvm:8.0.6")
+    implementation("io.github.oshai:kotlin-logging-jvm:8.0.7")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql")
     // required for Hibernate JSON serialization
